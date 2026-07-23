@@ -12,7 +12,7 @@
   var HOME = inPages ? "../index.html" : "index.html";
 
   var NAV = [
-    { label: "Browse", href: P + "results.html", match: "results.html" },
+    { label: "Scholarships", href: P + "results.html", match: "results.html" },
     { label: "AI Advisor", href: P + "ai-advisor.html", match: "ai-advisor.html" },
     { label: "SOP Builder", href: P + "sop-builder.html", match: "sop-builder.html" },
     { label: "Success", href: P + "success.html", match: "success.html" },
@@ -68,7 +68,7 @@
           '</div>' +
         '</div>' +
         footerCol("Platform", [
-          ["Scholarship Quiz", HOME + "#quiz"], ["Browse Scholarships", P + "results.html"],
+          ["Scholarship Quiz", HOME + "#quiz"],           ["Scholarships", P + "results.html"],
           ["AI Advisor", P + "ai-advisor.html"], ["SOP Builder", P + "sop-builder.html"], ["Saved", savedHref]
         ]) +
         footerCol("Resources", [
