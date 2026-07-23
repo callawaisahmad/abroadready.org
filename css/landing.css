@@ -1140,7 +1140,7 @@
 /* ---- Newsletter ---- */
 .newsletter-section {
   padding: var(--space-8) 0 0;
-  background: var(--gradient-bg-cool);
+  background: var(--bg-blue);
 }
 
 .newsletter-card {
