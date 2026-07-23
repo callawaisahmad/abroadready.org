@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Scholarships | AbroadReady</title>
+  <meta name="description" content="Filter international scholarships by programme level, intake, region, field and funding. See deadlines, eligibility, documents and apply links.">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/results.css">
+</head>
+<body>
+<script src="../js/saved.js"></script>
+
+<!-- Navbar -->
+<nav class="navbar glass-panel">
+  <div class="container flex items-center justify-between">
+    <a href="../index.html" class="nav-logo">
+      <span class="logo-icon">🎓</span>
+      <span class="logo-text">Abroad<span class="text-gradient">Ready</span></span>
+    </a>
+    <div class="nav-actions flex items-center gap-4">
+      <a href="../index.html" class="btn btn-ghost btn-sm hide-mobile">Home</a>
+      <a href="../index.html#quiz" class="btn btn-primary btn-sm">Take the Quiz</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Results Header -->
+<header class="results-header section pb-0">
+  <div class="container">
+    <div class="header-content animate-fade-in-up">
+      <span class="badge badge-blue mb-4">Scholarship Board</span>
+      <h1>Find your <span class="text-gradient">scholarship</span></h1>
+      <p class="subtitle" id="results-subtitle">Filter by programme, intake, region and funding — then open any scholarship for eligibility, documents and how to apply.</p>
+    </div>
+
+    <!-- Search + quick programme pills -->
+    <div class="search-row">
+      <div class="search-box">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="search-input" placeholder="Search by name, country, university or provider…" autocomplete="off">
+      </div>
+      <button class="btn btn-outline btn-sm filters-toggle hide-desktop" id="filters-toggle">⚙ Filters</button>
+    </div>
+  </div>
+</header>
+
+<!-- Main Layout -->
+<section class="results-layout container section pt-0">
+
+  <!-- Sidebar Filters -->
+  <aside class="filters-sidebar" id="filters-sidebar">
+    <div class="card filter-card sticky">
+      <div class="filter-header">
+        <h3>Filters</h3>
+        <button class="btn-ghost text-xs" id="reset-filters" style="cursor:pointer;color:var(--primary);font-weight:600;background:none;border:none;">Reset all</button>
+      </div>
+
+      <div class="filter-group">
+        <h4>Programme</h4>
+        <div id="filter-levels"></div>
+      </div>
+
+      <div class="filter-group">
+        <h4>Intake</h4>
+        <div id="filter-intakes"></div>
+      </div>
+
+      <div class="filter-group">
+        <h4>Region</h4>
+        <div id="filter-regions"></div>
+      </div>
+
+      <div class="filter-group">
+        <h4>Field of study</h4>
+        <div id="filter-fields"></div>
+      </div>
+
+      <div class="filter-group">
+        <h4>Funding</h4>
+        <div id="filter-funding"></div>
+      </div>
+
+      <div class="filter-group">
+        <h4>Status &amp; fees</h4>
+        <label class="checkbox-label"><input type="checkbox" id="filter-open"> Currently open only</label>
+        <label class="checkbox-label"><input type="checkbox" id="filter-free"> Free to apply only</label>
+      </div>
+
+      <button class="btn btn-primary w-full hide-desktop" id="apply-filters-mobile">Show results</button>
+    </div>
+  </aside>
+
+  <!-- Results Grid -->
+  <main>
+    <div class="results-toolbar">
+      <span id="result-count" class="result-count">…</span>
+      <div class="sort-wrap">
+        <label for="sort-select">Sort:</label>
+        <select id="sort-select">
+          <option value="deadline">Deadline (soonest)</option>
+          <option value="name">Name (A–Z)</option>
+          <option value="country">Country (A–Z)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="active-chips" id="active-chips"></div>
+
+    <div class="results-grid" id="results-grid"></div>
+
+    <div class="no-results" id="no-results" style="display:none;">
+      <div style="font-size:3rem;">🔍</div>
+      <h3>No scholarships match those filters</h3>
+      <p>Try removing a filter or resetting to see all opportunities.</p>
+      <button class="btn btn-outline" id="reset-empty">Reset filters</button>
+    </div>
+  </main>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer mt-16">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="nav-logo">
+          <span class="logo-icon">🎓</span>
+          <span class="logo-text">Abroad<span class="text-gradient">Ready</span></span>
+        </a>
+        <p class="footer-tagline">Helping students find their path abroad. 100% free, forever.</p>
+      </div>
+      <div class="footer-links">
+        <h5>Platform</h5>
+        <a href="../index.html#quiz">Scholarship Quiz</a>
+        <a href="results.html">Browse Scholarships</a>
+        <a href="ai-advisor.html">AI Advisor</a>
+        <a href="sop-builder.html">SOP Builder</a>
+      </div>
+      <div class="footer-links">
+        <h5>Resources</h5>
+        <a href="blog.html">Blog</a>
+        <a href="success.html">Success Stories</a>
+      </div>
+      <div class="footer-links">
+        <h5>Company</h5>
+        <a href="partners.html">Partner With Us</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 AbroadReady.org — data refreshed <span id="data-updated">recently</span></p>
+      <p class="footer-note">Always confirm deadlines and details on the official scholarship website before applying.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/scholarships-data.js"></script>
+<script src="../js/scholarships.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var SB = window.SB;
+  var grid = document.getElementById('results-grid');
+  var noResults = document.getElementById('no-results');
+  var countEl = document.getElementById('result-count');
+  var chipsEl = document.getElementById('active-chips');
+
+  var state = {
+    q: '', levels: new Set(), intakes: new Set(), regions: new Set(),
+    fields: new Set(), funding: new Set(), openOnly: false, freeOnly: false, sort: 'deadline'
+  };
+
+  // ---- Read URL prefilters (e.g. results.html?level=Masters&region=UK) ----
+  var params = new URLSearchParams(location.search);
+  if (params.get('level')) params.get('level').split(',').forEach(function (v) { state.levels.add(v); });
+  if (params.get('region')) params.get('region').split(',').forEach(function (v) { state.regions.add(v); });
+  if (params.get('q')) { state.q = params.get('q').toLowerCase(); }
+
+  var LEVELS = ['Bachelors', 'Masters', 'PhD', 'Postdoc'];
+  var INTAKES = ['Fall / Autumn', 'Spring', 'Summer', 'Rolling / Varies'];
+  var regionsSet = {}, fieldsSet = {}, fundingSet = {};
+  SB.all.forEach(function (s) {
+    regionsSet[s.region] = (regionsSet[s.region] || 0) + 1;
+    (s.fieldTags || []).forEach(function (f) { fieldsSet[f] = (fieldsSet[f] || 0) + 1; });
+    fundingSet[s.fundingType] = (fundingSet[s.fundingType] || 0) + 1;
+  });
+
+  function countFor(predicate) { return SB.all.filter(predicate).length; }
+
+  function makeChecks(containerId, items, set, countFn) {
+    var box = document.getElementById(containerId);
+    box.innerHTML = '';
+    items.forEach(function (item) {
+      var n = countFn ? countFn(item) : '';
+      var label = document.createElement('label');
+      label.className = 'checkbox-label';
+      label.innerHTML = '<input type="checkbox" value="' + SB.esc(item) + '">' +
+        '<span>' + SB.esc(item) + (n !== '' ? ' <span class="opt-count">(' + n + ')</span>' : '') + '</span>';
+      var cb = label.querySelector('input');
+      cb.checked = set.has(item);
+      cb.addEventListener('change', function () {
+        if (cb.checked) set.add(item); else set.delete(item);
+        render();
+      });
+      box.appendChild(label);
+    });
+  }
+
+  makeChecks('filter-levels', LEVELS, state.levels, function (lv) {
+    return countFor(function (s) { return (s.levels || []).indexOf(lv) !== -1; });
+  });
+  makeChecks('filter-intakes', INTAKES, state.intakes, function (iv) {
+    return countFor(function (s) { return SB.intakeSeasons(s).indexOf(iv) !== -1; });
+  });
+  makeChecks('filter-regions', Object.keys(regionsSet).sort(), state.regions, function (r) { return regionsSet[r]; });
+  makeChecks('filter-fields', Object.keys(fieldsSet).sort(), state.fields, function (f) { return fieldsSet[f]; });
+  makeChecks('filter-funding', Object.keys(fundingSet).sort(), state.funding, function (f) { return fundingSet[f]; });
+
+  var searchInput = document.getElementById('search-input');
+  searchInput.value = state.q;
+  searchInput.addEventListener('input', function () { state.q = searchInput.value.trim().toLowerCase(); render(); });
+
+  document.getElementById('filter-open').addEventListener('change', function (e) { state.openOnly = e.target.checked; render(); });
+  document.getElementById('filter-free').addEventListener('change', function (e) { state.freeOnly = e.target.checked; render(); });
+  document.getElementById('sort-select').addEventListener('change', function (e) { state.sort = e.target.value; render(); });
+
+  function matches(s) {
+    if (state.levels.size) {
+      var okL = false; state.levels.forEach(function (lv) { if ((s.levels || []).indexOf(lv) !== -1) okL = true; });
+      if (!okL) return false;
+    }
+    if (state.intakes.size) {
+      var seasons = SB.intakeSeasons(s); var okI = false;
+      state.intakes.forEach(function (iv) { if (seasons.indexOf(iv) !== -1) okI = true; });
+      if (!okI) return false;
+    }
+    if (state.regions.size && !state.regions.has(s.region)) return false;
+    if (state.fields.size) {
+      var okF = false; state.fields.forEach(function (f) { if ((s.fieldTags || []).indexOf(f) !== -1) okF = true; });
+      if (!okF) return false;
+    }
+    if (state.funding.size && !state.funding.has(s.fundingType)) return false;
+    if (state.freeOnly && !s.isFree) return false;
+    if (state.openOnly) {
+      var st = SB.deadlineInfo(s).status;
+      if (st !== 'open' && st !== 'closing' && st !== 'rolling') return false;
+    }
+    if (state.q) {
+      var hay = (s.name + ' ' + s.country + ' ' + s.provider + ' ' + s.hostUniversities + ' ' + (s.fields || []).join(' ')).toLowerCase();
+      if (hay.indexOf(state.q) === -1) return false;
+    }
+    return true;
+  }
+
+  function sortList(list) {
+    var arr = list.slice();
+    if (state.sort === 'name') arr.sort(function (a, b) { return a.name.localeCompare(b.name); });
+    else if (state.sort === 'country') arr.sort(function (a, b) { return a.country.localeCompare(b.country); });
+    else {
+      arr.sort(function (a, b) {
+        var da = SB.deadlineInfo(a), db = SB.deadlineInfo(b);
+        var va = da.daysLeft == null ? 99999 : da.daysLeft;
+        var vb = db.daysLeft == null ? 99999 : db.daysLeft;
+        return va - vb;
+      });
+    }
+    return arr;
+  }
+
+  function card(s) {
+    var d = SB.deadlineInfo(s);
+    var sm = SB.statusMeta(d.status);
+    var levelTags = (s.levels || []).map(function (l) { return '<span class="lvl-tag">' + SB.esc(l) + '</span>'; }).join('');
+    var daysLine = d.hasDate
+      ? '<strong>' + d.daysLeft + ' days left</strong> · ' + SB.esc(d.label)
+      : 'Deadline varies — check official site';
+    var feeBadge = s.isFree
+      ? '<span class="fee-badge free">Free to apply</span>'
+      : '<span class="fee-badge paid">Fee: ' + SB.esc(s.applicationFee) + '</span>';
+    return '' +
+      '<article class="scholarship-card sch-card">' +
+        '<div class="sc-cardtop">' +
+          '<span class="sc-flag">' + SB.flagImg(s.country, 28) + '</span>' +
+          '<span class="flex items-center gap-2">' +
+            '<span class="status-badge ' + sm.cls + '">' + sm.text + '</span>' +
+            '<button class="save-heart' + (window.Saved && window.Saved.has(s.id) ? ' is-saved' : '') + '" data-save="' + s.id + '" title="Save scholarship" aria-label="Save">' + (window.Saved && window.Saved.has(s.id) ? '♥' : '♡') + '</button>' +
+          '</span>' +
+        '</div>' +
+        '<h3 class="sch-name">' + SB.esc(s.name) + '</h3>' +
+        '<p class="sch-provider">' + SB.esc(s.provider) + '</p>' +
+        '<div class="sch-metarow">' +
+          '<span title="Country">📍 ' + SB.esc(s.country) + '</span>' +
+          '<span title="Host">🏛️ ' + SB.esc(SB.short(s.hostUniversities, 42)) + '</span>' +
+        '</div>' +
+        '<div class="lvl-tags">' + levelTags + '<span class="fund-tag">' + SB.esc(s.fundingType) + '</span></div>' +
+        '<div class="sch-deadline"><span class="cal">🗓️</span><span>' + daysLine + '</span></div>' +
+        '<div class="sch-footer">' + feeBadge + '</div>' +
+        '<div class="sch-actions">' +
+          '<a href="scholarship.html?id=' + encodeURIComponent(s.id) + '" class="btn btn-primary w-full">View details</a>' +
+          '<a href="' + SB.esc(s.applyLink) + '" target="_blank" rel="noopener" class="btn btn-outline apply-mini" title="Official apply page">Apply ↗</a>' +
+        '</div>' +
+      '</article>';
+  }
+
+  function renderChips() {
+    var chips = [];
+    function add(kind, label) { chips.push('<button class="chip" data-k="' + kind + '" data-v="' + SB.esc(label) + '">' + SB.esc(label) + ' ✕</button>'); }
+    state.levels.forEach(function (v) { add('levels', v); });
+    state.intakes.forEach(function (v) { add('intakes', v); });
+    state.regions.forEach(function (v) { add('regions', v); });
+    state.fields.forEach(function (v) { add('fields', v); });
+    state.funding.forEach(function (v) { add('funding', v); });
+    if (state.freeOnly) chips.push('<button class="chip" data-k="freeOnly" data-v="1">Free only ✕</button>');
+    if (state.openOnly) chips.push('<button class="chip" data-k="openOnly" data-v="1">Open only ✕</button>');
+    if (state.q) chips.push('<button class="chip" data-k="q" data-v="1">“' + SB.esc(state.q) + '” ✕</button>');
+    chipsEl.innerHTML = chips.length ? (chips.join('') + '<button class="chip chip-clear" data-k="__all">Clear all</button>') : '';
+    chipsEl.querySelectorAll('.chip').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var k = btn.getAttribute('data-k'), v = btn.getAttribute('data-v');
+        if (k === '__all') return resetAll();
+        if (k === 'freeOnly') { state.freeOnly = false; document.getElementById('filter-free').checked = false; }
+        else if (k === 'openOnly') { state.openOnly = false; document.getElementById('filter-open').checked = false; }
+        else if (k === 'q') { state.q = ''; searchInput.value = ''; }
+        else { state[k].delete(v); syncCheckbox(k, v, false); }
+        render();
+      });
+    });
+  }
+
+  function syncCheckbox(kind, value, checked) {
+    var map = { levels: 'filter-levels', intakes: 'filter-intakes', regions: 'filter-regions', fields: 'filter-fields', funding: 'filter-funding' };
+    var box = document.getElementById(map[kind]); if (!box) return;
+    box.querySelectorAll('input[type="checkbox"]').forEach(function (cb) { if (cb.value === value) cb.checked = checked; });
+  }
+
+  function render() {
+    var list = sortList(SB.all.filter(matches));
+    countEl.textContent = list.length + ' scholarship' + (list.length === 1 ? '' : 's') + ' found';
+    if (list.length === 0) { grid.innerHTML = ''; noResults.style.display = 'block'; }
+    else { noResults.style.display = 'none'; grid.innerHTML = list.map(card).join(''); wireHearts(); }
+    renderChips();
+  }
+
+  function wireHearts() {
+    if (!window.Saved) return;
+    grid.querySelectorAll('.save-heart').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        var id = btn.getAttribute('data-save');
+        var nowSaved = window.Saved.toggle(id);
+        btn.classList.toggle('is-saved', nowSaved);
+        btn.textContent = nowSaved ? '♥' : '♡';
+      });
+    });
+  }
+
+  function resetAll() {
+    state.levels.clear(); state.intakes.clear(); state.regions.clear();
+    state.fields.clear(); state.funding.clear();
+    state.freeOnly = false; state.openOnly = false; state.q = '';
+    searchInput.value = '';
+    document.getElementById('filter-free').checked = false;
+    document.getElementById('filter-open').checked = false;
+    document.querySelectorAll('.filter-card input[type="checkbox"]').forEach(function (cb) { cb.checked = false; });
+    render();
+  }
+  document.getElementById('reset-filters').addEventListener('click', resetAll);
+  document.getElementById('reset-empty').addEventListener('click', resetAll);
+
+  var sidebar = document.getElementById('filters-sidebar');
+  document.getElementById('filters-toggle').addEventListener('click', function () { sidebar.classList.toggle('open'); });
+  document.getElementById('apply-filters-mobile').addEventListener('click', function () { sidebar.classList.remove('open'); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+  if (SB.meta && SB.meta.generatedAt) {
+    try { document.getElementById('data-updated').textContent = new Date(SB.meta.generatedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }); } catch (e) {}
+  }
+  document.getElementById('results-subtitle').textContent =
+    'Browsing ' + SB.all.length + ' scholarships across ' + (SB.meta.countryCount || '20+') + ' countries. Filter by programme, intake, region and funding — then open any one for eligibility, documents and how to apply.';
+
+  render();
+});
+</script>
+<script src="../js/components.js"></script>
+</body>
+</html>

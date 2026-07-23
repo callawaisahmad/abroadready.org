@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | AbroadReady</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <style>
+    .contact-grid { display:grid; grid-template-columns: 1fr 1fr; gap: var(--space-8); max-width: 900px; margin: 0 auto; }
+    @media (max-width:768px){ .contact-grid{ grid-template-columns:1fr; } }
+    .contact-item { display:flex; gap:var(--space-4); margin-bottom:var(--space-6); }
+    .contact-item .ico { font-size:1.5rem; }
+  </style>
+</head>
+<body>
+<script src="../js/saved.js"></script>
+<nav class="navbar glass-panel">
+  <div class="container flex items-center justify-between">
+    <a href="../index.html" class="nav-logo"><span class="logo-icon">🎓</span><span class="logo-text">Abroad<span class="text-gradient">Ready</span></span></a>
+    <div class="nav-actions"><a href="../index.html" class="btn btn-ghost">Home</a><a href="results.html" class="btn btn-primary btn-sm">Browse Scholarships</a></div>
+  </div>
+</nav>
+
+<header class="section text-center pb-4">
+  <div class="container-sm mx-auto">
+    <span class="badge badge-blue mb-4">We'd love to hear from you</span>
+    <h1>Get in <span class="text-gradient">touch</span></h1>
+    <p class="text-xl text-gray-500 mt-4">Questions, corrections to a scholarship listing, or partnership ideas — send them our way.</p>
+  </div>
+</header>
+
+<section class="container section pt-4">
+  <div class="contact-grid">
+    <div>
+      <h2 class="mb-6">Reach us</h2>
+      <div class="contact-item"><span class="ico">📧</span><div><strong>Email</strong><p class="text-gray-600 text-sm">hello@abroadready.org</p></div></div>
+      <div class="contact-item"><span class="ico">🏫</span><div><strong>Universities</strong><p class="text-gray-600 text-sm">See <a href="partners.html" style="color:var(--primary);">partnership options</a>.</p></div></div>
+      <div class="contact-item"><span class="ico">✏️</span><div><strong>Fix a listing</strong><p class="text-gray-600 text-sm">Spotted an outdated deadline? Tell us which scholarship and we'll update it.</p></div></div>
+      <div class="contact-item"><span class="ico">⏱️</span><div><strong>Response time</strong><p class="text-gray-600 text-sm">Usually within two business days.</p></div></div>
+    </div>
+    <div class="card" style="padding:var(--space-8);">
+      <form id="contact-form" class="flex flex-col gap-4">
+        <input class="form-input" name="name" placeholder="Your name" required>
+        <input class="form-input" type="email" name="email" placeholder="Your email" required>
+        <select class="form-input" name="subject">
+          <option>General question</option>
+          <option>Correct a scholarship listing</option>
+          <option>Partnership</option>
+          <option>Feedback</option>
+        </select>
+        <textarea class="form-input" name="message" rows="5" placeholder="How can we help?" required></textarea>
+        <button type="submit" class="btn btn-primary btn-lg">Send message</button>
+        <p id="contact-status" class="text-center text-sm" style="display:none;color:var(--forest);font-weight:600;"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="footer mt-16">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="nav-logo"><span class="logo-icon">🎓</span><span class="logo-text">Abroad<span class="text-gradient">Ready</span></span></a>
+        <p class="footer-tagline">Helping students find their path abroad. 100% free, forever.</p>
+      </div>
+      <div class="footer-links"><h5>Platform</h5><a href="../index.html#quiz">Scholarship Quiz</a><a href="results.html">Browse Scholarships</a><a href="ai-advisor.html">AI Advisor</a><a href="sop-builder.html">SOP Builder</a></div>
+      <div class="footer-links"><h5>Resources</h5><a href="blog.html">Blog</a><a href="success.html">Success Stories</a><a href="sop-builder.html">SOP Samples</a><a href="blog.html">Interview Tips</a></div>
+      <div class="footer-links"><h5>Company</h5><a href="about.html">About Us</a><a href="partners.html">Partner With Us</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy Policy</a></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 AbroadReady.org — Made with ❤️ for students worldwide</p><p class="footer-note">Free forever. No hidden fees. No data selling.</p></div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('contact-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  if (!this.checkValidity()) { this.reportValidity(); return; }
+  var btn = this.querySelector('button'); var status = document.getElementById('contact-status');
+  btn.textContent = 'Sending…'; btn.disabled = true;
+  var self = this;
+  setTimeout(function () {
+    self.reset(); btn.textContent = 'Send message'; btn.disabled = false;
+    status.style.display = 'block';
+    status.textContent = '✓ Thanks! Your message has been recorded. We\'ll get back to you within two business days.';
+  }, 800);
+});
+</script>
+<script src="../js/components.js"></script>
+</body>
+</html>

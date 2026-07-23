@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scholarship Details | AbroadReady</title>
+  <meta name="description" content="Full scholarship details: eligibility criteria, documents required, benefits, application fee, deadline and official apply link.">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/scholarship.css">
+</head>
+<body>
+<script src="../js/saved.js"></script>
+
+<!-- Navbar -->
+<nav class="navbar glass-panel">
+  <div class="container flex items-center justify-between">
+    <a href="../index.html" class="nav-logo">
+      <span class="logo-icon">🎓</span>
+      <span class="logo-text">Abroad<span class="text-gradient">Ready</span></span>
+    </a>
+    <div class="nav-actions flex items-center gap-4">
+      <a href="results.html" class="btn btn-ghost btn-sm">← Back to all scholarships</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Content is rendered here by JS based on ?id= -->
+<div id="app"></div>
+
+<!-- Not-found fallback -->
+<div id="notfound" class="container section" style="display:none; text-align:center;">
+  <div style="font-size:3.5rem;">🧭</div>
+  <h1>Scholarship not found</h1>
+  <p class="sc-org" style="margin:var(--space-4) 0 var(--space-8);">We couldn't find that scholarship. It may have been renamed or removed.</p>
+  <a href="results.html" class="btn btn-primary">Browse all scholarships</a>
+</div>
+
+<footer class="footer mt-16">
+  <div class="container">
+    <div class="footer-bottom" style="border:none;">
+      <p>© 2026 AbroadReady.org — Always confirm details on the official scholarship website before applying.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/scholarships-data.js"></script>
+<script src="../js/scholarships.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var SB = window.SB;
+  var params = new URLSearchParams(location.search);
+  var id = params.get('id');
+  var s = id ? SB.byId(id) : (SB.all[0] || null);
+
+  if (!s) {
+    document.getElementById('notfound').style.display = 'block';
+    return;
+  }
+  document.title = s.name + ' | AbroadReady';
+
+  var d = SB.deadlineInfo(s);
+  var sm = SB.statusMeta(d.status);
+  var esc = SB.esc;
+
+  function list(items, cls) {
+    if (!items || !items.length) return '<p class="muted">Details vary — see the official website.</p>';
+    return '<ul class="' + (cls || 'req-list') + '">' + items.map(function (i) {
+      return '<li>' + esc(i) + '</li>';
+    }).join('') + '</ul>';
+  }
+
+  function factRow(label, value) {
+    if (!value) return '';
+    return '<div class="fact-row"><span class="fact-label">' + esc(label) + '</span><span class="fact-value">' + esc(value) + '</span></div>';
+  }
+
+  var deadlineStat = d.hasDate
+    ? '<span class="stat-val ' + (d.status === 'closing' ? 'text-red' : '') + '">' + esc(d.label) + '</span>'
+    : '<span class="stat-val">' + esc(s.deadlineNote || 'Varies') + '</span>';
+
+  var feeStat = s.isFree
+    ? '<span class="stat-val" style="color:#047857;">Free</span>'
+    : '<span class="stat-val">' + esc(s.applicationFee) + '</span>';
+
+  // Before-you-apply interactive checklist
+  var beforeItems = (s.thingsToHaveBeforeApply && s.thingsToHaveBeforeApply.length)
+    ? s.thingsToHaveBeforeApply
+    : ['Academic transcripts', 'Valid passport', 'A strong CV / résumé'];
+  var beforeHtml = beforeItems.map(function (i, idx) {
+    return '<li><label><input type="checkbox" data-ready><span>' + esc(i) + '</span></label></li>';
+  }).join('');
+
+  var fieldsChips = (s.fields || []).map(function (f) {
+    return '<span class="pill">' + esc(f) + '</span>';
+  }).join('');
+  var levelChips = (s.levels || []).map(function (l) {
+    return '<span class="pill pill-blue">' + esc(l) + '</span>';
+  }).join('');
+
+  var daysBanner = d.hasDate
+    ? '<div class="deadline-banner ' + (d.status === 'closing' ? 'urgent' : '') + '">⏳ <strong>' + d.daysLeft + ' days</strong> until the approximate ' + esc(SB.monthNames[s.deadlineMonthNum - 1]) + ' deadline</div>'
+    : '<div class="deadline-banner rolling">🔄 Rolling / varies — confirm exact dates on the official site</div>';
+
+  var html = '' +
+  '<header class="sc-hero section pb-0">' +
+    '<div class="container">' +
+      '<a href="results.html" class="hero-back">← All scholarships</a>' +
+      '<div class="sc-hero-card card animate-fade-in-up">' +
+        '<div class="sc-hero-top flex justify-between items-start">' +
+          '<div class="flex gap-4 items-center">' +
+            '<div class="sc-hero-flag">' + SB.flagImg(s.country, 48) + '</div>' +
+            '<div>' +
+              '<h1>' + esc(s.name) + '</h1>' +
+              '<p class="sc-org">' + esc(s.provider) + '</p>' +
+            '</div>' +
+          '</div>' +
+          '<div class="flex flex-col items-end gap-2">' +
+            '<span class="status-badge ' + sm.cls + '">' + sm.text + '</span>' +
+            '<button class="btn btn-outline btn-sm" id="save-btn">' + (window.Saved && window.Saved.has(s.id) ? '❤️ Saved' : '🤍 Save') + '</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="sc-quick-stats grid grid-4 mt-8">' +
+          '<div class="stat-box"><span class="stat-label">Funding</span><span class="stat-val">' + esc(s.fundingType) + '</span></div>' +
+          '<div class="stat-box"><span class="stat-label">Level</span><span class="stat-val">' + esc((s.levels || []).join(', ')) + '</span></div>' +
+          '<div class="stat-box"><span class="stat-label">Deadline</span>' + deadlineStat + '</div>' +
+          '<div class="stat-box"><span class="stat-label">Apply fee</span>' + feeStat + '</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+  '</header>' +
+
+  '<section class="container section">' +
+    '<div class="layout-grid">' +
+
+      '<div class="detail-main">' +
+        daysBanner +
+
+        '<div class="info-section card">' +
+          '<h2>Overview</h2>' +
+          '<p class="lead">' + esc(s.fundingSummary) + '</p>' +
+          '<div class="fact-grid">' +
+            factRow('Host', s.hostUniversities) +
+            factRow('Country / region', s.country + ' · ' + s.region) +
+            factRow('Intake', s.intake) +
+            factRow('Duration', s.durationNote) +
+            factRow('Competition', s.competition) +
+            factRow('Deadline note', s.deadlineNote) +
+          '</div>' +
+          '<div class="chips-row">' + levelChips + fieldsChips + '</div>' +
+        '</div>' +
+
+        '<div class="info-section card">' +
+          '<h2>✅ Eligibility criteria</h2>' +
+          list(s.eligibility) +
+        '</div>' +
+
+        '<div class="info-section card">' +
+          '<h2>📄 Documents required</h2>' +
+          list(s.documentsRequired) +
+        '</div>' +
+
+        '<div class="info-section card">' +
+          '<h2>🎁 Benefits &amp; perks</h2>' +
+          list(s.benefits, 'perk-list') +
+        '</div>' +
+
+        '<div class="info-section card before-card">' +
+          '<h2>🎒 Before you apply</h2>' +
+          '<p class="muted">Tick these off — have them ready before you start the application.</p>' +
+          '<ul class="checklist ready-list">' + beforeHtml + '</ul>' +
+          '<div class="ready-progress"><div class="ready-progress-fill" id="ready-fill" style="width:0%"></div></div>' +
+          '<span class="ready-label" id="ready-label">0 of ' + beforeItems.length + ' ready</span>' +
+        '</div>' +
+      '</div>' +
+
+      '<div class="detail-side">' +
+        '<div class="apply-box card sticky">' +
+          '<div class="apply-fee ' + (s.isFree ? 'free' : 'paid') + '">' +
+            (s.isFree ? '✓ Free to apply' : '💳 Application fee: ' + esc(s.applicationFee)) +
+          '</div>' +
+          '<a href="' + esc(s.applyLink) + '" target="_blank" rel="noopener" class="btn btn-primary btn-lg w-full apply-cta">Apply on official site ↗</a>' +
+          '<a href="' + esc(s.infoLink || s.applyLink) + '" target="_blank" rel="noopener" class="btn btn-outline w-full" style="margin-top:10px;">Eligibility &amp; full info ↗</a>' +
+          '<div class="apply-meta">' +
+            '<div class="apply-meta-row"><span>Status</span><span class="status-badge ' + sm.cls + '">' + sm.text + '</span></div>' +
+            '<div class="apply-meta-row"><span>Deadline</span><span>' + (d.hasDate ? esc(SB.monthNames[s.deadlineMonthNum - 1]) + ' (approx.)' : 'Varies') + '</span></div>' +
+            '<div class="apply-meta-row"><span>Funding</span><span>' + esc(s.fundingType) + '</span></div>' +
+          '</div>' +
+          '<button class="btn btn-ghost w-full share-btn" id="share-btn" style="margin-top:8px;">🔗 Copy share link</button>' +
+          '<p class="apply-disclaimer">Deadlines shown are typical annual windows. Confirm the exact date on the official site.</p>' +
+        '</div>' +
+      '</div>' +
+
+    '</div>' +
+  '</section>';
+
+  var app = document.getElementById('app');
+  app.innerHTML = html;
+
+  // ---- Before-you-apply progress ----
+  var readyBoxes = app.querySelectorAll('input[data-ready]');
+  function updateReady() {
+    var total = readyBoxes.length;
+    var done = 0;
+    readyBoxes.forEach(function (cb) {
+      if (cb.checked) { done++; cb.parentElement.querySelector('span').style.textDecoration = 'line-through'; cb.parentElement.querySelector('span').style.color = '#94a3b8'; }
+      else { cb.parentElement.querySelector('span').style.textDecoration = 'none'; cb.parentElement.querySelector('span').style.color = ''; }
+    });
+    var pct = total ? Math.round(done / total * 100) : 0;
+    document.getElementById('ready-fill').style.width = pct + '%';
+    document.getElementById('ready-label').textContent = done + ' of ' + total + ' ready';
+  }
+  readyBoxes.forEach(function (cb) { cb.addEventListener('change', updateReady); });
+
+  // ---- Save (visual only) ----
+  var saveBtn = document.getElementById('save-btn');
+  saveBtn.addEventListener('click', function () {
+    if (window.Saved) {
+      var nowSaved = window.Saved.toggle(s.id);
+      saveBtn.textContent = nowSaved ? '❤️ Saved' : '🤍 Save';
+      saveBtn.classList.toggle('btn-primary', nowSaved);
+    } else {
+      var on = saveBtn.textContent.indexOf('❤️') !== -1;
+      saveBtn.textContent = on ? '🤍 Save' : '❤️ Saved';
+    }
+  });
+
+  // ---- Share link ----
+  var shareBtn = document.getElementById('share-btn');
+  shareBtn.addEventListener('click', function () {
+    var url = location.href;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(function () {
+        shareBtn.textContent = '✓ Link copied!';
+        setTimeout(function () { shareBtn.textContent = '🔗 Copy share link'; }, 2000);
+      });
+    }
+  });
+});
+</script>
+<script src="../js/components.js"></script>
+</body>
+</html>

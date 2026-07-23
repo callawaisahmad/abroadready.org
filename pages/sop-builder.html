@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOP Builder | AbroadReady</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/tools.css">
+</head>
+<body class="tool-layout bg-gray-50">
+<script src="../js/saved.js"></script>
+
+<div class="container sop-wrap" style="display:flex;gap:var(--space-6);height:calc(100vh - 68px);padding-top:var(--space-6);padding-bottom:var(--space-6);">
+
+  <!-- Editor Section -->
+  <main class="flex-grow flex flex-col card p-0 overflow-hidden h-full">
+    <!-- Tabs -->
+    <div class="flex border-b bg-gray-50 px-4 pt-4 gap-2" id="tab-row">
+      <button class="tab-btn active" data-tab="0">Leadership (1/4)</button>
+      <button class="tab-btn" data-tab="1">Networking (2/4)</button>
+      <button class="tab-btn" data-tab="2">Study in UK (3/4)</button>
+      <button class="tab-btn" data-tab="3">Career Plan (4/4)</button>
+    </div>
+
+    <!-- Editor Toolbar -->
+    <div class="editor-toolbar flex items-center gap-2 p-3 border-b bg-white" style="flex-wrap:wrap;">
+      <span class="text-xs font-bold text-gray-500" style="margin-right:6px;">Target: <span id="target-name" class="text-primary">Chevening</span></span>
+      <div class="w-px h-4 bg-gray-300 mx-2"></div>
+      <button class="toolbar-btn" id="bold-btn" title="Bold selection"><strong>B</strong></button>
+      <button class="toolbar-btn" id="italic-btn" title="Italic selection"><em>I</em></button>
+      <div class="w-px h-4 bg-gray-300 mx-2"></div>
+      <button class="btn btn-ghost btn-sm text-primary flex items-center gap-1" id="improve-btn">
+        <span>✨</span> AI Improve
+      </button>
+      <button class="btn btn-ghost btn-sm text-primary flex items-center gap-1 ml-auto" id="clear-btn">
+        <span>🗑️</span> Clear
+      </button>
+      <button class="btn btn-ghost btn-sm text-primary flex items-center gap-1" id="generate-btn">
+        <span>📝</span> Generate Draft
+      </button>
+      <button class="btn btn-outline btn-sm flex items-center gap-1" id="export-btn">
+        <span>⬇</span> Export PDF
+      </button>
+    </div>
+
+    <!-- Text Area -->
+    <div class="flex-grow p-6 relative">
+      <textarea class="sop-textarea" id="sop-textarea" placeholder="Start writing your essay here… or click 'Generate Draft' to get a starting point based on the prompt."></textarea>
+    </div>
+
+    <!-- Footer Stats -->
+    <div class="border-t p-3 bg-gray-50 flex justify-between items-center text-sm text-gray-500">
+      <span class="flex items-center gap-2">
+        <div class="w-2 h-2 rounded-full bg-green-500"></div> <span id="save-state">Saved to browser</span>
+      </span>
+      <span>Words: <strong class="text-ink" id="word-count">0 / 500</strong></span>
+    </div>
+  </main>
+
+  <!-- AI Analysis Sidebar -->
+  <aside class="w-80 flex flex-col gap-4 h-full overflow-y-auto sop-side">
+
+    <!-- Score Card -->
+    <div class="card bg-ink text-white">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-white text-lg m-0">Essay Score</h3>
+        <div class="score-circle" id="score-circle">--</div>
+      </div>
+      <p class="text-sm text-gray-400 mb-0" id="score-note">Write at least 100 words to generate a score.</p>
+    </div>
+
+    <!-- Instructions Card -->
+    <div class="card">
+      <h4 class="mb-3" id="prompt-title">Leadership Essay</h4>
+      <p class="text-sm text-gray-600 mb-4 bg-blue-50 p-3 rounded border border-blue-100" id="prompt-text"></p>
+
+      <h5 class="text-sm uppercase tracking-wide text-gray-500 mb-2">What you need:</h5>
+      <ul class="text-sm text-gray-600 space-y-2 mb-4" id="prompt-checklist"></ul>
+
+      <button class="btn btn-outline w-full text-sm" id="examples-btn">View Winning Example</button>
+    </div>
+
+  </aside>
+
+</div>
+
+<!-- Examples Modal -->
+<div class="sop-modal" id="sop-modal">
+  <div class="sop-modal-card">
+    <div class="flex justify-between items-center mb-4">
+      <h3 id="modal-title">Winning Example</h3>
+      <button class="modal-close" id="modal-close">×</button>
+    </div>
+    <div id="modal-body" class="modal-body"></div>
+    <button class="btn btn-primary w-full mt-4" id="modal-use">Use this as my starting draft</button>
+  </div>
+</div>
+
+<style>
+  body.tool-layout { height: auto; overflow: auto; }
+  .sop-wrap { height: auto !important; min-height: 0 !important; align-items: flex-start; }
+  .sop-textarea { min-height: 46vh; }
+  .tab-btn { padding: 10px 20px; background: transparent; border: none; border-bottom: 2px solid transparent; font-weight: 600; color: #64748b; cursor: pointer; border-radius: 8px 8px 0 0; }
+  .tab-btn.active { background: white; color: var(--primary-dark); border-bottom-color: var(--primary); }
+  .tab-btn:hover:not(.active) { background: rgba(0,0,0,0.02); }
+  .toolbar-btn { width: 32px; height: 32px; border-radius: 4px; border: none; background: transparent; cursor: pointer; }
+  .toolbar-btn:hover { background: #f1f5f9; }
+  .sop-textarea { width: 100%; height: 100%; resize: none; border: none; outline: none; font-size: 1.1rem; line-height: 1.8; color: var(--ink); font-family: var(--font-body); }
+  .score-circle { width: 48px; height: 48px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; }
+  .sop-modal { position: fixed; inset: 0; background: rgba(15,23,42,0.55); display: none; align-items: center; justify-content: center; z-index: 500; padding: 20px; }
+  .sop-modal.open { display: flex; }
+  .sop-modal-card { background: white; border-radius: var(--radius-xl); padding: var(--space-8); max-width: 640px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; overflow: hidden; border: 1.5px solid rgba(0,0,0,0.06); box-shadow: var(--shadow-lg); }
+  .sop-modal-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient-primary); }
+  .modal-close { background: none; border: none; font-size: 1.8rem; cursor: pointer; color: #94a3b8; line-height: 1; }
+  .modal-body { font-size: 0.95rem; line-height: 1.7; color: #475569; white-space: pre-wrap; background: var(--paper); padding: var(--space-5); border-radius: var(--radius-md); border-left: 4px solid var(--primary); }
+  @media (max-width: 900px) {
+    body { overflow: auto; }
+    .sop-wrap { flex-direction: column; height: auto !important; }
+    .sop-side { width: 100% !important; }
+    .sop-textarea { min-height: 300px; }
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var textarea = document.getElementById('sop-textarea');
+  var wordCount = document.getElementById('word-count');
+  var scoreCircle = document.getElementById('score-circle');
+  var scoreNote = document.getElementById('score-note');
+  var promptTitle = document.getElementById('prompt-title');
+  var promptText = document.getElementById('prompt-text');
+  var promptChecklist = document.getElementById('prompt-checklist');
+  var saveState = document.getElementById('save-state');
+
+  // Optional target name from URL (?target=Fulbright)
+  var params = new URLSearchParams(location.search);
+  if (params.get('target')) document.getElementById('target-name').textContent = params.get('target');
+
+  var SECTIONS = [
+    {
+      title: 'Leadership Essay',
+      prompt: 'Chevening looks for future leaders and influencers. Explain how you meet this, using clear examples of your own leadership and influencing skills.',
+      checklist: ['A clear definition of your leadership style', 'STAR examples (Situation, Task, Action, Result)', 'Measurable impact / results'],
+      draft: "Leadership, to me, is taking initiative to solve a problem others have accepted. As a software engineer at [Company], I noticed our deployment pipeline caused three-hour delays every week. Rather than wait for direction, I gathered a small cross-functional team and proposed an automated CI/CD approach.\n\nThere was initial resistance because of the learning curve, so I ran short training sessions and demonstrated the time saved on a single release. Within two months we had cut deployment time by roughly 80%, and the practice spread to two other teams. This taught me that real leadership is about empowering people and driving measurable change — exactly the mindset I want to bring to the Chevening community and, afterwards, to [your sector] back home.",
+      example: "When our university's coding society was losing members, I didn't wait to be asked to fix it. I surveyed 120 students, found that beginners felt intimidated, and launched a peer-mentoring track pairing seniors with first-years.\n\nI recruited and trained 15 mentors, set a weekly rhythm, and tracked attendance. Membership grew from 40 to 190 in one semester, and three mentees went on to win a national hackathon. The experience showed me that influence comes from listening first, then building systems that let others succeed."
+    },
+    {
+      title: 'Networking Essay',
+      prompt: 'Chevening looks for strong relationship builders who will engage with the Chevening community. Explain how you build and maintain professional relationships.',
+      checklist: ['Concrete examples of building networks', 'How you maintain relationships over time', 'How you will engage with Chevening alumni'],
+      draft: "I build relationships by being useful before I need anything. During [project], I reached out to practitioners across three organisations, not to ask for favours, but to share findings and ask thoughtful questions.\n\nI keep these relationships alive with a simple habit: a short monthly note sharing something relevant to the other person's work. Over two years this network helped me co-organise a regional workshop of 60 professionals. As a Chevening Scholar I would bring the same approach — actively connecting with the diverse cohort and staying engaged with the alumni community long after my studies.",
+      example: "As a volunteer coordinator, I managed relationships with 12 partner NGOs. I learned that networks are maintained through reliability: doing what you said you would, on time, every time.\n\nWhen one partnership stalled, I flew out to meet the team in person, understood their constraints, and redesigned our collaboration around them. That relationship became our strongest. I intend to engage with Chevening's global network with the same care and consistency."
+    },
+    {
+      title: 'Studying in the UK',
+      prompt: 'Outline why you selected your three university courses and how they relate to your past experience and future plans.',
+      checklist: ['Specific reasons for each course choice', 'Link to your academic / professional background', 'How the UK specifically fits your goal'],
+      draft: "I have chosen [Course A], [Course B] and [Course C] because each strengthens a different part of my goal to [goal]. [Course A] offers deep grounding in [topic], directly extending the work I did on [project]. [Course B] adds the [skill] I currently lack, and [Course C] is led by faculty whose research on [area] aligns with my long-term plans.\n\nThe UK is the right place for this because of its concentration of expertise in [field] and its one-year master's structure, which lets me return home quickly to apply what I learn. Together these courses bridge my experience in [background] and my ambition to [future].",
+      example: "My three choices — MSc Data Science (Edinburgh), MSc Computational Statistics (UCL), and MSc AI (Imperial) — all deepen the modelling skills I began developing while automating fraud detection at my bank.\n\nThe UK's one-year master's means I can return within eighteen months to lead the analytics unit we are building. Each course was chosen for a specific module and supervisor, not prestige alone."
+    },
+    {
+      title: 'Career Plan',
+      prompt: 'Chevening looks for a clear post-study career plan. Outline your immediate plans on returning home and your longer-term goals.',
+      checklist: ['A concrete immediate next step (first 1-2 years)', 'A specific long-term ambition', 'How the scholarship makes it possible'],
+      draft: "Immediately after my studies I will return to [country] to [specific first role/project], applying the [skills] gained in the UK to [problem]. Within the first two years my aim is to [measurable goal].\n\nIn the longer term, I want to [long-term ambition] — for example, [concrete example]. Chevening makes this path possible by giving me both the technical grounding and the global network to lead it credibly. My plan is specific because I have already [evidence of preparation], and this scholarship is the missing step between where I am and the impact I intend to have."
+    }
+  ];
+
+  var state = [ '', '', '', '' ];
+  var activeTab = 0;
+
+  // ---- persistence ----
+  var STORAGE_KEY = 'abroadready_sop_v1';
+  function load() {
+    try {
+      var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+      if (saved && Array.isArray(saved)) state = saved;
+    } catch (e) {}
+  }
+  function save() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); saveState.textContent = 'Saved to browser'; }
+    catch (e) { saveState.textContent = 'Saved (this session)'; }
+  }
+  load();
+
+  function words(t) { t = (t || '').trim(); return t ? t.split(/\s+/).length : 0; }
+
+  function updateScore() {
+    var w = words(textarea.value);
+    wordCount.textContent = w + ' / 500';
+    var color, val, note;
+    if (w === 0) { val = '--'; color = 'rgba(255,255,255,0.4)'; note = 'Write at least 100 words to generate a score.'; }
+    else if (w < 100) { val = 45 + Math.min(w, 40); color = '#ef4444'; note = 'Too short — expand your examples with specifics and numbers.'; }
+    else if (w < 250) { val = 70 + Math.floor((w - 100) / 30); color = '#eab308'; note = 'Good progress. Add measurable results and tie back to the prompt.'; }
+    else if (w <= 520) { val = 88 + Math.min(Math.floor((w - 250) / 40), 8); color = '#22c55e'; note = 'Strong length. Now polish clarity and cut filler.'; }
+    else { val = 82; color = '#f59e0b'; note = 'Over 500 words — trim to fit the Chevening limit.'; }
+    scoreCircle.textContent = val;
+    scoreCircle.style.borderColor = color;
+    scoreCircle.style.color = w === 0 ? 'inherit' : color;
+    scoreNote.textContent = note;
+  }
+
+  function renderSection() {
+    var sec = SECTIONS[activeTab];
+    textarea.value = state[activeTab] || '';
+    promptTitle.textContent = sec.title;
+    promptText.textContent = sec.prompt;
+    promptChecklist.innerHTML = sec.checklist.map(function (c) { return '<li>✓ ' + c + '</li>'; }).join('');
+    updateScore();
+  }
+
+  // ---- tabs ----
+  document.querySelectorAll('.tab-btn').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      state[activeTab] = textarea.value;
+      save();
+      document.querySelectorAll('.tab-btn').forEach(function (t) { t.classList.remove('active'); });
+      tab.classList.add('active');
+      activeTab = parseInt(tab.getAttribute('data-tab'), 10);
+      renderSection();
+    });
+  });
+
+  // ---- typing ----
+  var saveTimer;
+  textarea.addEventListener('input', function () {
+    state[activeTab] = textarea.value;
+    updateScore();
+    saveState.textContent = 'Saving…';
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(save, 500);
+  });
+
+  // ---- bold / italic (wrap selection with markdown) ----
+  function wrap(before, after) {
+    var s = textarea.selectionStart, e = textarea.selectionEnd;
+    var sel = textarea.value.slice(s, e) || 'text';
+    textarea.value = textarea.value.slice(0, s) + before + sel + after + textarea.value.slice(e);
+    textarea.focus();
+    textarea.selectionStart = s + before.length;
+    textarea.selectionEnd = s + before.length + sel.length;
+    state[activeTab] = textarea.value; updateScore(); save();
+  }
+  document.getElementById('bold-btn').addEventListener('click', function () { wrap('**', '**'); });
+  document.getElementById('italic-btn').addEventListener('click', function () { wrap('_', '_'); });
+
+  // ---- generate draft ----
+  document.getElementById('generate-btn').addEventListener('click', function () {
+    var btn = this; btn.disabled = true;
+    var original = textarea.value;
+    textarea.value = 'Generating a starting draft for this section…';
+    textarea.disabled = true;
+    setTimeout(function () {
+      textarea.disabled = false; btn.disabled = false;
+      textarea.value = (original.trim() ? original.trim() + '\n\n' : '') + SECTIONS[activeTab].draft;
+      state[activeTab] = textarea.value; updateScore(); save(); textarea.focus();
+    }, 900);
+  });
+
+  // ---- AI improve ----
+  document.getElementById('improve-btn').addEventListener('click', function () {
+    if (words(textarea.value) < 20) { alert('Write a bit more (at least ~20 words) before improving.'); return; }
+    var btn = this; btn.disabled = true;
+    var text = textarea.value;
+    saveState.textContent = 'Improving…';
+    setTimeout(function () {
+      // Deterministic light "improvements": trim double spaces, ensure it ends with a period,
+      // and append a tightened closing line.
+      var improved = text.replace(/[ \t]{2,}/g, ' ').replace(/\s+\n/g, '\n').trim();
+      if (!/[.!?]$/.test(improved)) improved += '.';
+      improved += '\n\n(Refined: tightened spacing and flow. Now read aloud and cut any sentence that doesn\'t show impact.)';
+      textarea.value = improved;
+      state[activeTab] = improved; updateScore(); save();
+      btn.disabled = false;
+    }, 900);
+  });
+
+  // ---- clear ----
+  document.getElementById('clear-btn').addEventListener('click', function () {
+    if (!textarea.value || confirm('Clear this section?')) {
+      textarea.value = ''; state[activeTab] = ''; updateScore(); save(); textarea.focus();
+    }
+  });
+
+  // ---- examples modal ----
+  var modal = document.getElementById('sop-modal');
+  document.getElementById('examples-btn').addEventListener('click', function () {
+    var sec = SECTIONS[activeTab];
+    document.getElementById('modal-title').textContent = 'Winning example — ' + sec.title;
+    document.getElementById('modal-body').textContent = sec.example || sec.draft;
+    modal.classList.add('open');
+  });
+  document.getElementById('modal-close').addEventListener('click', function () { modal.classList.remove('open'); });
+  modal.addEventListener('click', function (e) { if (e.target === modal) modal.classList.remove('open'); });
+  document.getElementById('modal-use').addEventListener('click', function () {
+    textarea.value = SECTIONS[activeTab].example || SECTIONS[activeTab].draft;
+    state[activeTab] = textarea.value; updateScore(); save();
+    modal.classList.remove('open'); textarea.focus();
+  });
+
+  // ---- export to PDF (print) ----
+  document.getElementById('export-btn').addEventListener('click', function () {
+    state[activeTab] = textarea.value;
+    var target = document.getElementById('target-name').textContent;
+    var win = window.open('', '_blank');
+    var html = '<html><head><title>SOP — ' + target + '</title><style>' +
+      'body{font-family:Georgia,serif;max-width:720px;margin:40px auto;padding:0 24px;color:#1e293b;line-height:1.7;}' +
+      'h1{font-size:22px;} h2{font-size:16px;margin-top:28px;border-bottom:1px solid #e2e8f0;padding-bottom:6px;}' +
+      'p{white-space:pre-wrap;} .muted{color:#94a3b8;font-size:12px;}</style></head><body>';
+    html += '<h1>Statement of Purpose — ' + target + '</h1>';
+    html += '<p class="muted">Drafted with AbroadReady SOP Builder</p>';
+    SECTIONS.forEach(function (sec, i) {
+      html += '<h2>' + (i + 1) + '. ' + sec.title + '</h2><p>' + (state[i] ? state[i].replace(/</g, '&lt;') : '<span class="muted">[not written yet]</span>') + '</p>';
+    });
+    html += '<\/body><\/html>';
+    win.document.write(html);
+    win.document.close();
+    setTimeout(function () { win.print(); }, 350);
+  });
+
+  renderSection();
+});
+</script>
+<script src="../js/components.js"></script>
+</body>
+</html>

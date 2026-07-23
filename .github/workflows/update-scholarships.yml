@@ -1,0 +1,41 @@
+name: Refresh scholarship data
+
+# Layer 2 of the auto-update system: run the refresher on a daily schedule and
+# commit any changes so GitHub Pages always serves fresh data. You can also
+# trigger it by hand from the Actions tab (workflow_dispatch).
+
+on:
+  schedule:
+    - cron: "0 5 * * *"   # every day at 05:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run the data refresher
+        run: python3 updater/update_scholarships.py
+
+      - name: Commit refreshed data (if anything changed)
+        run: |
+          git config user.name  "abroadready-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/scholarships.json js/scholarships-data.js
+          [ -f updater/link_report.json ] && git add updater/link_report.json || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: automated scholarship data refresh ($(date -u +%Y-%m-%d))"
+            git push
+          fi

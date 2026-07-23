@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saved Scholarships | AbroadReady</title>
+  <meta name="description" content="Your saved scholarships — deadlines, funding and apply links in one shortlist.">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/results.css">
+</head>
+<body>
+
+<header class="results-header section pb-0" style="padding-top:var(--space-12);">
+  <div class="container">
+    <div class="header-content animate-fade-in-up">
+      <span class="badge badge-gold mb-4">Your shortlist</span>
+      <h1>Saved <span class="text-gradient">scholarships</span></h1>
+      <p class="subtitle" id="saved-subtitle">The scholarships you've bookmarked. Tap the heart on any scholarship to add or remove it.</p>
+    </div>
+  </div>
+</header>
+
+<section class="container section pt-0">
+  <div class="results-toolbar">
+    <span id="saved-count" class="result-count">…</span>
+    <button class="btn btn-ghost btn-sm" id="clear-saved" style="color:var(--accent);font-weight:600;">Clear all</button>
+  </div>
+
+  <div class="results-grid" id="saved-grid" style="grid-template-columns:repeat(3,1fr);"></div>
+
+  <div class="no-results" id="saved-empty" style="display:none;">
+    <div style="font-size:3.5rem;">💛</div>
+    <h3>No saved scholarships yet</h3>
+    <p>Browse the board and tap the heart on any scholarship to build your shortlist.</p>
+    <a class="btn btn-primary" href="results.html">Browse scholarships</a>
+  </div>
+</section>
+
+<script src="../js/scholarships-data.js"></script>
+<script src="../js/scholarships.js"></script>
+<script src="../js/saved.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var SB = window.SB, Saved = window.Saved;
+  var grid = document.getElementById('saved-grid');
+  var empty = document.getElementById('saved-empty');
+  var countEl = document.getElementById('saved-count');
+
+  function card(s) {
+    var d = SB.deadlineInfo(s), sm = SB.statusMeta(d.status);
+    var levelTags = (s.levels || []).map(function (l) { return '<span class="lvl-tag">' + SB.esc(l) + '</span>'; }).join('');
+    var daysLine = d.hasDate ? '<strong>' + d.daysLeft + ' days left</strong> · ' + SB.esc(d.label) : 'Deadline varies — check official site';
+    var feeBadge = s.isFree ? '<span class="fee-badge free">Free to apply</span>' : '<span class="fee-badge paid">Fee: ' + SB.esc(s.applicationFee) + '</span>';
+    return '<article class="scholarship-card sch-card">' +
+      '<div class="sc-cardtop"><span class="sc-flag">' + SB.flagImg(s.country, 28) + '</span>' +
+        '<button class="save-heart is-saved" data-id="' + s.id + '" title="Remove from saved">♥</button></div>' +
+      '<h3 class="sch-name">' + SB.esc(s.name) + '</h3>' +
+      '<p class="sch-provider">' + SB.esc(s.provider) + '</p>' +
+      '<div class="sch-metarow"><span>📍 ' + SB.esc(s.country) + '</span><span>🏛️ ' + SB.esc(SB.short(s.hostUniversities, 42)) + '</span></div>' +
+      '<div class="lvl-tags">' + levelTags + '<span class="fund-tag">' + SB.esc(s.fundingType) + '</span></div>' +
+      '<div class="sch-deadline"><span>🗓️</span><span>' + daysLine + '</span></div>' +
+      '<div class="sch-footer"><span class="status-badge ' + sm.cls + '">' + sm.text + '</span> ' + feeBadge + '</div>' +
+      '<div class="sch-actions">' +
+        '<a href="scholarship.html?id=' + encodeURIComponent(s.id) + '" class="btn btn-primary w-full">View details</a>' +
+        '<a href="' + SB.esc(s.applyLink) + '" target="_blank" rel="noopener" class="btn btn-outline apply-mini">Apply ↗</a>' +
+      '</div></article>';
+  }
+
+  function render() {
+    var ids = Saved.list();
+    var list = ids.map(function (id) { return SB.byId(id); }).filter(Boolean);
+    countEl.textContent = list.length + ' saved';
+    document.getElementById('clear-saved').style.display = list.length ? 'inline-flex' : 'none';
+    if (!list.length) { grid.innerHTML = ''; empty.style.display = 'block'; grid.style.display = 'none'; return; }
+    empty.style.display = 'none'; grid.style.display = 'grid';
+    grid.innerHTML = list.map(card).join('');
+    grid.querySelectorAll('.save-heart').forEach(function (btn) {
+      btn.addEventListener('click', function () { Saved.remove(btn.getAttribute('data-id')); render(); });
+    });
+  }
+
+  document.getElementById('clear-saved').addEventListener('click', function () {
+    if (confirm('Remove all saved scholarships?')) { Saved.clear(); render(); }
+  });
+
+  render();
+});
+</script>
+<script src="../js/components.js"></script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Universities & Partners | AbroadReady</title>
+  <meta name="description" content="Reach motivated, pre-qualified international students actively searching for scholarships and study-abroad programmes. Partner with AbroadReady.">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <style>
+    .pt-hero { background: var(--gradient-dark); color: white; position: relative; overflow: hidden; padding: var(--space-24) 0 var(--space-20); }
+    .pt-hero::before { content:''; position:absolute; top:-40%; right:-15%; width:620px; height:620px; background: radial-gradient(circle, rgba(59,130,246,0.25) 0%, transparent 70%); border-radius:50%; }
+    .pt-hero::after { content:''; position:absolute; bottom:-50%; left:-10%; width:500px; height:500px; background: radial-gradient(circle, rgba(139,92,246,0.2) 0%, transparent 70%); border-radius:50%; }
+    .pt-hero h1 { color:white; max-width: 780px; margin: 0 auto var(--space-5); }
+    .pt-hero p { color:#cbd5e1; font-size: var(--text-xl); max-width: 620px; margin: 0 auto var(--space-8); }
+    .pt-hero-cta { display:flex; gap: var(--space-4); justify-content:center; flex-wrap:wrap; }
+    .pt-trust { display:grid; grid-template-columns: repeat(4,1fr); gap: var(--space-6); max-width: 900px; margin: var(--space-12) auto 0; position:relative; z-index:1; }
+    .pt-trust .num { font-family: var(--font-heading); font-weight:800; font-size: var(--text-4xl); color:white; }
+    .pt-trust .lbl { color:#94a3b8; font-size: var(--text-sm); }
+    .pt-section { padding: var(--space-20) 0; }
+    .pt-benefits { display:grid; grid-template-columns: repeat(3,1fr); gap: var(--space-6); }
+    .pt-bcard { background:var(--bg-blue); border-radius: var(--radius-xl); padding: var(--space-8); box-shadow: var(--shadow-sm); border:1.5px solid var(--border-blue); transition: var(--transition-base); position:relative; overflow:hidden; }
+    .pt-bcard::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: var(--gradient-primary); opacity:1; }
+    .pt-bcard:nth-child(2) { background: var(--bg-purple); border-color: var(--border-purple); }
+    .pt-bcard:nth-child(2)::before { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+    .pt-bcard:nth-child(3) { background: var(--bg-green); border-color: var(--border-green); }
+    .pt-bcard:nth-child(3)::before { background: var(--gradient-forest); }
+    .pt-bcard:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--primary-light); }
+    .pt-bcard:hover { border-color: var(--primary-light); box-shadow: var(--shadow-lg), 0 0 0 1px rgba(59,130,246,0.06); transform: translateY(-4px); }
+    .pt-bcard .ico { width:56px; height:56px; border-radius: var(--radius-lg); display:flex; align-items:center; justify-content:center; font-size:1.6rem; background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(139,92,246,0.1) 100%); margin-bottom: var(--space-4); border: 1.5px solid rgba(59,130,246,0.15); transition: var(--transition-fast); }
+    .pt-bcard:hover .ico { transform: scale(1.05); border-color: rgba(59,130,246,0.3); }
+    .pt-steps { display:grid; grid-template-columns: repeat(3,1fr); gap: var(--space-8); counter-reset: step; }
+    .pt-step { position:relative; padding-top: var(--space-6); }
+    .pt-step::before { counter-increment: step; content: "0" counter(step); font-family: var(--font-heading); font-weight:800; font-size: var(--text-5xl); color: rgba(59,130,246,0.15); position:absolute; top:-10px; left:0; }
+    .pt-step h3 { margin-bottom: var(--space-2); position:relative; }
+    .pt-pricing { display:grid; grid-template-columns: repeat(3,1fr); gap: var(--space-6); align-items: stretch; max-width: 1000px; margin: 0 auto; }
+    .price-card { background:var(--bg-purple); border:2px solid var(--border-purple); border-radius: var(--radius-xl); padding: var(--space-8); display:flex; flex-direction:column; transition: var(--transition-base); position:relative; overflow:hidden; }
+    .price-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(135deg, #8b5cf6, #a78bfa); opacity:1; }
+    .price-card:nth-child(2) { background: var(--bg-blue); border-color: var(--border-blue); }
+    .price-card:nth-child(2)::before { background: var(--gradient-primary); }
+    .price-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary-light); }
+    .price-card:hover { border-color: var(--primary-light); box-shadow: var(--shadow-lg), 0 0 0 1px rgba(59,130,246,0.06); transform: translateY(-4px); }
+    .price-card.featured { border-color: var(--primary); box-shadow: var(--shadow-lg); position:relative; }
+    .price-card.featured::after { content:'Most popular'; position:absolute; top:-13px; left:50%; transform: translateX(-50%); background: var(--gradient-primary); color:white; padding:5px 16px; border-radius: var(--radius-full); font-size: var(--text-xs); font-weight:700; }
+    .price-amt { font-family: var(--font-heading); font-weight:800; font-size: var(--text-4xl); margin: var(--space-3) 0 var(--space-5); }
+    .price-amt span { font-size: var(--text-sm); color:#94a3b8; font-weight:400; }
+    .price-card ul { list-style:none; margin-bottom: var(--space-6); flex:1; }
+    .price-card li { padding: 7px 0; font-size: var(--text-sm); color:#475569; display:flex; gap:8px; }
+    .price-card li.no { color:#cbd5e1; }
+    .pt-cta-band { background: var(--gradient-primary); border-radius: var(--radius-2xl); padding: var(--space-16); text-align:center; color:white; }
+    .pt-cta-band h2 { color:white; margin-bottom: var(--space-3); }
+    .pt-cta-band p { color: rgba(255,255,255,0.9); max-width: 520px; margin: 0 auto var(--space-6); }
+    .pt-cta-band .btn { background:white; color: var(--primary-dark); }
+    @media (max-width: 900px) { .pt-trust { grid-template-columns: repeat(2,1fr); } .pt-benefits, .pt-steps, .pt-pricing { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<script src="../js/saved.js"></script>
+
+<section class="pt-hero">
+  <div class="container text-center" style="position:relative;z-index:1;">
+    <span class="badge badge-blue mb-4" style="background:rgba(255,255,255,0.12);color:#bfdbfe;">For Universities &amp; Education Partners</span>
+    <h1>Reach students who are ready to apply</h1>
+    <p>AbroadReady connects your programmes with motivated international students actively searching for scholarships and study-abroad opportunities.</p>
+    <div class="pt-hero-cta">
+      <a href="#contact" class="btn btn-primary btn-lg">Become a partner</a>
+      <a href="#how" class="btn btn-lg" style="background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.25);">See how it works</a>
+    </div>
+    <div class="pt-trust">
+      <div><div class="num" id="t-sch">30+</div><div class="lbl">Scholarships listed</div></div>
+      <div><div class="num" id="t-cty">21</div><div class="lbl">Countries covered</div></div>
+      <div><div class="num">100%</div><div class="lbl">Free for students</div></div>
+      <div><div class="num">24/7</div><div class="lbl">Discovery &amp; matching</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="pt-section">
+  <div class="container">
+    <div class="text-center" style="max-width:640px;margin:0 auto var(--space-12);">
+      <span class="badge badge-blue mb-4">Why partner with us</span>
+      <h2>Qualified students, not cold leads</h2>
+      <p class="text-gray-600" style="margin-top:var(--space-3);">Students reach your programmes after filtering by level, field, country and funding — so the interest is real and relevant.</p>
+    </div>
+    <div class="pt-benefits">
+      <div class="pt-bcard"><div class="ico">🎯</div><h3 class="text-xl mb-2">Pre-qualified interest</h3><p class="text-sm text-gray-600">Students find you through structured filters (programme, field, funding, region), so enquiries match your entry criteria.</p></div>
+      <div class="pt-bcard"><div class="ico">🚀</div><h3 class="text-xl mb-2">Higher intent</h3><p class="text-sm text-gray-600">Our SOP builder and application guides mean students arrive better prepared and more likely to complete an application.</p></div>
+      <div class="pt-bcard"><div class="ico">📊</div><h3 class="text-xl mb-2">Clear insights</h3><p class="text-sm text-gray-600">See how many students view, save and click through to your programmes, so you can measure real interest over time.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="pt-section" id="how" style="background:var(--paper);">
+  <div class="container">
+    <div class="text-center" style="max-width:640px;margin:0 auto var(--space-12);">
+      <span class="badge badge-gold mb-4">How it works</span>
+      <h2>Live in three simple steps</h2>
+    </div>
+    <div class="pt-steps">
+      <div class="pt-step"><h3>List your programmes</h3><p class="text-gray-600">Send us your scholarships and courses. We structure them with eligibility, funding and deadlines so students can find them.</p></div>
+      <div class="pt-step"><h3>Students discover &amp; match</h3><p class="text-gray-600">Applicants filter the board and get matched to your opportunities, then open a full detail page with your official apply link.</p></div>
+      <div class="pt-step"><h3>Track &amp; connect</h3><p class="text-gray-600">Watch engagement in your dashboard and receive interested, better-prepared applicants throughout the intake cycle.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="pt-section">
+  <div class="container">
+    <div class="text-center" style="max-width:640px;margin:0 auto var(--space-12);">
+      <span class="badge badge-blue mb-4">Partnership plans</span>
+      <h2>Flexible options for every institution</h2>
+      <p class="text-gray-600" style="margin-top:var(--space-3);">Start small and scale as you see results. All plans are month-to-month.</p>
+    </div>
+    <div class="pt-pricing">
+      <div class="price-card">
+        <h3 class="text-xl">Starter</h3>
+        <div class="price-amt">$299<span> / month</span></div>
+        <ul>
+          <li>✓ Programmes listed on the board</li>
+          <li>✓ Standard placement in results</li>
+          <li>✓ Basic engagement analytics</li>
+          <li>✓ Up to 50 enquiries / month</li>
+          <li class="no">✗ Featured placement</li>
+        </ul>
+        <button class="btn btn-outline w-full" data-plan="Starter">Get started</button>
+      </div>
+      <div class="price-card featured">
+        <h3 class="text-xl">Growth</h3>
+        <div class="price-amt" style="color:var(--primary-dark);">$799<span> / month</span></div>
+        <ul>
+          <li>✓ Priority placement in results</li>
+          <li>✓ Advanced analytics dashboard</li>
+          <li>✓ Unlimited enquiries</li>
+          <li>✓ One featured homepage slot</li>
+          <li>✓ Direct messaging to students</li>
+        </ul>
+        <button class="btn btn-primary w-full" data-plan="Growth">Choose Growth</button>
+      </div>
+      <div class="price-card">
+        <h3 class="text-xl">Enterprise</h3>
+        <div class="price-amt">Custom</div>
+        <ul>
+          <li>✓ Everything in Growth</li>
+          <li>✓ Dedicated account manager</li>
+          <li>✓ Custom API / feed integration</li>
+          <li>✓ Co-marketing &amp; webinars</li>
+          <li>✓ Multi-campus support</li>
+        </ul>
+        <button class="btn btn-outline w-full" data-plan="Enterprise">Contact sales</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pt-section" id="contact" style="background:var(--paper);">
+  <div class="container">
+    <div class="card" style="max-width:720px;margin:0 auto;padding:var(--space-10);">
+      <div class="text-center mb-8">
+        <span class="badge badge-blue mb-4">Get in touch</span>
+        <h2 class="mb-2">Talk to our partnerships team</h2>
+        <p class="text-gray-600">Tell us about your institution and we'll respond within two business days.</p>
+      </div>
+      <form id="partner-form" class="flex flex-col gap-4">
+        <div class="grid grid-2 gap-4">
+          <input class="form-input" name="name" placeholder="Your name" required>
+          <input class="form-input" name="org" placeholder="University / organisation" required>
+        </div>
+        <div class="grid grid-2 gap-4">
+          <input class="form-input" type="email" name="email" placeholder="Work email" required>
+          <select class="form-input" name="plan">
+            <option value="">Interested in… (optional)</option>
+            <option>Starter</option><option>Growth</option><option>Enterprise</option>
+          </select>
+        </div>
+        <textarea class="form-input" name="message" rows="4" placeholder="What are you looking to achieve?"></textarea>
+        <button type="submit" class="btn btn-primary btn-lg">Send message</button>
+        <p id="partner-status" class="text-center text-sm" style="display:none;color:var(--forest);font-weight:600;"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="container" style="padding-bottom:var(--space-16);">
+  <div class="pt-cta-band">
+    <h2>Ready to reach the right students?</h2>
+    <p>Join universities and scholarship providers using AbroadReady to connect with prepared, motivated applicants.</p>
+    <a href="#contact" class="btn btn-lg">Become a partner</a>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Reflect real dataset numbers if available.
+  try {
+    if (window.SCHOLARSHIP_DATA && window.SCHOLARSHIP_DATA.meta) {
+      document.getElementById('t-sch').textContent = window.SCHOLARSHIP_DATA.meta.count + '+';
+      document.getElementById('t-cty').textContent = window.SCHOLARSHIP_DATA.meta.countryCount;
+    }
+  } catch (e) {}
+
+  document.querySelectorAll('[data-plan]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+      var sel = document.querySelector('#partner-form select[name="plan"]');
+      if (sel) sel.value = btn.getAttribute('data-plan');
+    });
+  });
+
+  var form = document.getElementById('partner-form');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    var btn = form.querySelector('button[type="submit"]'), status = document.getElementById('partner-status');
+    btn.textContent = 'Sending…'; btn.disabled = true;
+    setTimeout(function () {
+      form.reset(); btn.textContent = 'Send message'; btn.disabled = false;
+      status.style.display = 'block';
+      status.textContent = '✓ Thanks! Your message has been recorded. Our team will email you within two business days.';
+    }, 700);
+  });
+});
+</script>
+<script src="../js/scholarships-data.js"></script>
+<script src="../js/components.js"></script>
+</body>
+</html>

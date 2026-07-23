@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scholarship Advisor | AbroadReady</title>
+  <link rel="stylesheet" href="../css/design-system.css">
+  <link rel="stylesheet" href="../css/tools.css">
+</head>
+<body class="tool-layout">
+<script src="../js/saved.js"></script>
+
+<!-- Minimal Navbar -->
+<nav class="navbar glass-panel">
+  <div class="container flex items-center justify-between">
+    <a href="../index.html" class="nav-logo">
+      <span class="logo-icon">🎓</span>
+      <span class="logo-text">Abroad<span class="text-gradient">Ready</span></span>
+    </a>
+    <div class="nav-actions">
+      <a href="results.html" class="btn btn-outline btn-sm">Browse scholarships</a>
+    </div>
+  </div>
+</nav>
+
+<!-- AI Chat Interface -->
+<main class="chat-container">
+
+  <!-- Sidebar -->
+  <aside class="chat-sidebar card">
+    <h3 class="mb-4 text-lg">Scholarship Assistant</h3>
+    <p class="text-xs text-gray-500" style="margin-bottom:16px;">Ask about eligibility, deadlines, documents, fees, or which scholarships fit your field and level. Answers come straight from our live scholarship database.</p>
+
+    <div class="context-pill">
+      <span class="text-xs text-gray-500">In the database</span>
+      <p class="font-bold text-primary" id="ctx-count">— scholarships</p>
+    </div>
+    <div class="context-pill">
+      <span class="text-xs text-gray-500">Covering</span>
+      <p class="font-bold" id="ctx-countries">— countries</p>
+    </div>
+
+    <hr class="my-6 border-gray-100">
+
+    <h4 class="mb-3 text-sm text-gray-500 uppercase tracking-wider">Try asking</h4>
+    <div class="flex flex-col gap-2">
+      <button class="chat-suggestion" onclick="askNow(this.innerText)">Am I eligible for Chevening?</button>
+      <button class="chat-suggestion" onclick="askNow(this.innerText)">Fully funded PhD scholarships</button>
+      <button class="chat-suggestion" onclick="askNow(this.innerText)">What documents does DAAD need?</button>
+      <button class="chat-suggestion" onclick="askNow(this.innerText)">Scholarships in Germany with no fee</button>
+      <button class="chat-suggestion" onclick="askNow(this.innerText)">Which deadlines are closing soon?</button>
+      <button class="chat-suggestion" onclick="askNow(this.innerText)">How do I write a leadership essay?</button>
+    </div>
+  </aside>
+
+  <!-- Main Chat Area -->
+  <div class="chat-main card">
+
+    <div class="chat-messages" id="chat-messages">
+      <div class="message ai-message">
+        <div class="msg-avatar">🎓</div>
+        <div class="msg-bubble">
+          <p>Hi! I'm your scholarship assistant. I can search our whole database and answer questions like:</p>
+          <ul>
+            <li>"Am I eligible for <em>Fulbright</em>?"</li>
+            <li>"Show me <em>fully funded Masters in the UK</em>"</li>
+            <li>"What documents does <em>Erasmus Mundus</em> require?"</li>
+          </ul>
+          <p>What would you like to know?</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="chat-input-area border-t">
+      <form class="chat-form flex gap-2" id="chat-form">
+        <input type="text" id="chat-input" class="form-input flex-grow" placeholder="Ask about eligibility, deadlines, documents, fees…" autocomplete="off">
+        <button type="submit" class="btn btn-primary btn-icon" style="border-radius:var(--radius-md)">➤</button>
+      </form>
+      <p class="text-xs text-gray-400 text-center mt-2">Answers are generated from our scholarship data. Always confirm details on the official website.</p>
+    </div>
+
+  </div>
+</main>
+
+<script src="../js/scholarships-data.js"></script>
+<script src="../js/scholarships.js"></script>
+<script>
+(function () {
+  var SB = window.SB;
+  var msgs = document.getElementById('chat-messages');
+  var input = document.getElementById('chat-input');
+
+  // Sidebar context from real data
+  document.getElementById('ctx-count').textContent = SB.all.length + ' scholarships';
+  document.getElementById('ctx-countries').textContent = (SB.meta.countryCount || '20+') + ' countries';
+
+  // ---- distinctive keyword → scholarship id, for name detection ----
+  var ALIASES = {
+    'chevening': 'chevening', 'commonwealth master': 'commonwealth-masters', 'commonwealth phd': 'commonwealth-phd',
+    'commonwealth': 'commonwealth-masters', 'erasmus': 'erasmus-mundus', 'epos': 'daad-epos', 'daad': 'daad-epos',
+    'eiffel': 'eiffel-excellence', 'swedish': 'si-sisgp', 'sisgp': 'si-sisgp', 'swiss': 'swiss-government-excellence',
+    'fulbright': 'fulbright-foreign-student', 'knight': 'knight-hennessy-scholars', 'hennessy': 'knight-hennessy-scholars',
+    'gates': 'gates-cambridge', 'rhodes': 'rhodes-scholarship', 'clarendon': 'clarendon-scholarship-oxford',
+    'vanier': 'vanier-canada-graduate-scholarships', 'schwarzman': 'schwarzman-scholars', 'ireland': 'goi-ies', 'goi': 'goi-ies',
+    'mext': 'mext-japan', 'japan': 'mext-japan', 'gks': 'gks-korea', 'global korea': 'gks-korea', 'korea': 'gks-korea',
+    'turkiye': 'turkiye-burslari', 'turkey': 'turkiye-burslari', 'burslari': 'turkiye-burslari', 'kaust': 'kaust-fellowship',
+    'australia awards': 'australia-awards', 'rtp': 'australia-rtp', 'research training': 'australia-rtp',
+    'manaaki': 'manaaki-new-zealand', 'new zealand': 'manaaki-new-zealand', 'hungaricum': 'stipendium-hungaricum', 'hungary': 'stipendium-hungaricum',
+    'holland': 'holland-scholarship', 'orange tulip': 'orange-tulip-scholarship', 'tulip': 'orange-tulip-scholarship',
+    'csc': 'chinese-government-scholarship-csc', 'chinese government': 'chinese-government-scholarship-csc',
+    'romania': 'romanian-government-scholarship', 'romanian': 'romanian-government-scholarship',
+    'mastercard': 'mastercard-foundation-scholars-program', 'kaist': 'kaist-international-undergraduate-scholarship',
+    'bocconi': 'bocconi-merit-international-awards', 'twente': 'university-of-twente-scholarship-uts'
+  };
+
+  function findScholarship(q) {
+    for (var k in ALIASES) { if (q.indexOf(k) !== -1) return SB.byId(ALIASES[k]); }
+    // fallback: any full name contained
+    for (var i = 0; i < SB.all.length; i++) { if (q.indexOf(SB.all[i].name.toLowerCase()) !== -1) return SB.all[i]; }
+    return null;
+  }
+
+  function link(s) { return '<a href="scholarship.html?id=' + s.id + '" style="color:var(--primary);font-weight:600;">' + SB.esc(s.name) + ' →</a>'; }
+  function ul(items) { return '<ul>' + items.map(function (i) { return '<li>' + SB.esc(i) + '</li>'; }).join('') + '</ul>'; }
+
+  function listCards(list, intro) {
+    if (!list.length) return "I couldn't find a match for that in the database. Try browsing <a href='results.html' style='color:var(--primary);font-weight:600;'>all scholarships</a> or ask about a level, country, or field.";
+    var top = list.slice(0, 6);
+    var cards = top.map(function (s) {
+      var d = SB.deadlineInfo(s), sm = SB.statusMeta(d.status);
+      var saved = window.Saved && window.Saved.has(s.id);
+      return '<div class="chat-card">' +
+        '<div class="cc-top"><span class="cc-flag">' + SB.flagImg(s.country, 22) + '</span>' +
+          '<span class="cc-status ' + sm.cls + '">' + sm.text + '</span>' +
+          '<button class="cc-heart' + (saved ? ' is-saved' : '') + '" data-save="' + s.id + '" title="Save">' + (saved ? '♥' : '♡') + '</button></div>' +
+        '<div class="cc-name">' + SB.esc(s.name) + '</div>' +
+        '<div class="cc-meta">' + SB.esc(s.country) + ' · ' + SB.esc(s.fundingType) + (d.hasDate ? ' · ' + d.daysLeft + 'd left' : '') + '</div>' +
+        '<a class="cc-link" href="scholarship.html?id=' + encodeURIComponent(s.id) + '">View details →</a>' +
+        '</div>';
+    }).join('');
+    return '<p>' + intro + ' <strong>' + list.length + '</strong> match' + (list.length === 1 ? '' : 'es') + (list.length > 6 ? ' (top 6)' : '') + ':</p><div class="chat-cards">' + cards + '</div>';
+  }
+
+  // ---- intent helpers ----
+  function detectLevels(q) {
+    var lv = [];
+    if (/bachelor|undergrad/.test(q)) lv.push('Bachelors');
+    if (/master|msc|ma\b|mba|postgrad/.test(q)) lv.push('Masters');
+    if (/phd|doctora|dphil/.test(q)) lv.push('PhD');
+    if (/postdoc|post-doc/.test(q)) lv.push('Postdoc');
+    return lv;
+  }
+  function detectRegionOrCountry(q) {
+    var out = { regions: [], countries: [] };
+    SB.all.forEach(function (s) {
+      if (q.indexOf(s.country.toLowerCase()) !== -1 && out.countries.indexOf(s.country) === -1) out.countries.push(s.country);
+    });
+    ['UK', 'Europe', 'North America', 'Asia', 'Middle East', 'Oceania', 'Global'].forEach(function (r) {
+      if (q.indexOf(r.toLowerCase()) !== -1) out.regions.push(r);
+    });
+    if (/\buk\b|britain|england/.test(q) && out.regions.indexOf('UK') === -1) out.regions.push('UK');
+    if (/usa|america|united states|\bus\b/.test(q) && out.regions.indexOf('North America') === -1) out.regions.push('North America');
+    return out;
+  }
+  function detectField(q) {
+    if (/\bcs\b|computer|software|\bit\b|engineer|technolog/.test(q)) return 'Engineering & Tech';
+    if (/business|econom|manage|finance|mba/.test(q)) return 'Business & Economics';
+    if (/law|social|politic|development|public health|education/.test(q)) return 'Social Sciences & Law';
+    if (/science|biolog|health|medic|environment|physics|chemistry/.test(q)) return 'Natural & Life Sciences';
+    if (/art|humanit|media|music|design/.test(q)) return 'Arts & Humanities';
+    return null;
+  }
+
+  function answer(raw) {
+    var q = ' ' + raw.toLowerCase().replace(/[?.!,]/g, ' ') + ' ';
+    var s = findScholarship(q);
+
+    // Greetings
+    if (/^\s*(hi|hey|hello|salam|assalam)\b/.test(q) && raw.length < 20) {
+      return "Hello! 👋 Ask me about any scholarship's eligibility, documents, deadline or fees — or tell me your level, country and field and I'll find matches.";
+    }
+
+    // If a specific scholarship is named, answer about it by intent
+    if (s) {
+      var d = SB.deadlineInfo(s);
+      if (/eligib|qualif|can i apply|am i able|do i qualify/.test(q)) {
+        return '<p><strong>' + SB.esc(s.name) + ' — eligibility:</strong></p>' + ul(s.eligibility) +
+          '<p>Full details and how to apply: ' + link(s) + '</p>';
+      }
+      if (/document|require|need to submit|paperwork|what do i need/.test(q)) {
+        return '<p><strong>Documents required for ' + SB.esc(s.name) + ':</strong></p>' + ul(s.documentsRequired) + '<p>' + link(s) + '</p>';
+      }
+      if (/deadline|when|due|closing|date/.test(q)) {
+        return '<p><strong>' + SB.esc(s.name) + '</strong> deadline: ' + SB.esc(s.deadlineNote || (d.hasDate ? SB.monthNames[s.deadlineMonthNum-1] : 'varies')) +
+          (d.hasDate ? ' — about <strong>' + d.daysLeft + ' days</strong> from now.' : '.') + ' Intake: ' + SB.esc(s.intake) + '. ' + link(s) + '</p>';
+      }
+      if (/fee|cost to apply|free|how much to apply/.test(q)) {
+        return '<p><strong>' + SB.esc(s.name) + '</strong> is ' + (s.isFree ? '<strong>free to apply</strong>. ' : 'has an application fee: <strong>' + SB.esc(s.applicationFee) + '</strong>. ') + link(s) + '</p>';
+      }
+      if (/benefit|cover|fund|stipend|how much|worth|money|salary/.test(q)) {
+        return '<p><strong>' + SB.esc(s.name) + ' — what you get (' + SB.esc(s.fundingType) + '):</strong></p><p>' + SB.esc(s.fundingSummary) + '</p>' + ul(s.benefits) + '<p>' + link(s) + '</p>';
+      }
+      if (/before|prepare|ready|prerequisite/.test(q)) {
+        return '<p><strong>Have these ready before applying to ' + SB.esc(s.name) + ':</strong></p>' + ul(s.thingsToHaveBeforeApply) + '<p>' + link(s) + '</p>';
+      }
+      // Generic scholarship summary
+      return '<p><strong>' + SB.esc(s.name) + '</strong> (' + SB.esc(s.provider) + ')</p><p>' + SB.esc(s.fundingSummary) + '</p>' +
+        '<p>Level: ' + SB.esc((s.levels||[]).join(', ')) + ' · Country: ' + SB.esc(s.country) + ' · Fee: ' + (s.isFree ? 'Free' : SB.esc(s.applicationFee)) + ' · Deadline: ' + SB.esc(s.deadlineNote || 'varies') + '</p>' +
+        '<p>Ask me about its <em>eligibility</em>, <em>documents</em>, <em>benefits</em> or <em>deadline</em> — or open it: ' + link(s) + '</p>';
+    }
+
+    // SOP / essay writing help
+    if (/sop|statement of purpose|essay|leadership|motivation letter|personal statement|write/.test(q)) {
+      return '<p><strong>Writing your essay / SOP:</strong></p><ul>' +
+        '<li>Use the <strong>STAR method</strong> (Situation, Task, Action, Result) for leadership examples.</li>' +
+        '<li>Open with a specific story, not a generic statement.</li>' +
+        '<li>Tie every paragraph back to <em>why this scholarship</em> and <em>your future plan</em>.</li>' +
+        '<li>Quantify impact ("cut deployment time 80%") wherever you can.</li>' +
+        '</ul><p>Draft and score it in the <a href="sop-builder.html" style="color:var(--primary);font-weight:600;">SOP Builder →</a></p>';
+    }
+
+    // "No IELTS" advice
+    if (/no ielts|without ielts|ielts waiver|english test|without english/.test(q)) {
+      return '<p>Several routes don\'t hinge on IELTS: many EU programmes accept a <strong>medium-of-instruction letter</strong>, and Chevening itself no longer sets an English requirement (though your university might). Look at DAAD, Erasmus Mundus, and government scholarships in ' +
+        '<a href="results.html?region=Europe" style="color:var(--primary);font-weight:600;">Europe</a>. Always check the specific programme\'s language rule.</p>';
+    }
+
+    // Closing soon
+    if (/closing|soon|urgent|earliest|nearest deadline|expiring/.test(q)) {
+      var closing = SB.all.filter(function (x) { return SB.deadlineInfo(x).status === 'closing'; })
+        .sort(function (a, b) { return SB.deadlineInfo(a).daysLeft - SB.deadlineInfo(b).daysLeft; });
+      if (!closing.length) return 'Nothing is in the final 30-day window right now. Browse upcoming deadlines on the <a href="results.html" style="color:var(--primary);font-weight:600;">results page</a> (sorted by soonest).';
+      return listCards(closing, 'Closing within ~30 days —');
+    }
+
+    // Search by level / region / field / funding
+    var levels = detectLevels(q);
+    var loc = detectRegionOrCountry(q);
+    var field = detectField(q);
+    var wantFunded = /fully funded|full funding|full scholarship|fully-funded/.test(q);
+    var wantFree = /no fee|free to apply|without fee|fee-free/.test(q);
+
+    if (levels.length || loc.regions.length || loc.countries.length || field || wantFunded || wantFree) {
+      var list = SB.all.filter(function (x) {
+        if (levels.length && !levels.some(function (l) { return (x.levels || []).indexOf(l) !== -1; })) return false;
+        if (loc.regions.length && loc.regions.indexOf(x.region) === -1 && !loc.countries.length) return false;
+        if (loc.countries.length && loc.countries.indexOf(x.country) === -1 && !loc.regions.length) return false;
+        if (loc.regions.length && loc.countries.length && loc.regions.indexOf(x.region) === -1 && loc.countries.indexOf(x.country) === -1) return false;
+        if (field && (x.fieldTags || []).indexOf(field) === -1 && (x.fieldTags || []).indexOf('All fields') === -1) return false;
+        if (wantFunded && x.fundingType !== 'Fully Funded') return false;
+        if (wantFree && !x.isFree) return false;
+        return true;
+      });
+      var parts = [];
+      if (wantFunded) parts.push('fully funded');
+      if (levels.length) parts.push(levels.join('/'));
+      if (field) parts.push(field.toLowerCase());
+      if (loc.countries.length) parts.push('in ' + loc.countries.join('/'));
+      else if (loc.regions.length) parts.push('in ' + loc.regions.join('/'));
+      if (wantFree) parts.push('free to apply');
+      return listCards(list, 'For ' + (parts.join(', ') || 'that') + ' I found');
+    }
+
+    // Fallback
+    return "I can search our database for you. Try naming a scholarship (e.g. \"Is Fulbright free to apply?\"), or describe what you want — for example <em>\"fully funded PhD in Europe\"</em> or <em>\"Masters scholarships in Australia\"</em>. You can also <a href='results.html' style='color:var(--primary);font-weight:600;'>browse everything</a>.";
+  }
+
+  // ---- Chat UI ----
+  function bubble(role, html) {
+    var wrap = document.createElement('div');
+    wrap.className = 'message ' + (role === 'user' ? 'user-message' : 'ai-message') + ' animate-fade-in-up';
+    wrap.innerHTML = (role === 'user' ? '' : '<div class="msg-avatar">🎓</div>') + '<div class="msg-bubble">' + html + '</div>';
+    msgs.appendChild(wrap);
+    // Wire any save hearts inside this bubble.
+    wrap.querySelectorAll('.cc-heart').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (!window.Saved) return;
+        var on = window.Saved.toggle(btn.getAttribute('data-save'));
+        btn.classList.toggle('is-saved', on);
+        btn.textContent = on ? '♥' : '♡';
+      });
+    });
+    msgs.scrollTop = msgs.scrollHeight;
+    return wrap;
+  }
+
+  function send() {
+    var val = input.value.trim();
+    if (!val) return;
+    bubble('user', '<p>' + SB.esc(val) + '</p>');
+    input.value = '';
+    var typing = bubble('ai', '<div class="typing-indicator"><span></span><span></span><span></span></div>');
+    setTimeout(function () {
+      typing.remove();
+      bubble('ai', answer(val));
+    }, 500 + Math.random() * 400);
+  }
+
+  document.getElementById('chat-form').addEventListener('submit', function (e) { e.preventDefault(); send(); });
+  window.askNow = function (text) { input.value = text; send(); };
+  window.fillInput = function (text) { input.value = text.replace(/"/g, ''); input.focus(); };
+})();
+</script>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer mt-16">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="nav-logo">
+          <span class="logo-icon">🎓</span>
+          <span class="logo-text">Abroad<span class="text-gradient">Ready</span></span>
+        </a>
+        <p class="footer-tagline">Helping students find their path abroad. 100% free, forever.</p>
+      </div>
+      <div class="footer-links">
+        <h5>Platform</h5>
+        <a href="../index.html#quiz">Scholarship Quiz</a>
+        <a href="results.html">Browse Scholarships</a>
+        <a href="ai-advisor.html">AI Advisor</a>
+        <a href="sop-builder.html">SOP Builder</a>
+      </div>
+      <div class="footer-links">
+        <h5>Resources</h5>
+        <a href="blog.html">Blog</a>
+        <a href="success.html">Success Stories</a>
+        <a href="sop-builder.html">SOP Samples</a>
+        <a href="blog.html">Interview Tips</a>
+      </div>
+      <div class="footer-links">
+        <h5>Company</h5>
+        <a href="about.html">About Us</a>
+        <a href="partners.html">Partner With Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy.html">Privacy Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 AbroadReady.org — Made with ❤️ for students worldwide</p>
+      <p class="footer-note">Answers are generated from our data. Verify details on official websites.</p>
+    </div>
+  </div>
+</footer>
+<script src="../js/components.js"></script>
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AbroadReady — Find Your Perfect Scholarship in 2 Minutes | Free for Pakistani Students</title>
+  <meta name="description" content="Discover 500+ international scholarships matched to your profile. Free AI-powered matching for Pakistani students. Take a 2-minute quiz and find your path abroad.">
+  <meta name="keywords" content="scholarships for Pakistani students, study abroad Pakistan, Chevening, Fulbright, DAAD, Commonwealth, free scholarship finder">
+  <meta property="og:title" content="AbroadReady — Find Your Perfect Scholarship">
+  <meta property="og:description" content="Free AI-powered scholarship matching for Pakistani students. 500+ scholarships, 48 countries.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://abroadready.org">
+  <link rel="canonical" href="https://abroadready.org">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+<script src="js/saved.js"></script>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="navbar" id="navbar">
+  <div class="container flex items-center justify-between">
+    <a href="index.html" class="nav-logo" id="nav-logo">
+      <span class="logo-icon">🎓</span>
+      <span class="logo-text">Abroad<span class="text-gradient">Ready</span></span>
+    </a>
+    <div class="nav-links hide-mobile" id="nav-links">
+      <a href="#scholarships" class="nav-link">Scholarships</a>
+      <a href="pages/success.html" class="nav-link">Success Stories</a>
+      <a href="pages/blog.html" class="nav-link">Blog</a>
+      <a href="pages/ai-advisor.html" class="nav-link">AI Advisor</a>
+      <a href="pages/partners.html" class="nav-link">For Universities</a>
+    </div>
+    <div class="nav-actions flex items-center gap-4">
+      <div class="streak-counter" id="streak-counter" title="Your daily streak">
+        <span class="streak-icon">🔥</span>
+        <span class="streak-number" id="streak-number">1</span>
+      </div>
+      <a href="#quiz" class="btn btn-primary btn-sm">Find Scholarships</a>
+      <button class="nav-hamburger hide-desktop" id="nav-hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== MOBILE MENU ===== -->
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mobile-menu-inner">
+    <a href="#scholarships" class="mobile-link">Scholarships</a>
+    <a href="pages/success.html" class="mobile-link">Success Stories</a>
+    <a href="pages/blog.html" class="mobile-link">Blog</a>
+    <a href="pages/ai-advisor.html" class="mobile-link">AI Advisor</a>
+    <a href="pages/partners.html" class="mobile-link">For Universities</a>
+    <a href="#quiz" class="btn btn-primary w-full" style="margin-top:1rem;">Take the Quiz →</a>
+  </div>
+</div>
+
+<!-- ===== DEADLINE TICKER ===== -->
+<div class="ticker-bar" id="ticker-bar">
+  <div class="ticker-label">🔴 Live Deadlines</div>
+  <div class="ticker-track" id="ticker-track">
+    <div class="ticker-item"><span class="ticker-dot urgent"></span>Chevening — 12 days left</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Fulbright — 34 days left</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>DAAD — 48 days left</div>
+    <div class="ticker-item"><span class="ticker-dot urgent"></span>Commonwealth — 8 days left</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Erasmus Mundus — 62 days left</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Australia Awards — 90 days left</div>
+    <div class="ticker-item"><span class="ticker-dot urgent"></span>Turkish Govt — 15 days left</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>MEXT Japan — 55 days left</div>
+    <!-- Duplicated for seamless loop -->
+    <div class="ticker-item"><span class="ticker-dot urgent"></span>Chevening — 12 days left</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Fulbright — 34 days left</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>DAAD — 48 days left</div>
+    <div class="ticker-item"><span class="ticker-dot urgent"></span>Commonwealth — 8 days left</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Erasmus Mundus — 62 days left</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>Australia Awards — 90 days left</div>
+    <div class="ticker-item"><span class="ticker-dot urgent"></span>Turkish Govt — 15 days left</div>
+    <div class="ticker-item"><span class="ticker-dot"></span>MEXT Japan — 55 days left</div>
+  </div>
+</div>
+
+<!-- ===== HERO SECTION ===== -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+    <div class="hero-grid"></div>
+  </div>
+
+  <div class="container relative">
+    <div class="hero-content">
+      <div class="hero-badge animate-fade-in-up">
+        <span class="badge-dot"></span>
+        <span>847 Pakistani students placed abroad in 2025</span>
+      </div>
+
+      <h1 class="hero-title animate-fade-in-up delay-1">
+        Your Scholarship<br>
+        <span class="text-gradient">Is Waiting</span>
+      </h1>
+
+      <p class="hero-subtitle animate-fade-in-up delay-2">
+        Take a 2-minute quiz. Get matched with scholarships across 48 countries.<br>
+        <strong>100% free.</strong> No signup required.
+      </p>
+
+      <div class="hero-cta animate-fade-in-up delay-3">
+        <a href="#quiz" class="btn btn-primary btn-lg" id="hero-cta-btn">
+          Find My Scholarships
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <span class="hero-cta-sub">Takes 2 minutes · No signup · Instant results</span>
+      </div>
+
+      <div class="hero-stats animate-fade-in-up delay-4">
+        <div class="hero-stat">
+          <span class="hero-stat-number" data-count="500">0</span><span class="hero-stat-plus">+</span>
+          <span class="hero-stat-label">Scholarships</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-number" data-count="48">0</span>
+          <span class="hero-stat-label">Countries</span>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <span class="hero-stat-number" data-count="42">0</span><span class="hero-stat-plus">M</span>
+          <span class="hero-stat-label">Won by Students</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating cards -->
+    <div class="floating-cards hide-mobile">
+      <div class="float-card float-card-1 animate-float">
+        <div class="float-card-flag">🇬🇧</div>
+        <div class="float-card-name">Chevening</div>
+        <div class="float-card-amount">Full Funding</div>
+      </div>
+      <div class="float-card float-card-2 animate-float" style="animation-delay:0.5s">
+        <div class="float-card-flag">🇺🇸</div>
+        <div class="float-card-name">Fulbright</div>
+        <div class="float-card-amount">$50,000/yr</div>
+      </div>
+      <div class="float-card float-card-3 animate-float" style="animation-delay:1s">
+        <div class="float-card-flag">🇩🇪</div>
+        <div class="float-card-name">DAAD</div>
+        <div class="float-card-amount">€1,200/mo</div>
+      </div>
+      <div class="float-card float-card-4 animate-float" style="animation-delay:1.5s">
+        <div class="float-card-flag">🇦🇺</div>
+        <div class="float-card-name">Australia Awards</div>
+        <div class="float-card-amount">Full Funding</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ===== LIVE SCHOLARSHIP FEED ===== -->
+<section class="live-feed section" id="scholarships">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="badge badge-green">
+        <span class="live-dot"></span> Live Feed
+      </span>
+      <h2>Trending Scholarships</h2>
+      <p class="section-subtitle">Updated every 10 seconds with the latest opportunities</p>
+    </div>
+
+    <div class="feed-grid grid grid-3 gap-6" id="feed-grid">
+      <!-- Cards populated by JS -->
+    </div>
+
+    <div class="text-center" style="margin-top: var(--space-10);">
+      <a href="pages/results.html" class="btn btn-outline">View All 500+ Scholarships →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== QUIZ SECTION ===== -->
+<section class="quiz-section section" id="quiz">
+  <div class="container">
+    <div class="quiz-wrapper">
+      <div class="quiz-header text-center">
+        <span class="badge badge-gold">🎯 AI-Powered Matching</span>
+        <h2>Find Your Perfect Scholarship</h2>
+        <p>Answer 8 quick questions. Get matched instantly.</p>
+        <div class="quiz-timer" id="quiz-timer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span id="timer-display">2:00</span>
+        </div>
+      </div>
+
+      <!-- Quiz Progress -->
+      <div class="quiz-progress">
+        <div class="progress-bar">
+          <div class="progress-fill" id="quiz-progress-fill" style="width:0%"></div>
+        </div>
+        <span class="quiz-step-label" id="quiz-step-label">Question 1 of 8</span>
+      </div>
+
+      <!-- Quiz Container -->
+      <div class="quiz-body" id="quiz-body">
+        <!-- Questions rendered by JS -->
+      </div>
+
+      <!-- Quiz Navigation -->
+      <div class="quiz-nav" id="quiz-nav">
+        <button class="btn btn-ghost" id="quiz-prev" disabled>← Back</button>
+        <button class="btn btn-primary" id="quiz-next">Next →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="how-section section">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="badge badge-blue">Simple Process</span>
+      <h2>How AbroadReady Works</h2>
+      <p class="section-subtitle">From quiz to scholarship in 4 simple steps</p>
+    </div>
+
+    <div class="steps-grid grid grid-4 gap-6">
+      <div class="step-card">
+        <div class="step-number">01</div>
+        <div class="step-icon">📋</div>
+        <h4>Take the Quiz</h4>
+        <p>Answer 8 questions about your education, interests, and goals. Takes just 2 minutes.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">02</div>
+        <div class="step-icon">🤖</div>
+        <h4>AI Matches You</h4>
+        <p>Our AI analyzes 500+ scholarships and ranks them by your compatibility score.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">03</div>
+        <div class="step-icon">🗺️</div>
+        <h4>Follow the Journey Map</h4>
+        <p>Each scholarship has a step-by-step roadmap. No more guessing what to do next.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">04</div>
+        <div class="step-icon">✈️</div>
+        <h4>Go Abroad</h4>
+        <p>Use our SOP builder, AI advisor, and community to submit winning applications.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SOCIAL PROOF ===== -->
+<section class="proof-section section">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="badge badge-gold">⭐ Real Results</span>
+      <h2>Students Who Made It</h2>
+    </div>
+
+    <div class="testimonials-grid grid grid-3 gap-6">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">"I got matched with Chevening on my first try. The journey map showed me exactly what to do. Now studying at Oxford."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background: var(--gradient-gold);">AF</div>
+          <div>
+            <div class="testimonial-name">Ayesha Farooq</div>
+            <div class="testimonial-meta">Chevening Scholar · Oxford 2025</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">"The SOP builder changed everything. My essay scored 92/100 and I got accepted to 3 programs. This platform is a game-changer."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background: var(--gradient-forest);">UK</div>
+          <div>
+            <div class="testimonial-name">Usman Khan</div>
+            <div class="testimonial-meta">DAAD Scholar · TU Munich 2025</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">"I tried for Fulbright twice and failed. AbroadReady's gap analyzer showed me what I was missing. Third time was the charm!"</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background: var(--gradient-accent);">SM</div>
+          <div>
+            <div class="testimonial-name">Sara Malik</div>
+            <div class="testimonial-meta">Fulbright Scholar · Columbia 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center" style="margin-top: var(--space-8);">
+      <a href="pages/success.html" class="btn btn-outline">Read 847 Success Stories →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AI TOOLS PREVIEW ===== -->
+<section class="tools-section section">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="badge badge-blue">🤖 AI-Powered</span>
+      <h2>Your Personal Scholarship Team</h2>
+      <p class="section-subtitle">Everything you need to go from "I want to study abroad" to "I got accepted"</p>
+    </div>
+
+    <div class="tools-grid grid grid-3 gap-6">
+      <a href="pages/ai-advisor.html" class="tool-card">
+        <div class="tool-icon">💬</div>
+        <h4>AI Advisor</h4>
+        <p>Ask any scholarship question. Get expert answers instantly. Available 24/7.</p>
+        <span class="tool-link">Try it free →</span>
+      </a>
+      <a href="pages/sop-builder.html" class="tool-card">
+        <div class="tool-icon">✍️</div>
+        <h4>SOP Builder</h4>
+        <p>AI writes your Statement of Purpose. Score your essays. Get improvement tips.</p>
+        <span class="tool-link">Start writing →</span>
+      </a>
+      <a href="pages/scholarship.html" class="tool-card">
+        <div class="tool-icon">🗺️</div>
+        <h4>Journey Maps</h4>
+        <p>Step-by-step application guides with checklists, insider tips, and deadlines.</p>
+        <span class="tool-link">Explore maps →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NEWSLETTER ===== -->
+<section class="newsletter-section section">
+  <div class="container-sm mx-auto">
+    <div class="newsletter-card">
+      <div class="newsletter-content text-center">
+        <span class="badge badge-gold">📬 Weekly Digest</span>
+        <h3>Never Miss a Deadline</h3>
+        <p>Get the top 5 scholarships, tips from scholars, and deadline reminders every Monday.</p>
+        <form class="newsletter-form" id="newsletter-form">
+          <div class="newsletter-input-group">
+            <input type="email" class="form-input" placeholder="your@email.com" required id="newsletter-email">
+            <button type="submit" class="btn btn-primary">Subscribe Free</button>
+          </div>
+          <span class="newsletter-meta">Join 12,000+ subscribers · No spam ever</span>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">
+          <span class="logo-icon">🎓</span>
+          <span class="logo-text">Abroad<span class="text-gradient">Ready</span></span>
+        </a>
+        <p class="footer-tagline">Helping Pakistani students find their path abroad. 100% free, forever.</p>
+        <div class="footer-social flex gap-3">
+          <a href="#" class="social-link" aria-label="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="#" class="social-link" aria-label="Twitter">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#" class="social-link" aria-label="LinkedIn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="#" class="social-link" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <h5>Platform</h5>
+        <a href="#quiz">Scholarship Quiz</a>
+        <a href="pages/results.html">Browse Scholarships</a>
+        <a href="pages/ai-advisor.html">AI Advisor</a>
+        <a href="pages/sop-builder.html">SOP Builder</a>
+        <a href="pages/scholarship.html">Journey Maps</a>
+      </div>
+      <div class="footer-links">
+        <h5>Resources</h5>
+        <a href="pages/blog.html">Blog</a>
+        <a href="pages/success.html">Success Stories</a>
+        <a href="pages/blog.html">IELTS Prep Guide</a>
+        <a href="pages/sop-builder.html">SOP Samples</a>
+        <a href="pages/blog.html">Interview Tips</a>
+      </div>
+      <div class="footer-links">
+        <h5>Company</h5>
+        <a href="pages/about.html">About Us</a>
+        <a href="pages/partners.html">Partner With Us</a>
+        <a href="pages/contact.html">Contact</a>
+        <a href="pages/privacy.html">Privacy Policy</a>
+        <a href="pages/terms.html">Terms of Service</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 AbroadReady.org — Made with ❤️ for Pakistani students</p>
+      <p class="footer-note">Free forever. No hidden fees. No data selling.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== CONFETTI CANVAS ===== -->
+<canvas id="confetti-canvas"></canvas>
+
+<script src="js/scholarships-data.js"></script>
+<script src="js/scholarships.js"></script>
+<script src="js/landing.js"></script>
+<script src="js/components.js"></script>
+</body>
+</html>
