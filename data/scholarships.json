@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-07-23T10:01:23.144Z",
+    "generatedAt": "2026-07-24T07:34:13Z",
     "count": 48,
     "countryCount": 24,
     "regions": [
@@ -2811,71 +2811,6 @@
       "isFree": true
     },
     {
-      "id": "turkiye-burslari-ugrad",
-      "name": "Türkiye Burslari (Turkish Government Scholarship)",
-      "provider": "Republic of Turkey / Türkiye Scholarships",
-      "country": "Turkiye",
-      "countryFlag": "🇹🇷",
-      "region": "Europe",
-      "hostUniversities": "Turkish state universities (Istanbul University, METU, Bilkent, Boğaziçi, Sabancı, etc.)",
-      "levels": [
-        "Bachelors",
-        "Masters",
-        "PhD"
-      ],
-      "fields": [
-        "All fields"
-      ],
-      "fundingType": "Fully Funded",
-      "fundingSummary": "Full tuition, monthly stipend ($700-$950), round-trip airfare, accommodation, health insurance, and 1 year Turkish language training for all degree levels.",
-      "benefits": [
-        "Full tuition fee waiver",
-        "Monthly stipend: Bachelors $700, Masters $850, PhD $1,200",
-        "Round-trip economy airfare",
-        "Free accommodation (dormitory)",
-        "Health insurance",
-        "1 year Turkish language training",
-        "Settlement allowance"
-      ],
-      "eligibility": [
-        "Non-Turkish citizen",
-        "Not already studying in Turkey",
-        "Under 21 for Bachelors, under 30 for Masters, under 35 for PhD",
-        "Minimum GPA 75% (for Bachelors 75%, Masters/PhD 80%)",
-        "Healthy enough to study",
-        "Not previously received a Türkiye Burslari scholarship"
-      ],
-      "documentsRequired": [
-        "Online application form",
-        "Academic transcripts and degree certificates",
-        "Passport copy",
-        "Photo (biometric)",
-        "English/Turkish proficiency certificate",
-        "Recommendation letters (Masters/PhD)",
-        "Statement of purpose",
-        "Medical report"
-      ],
-      "applicationFee": "Free",
-      "deadlineMonth": "February",
-      "deadlineNote": "Applications open in January and close in February 20. Results announced in July-August.",
-      "intake": "September-October",
-      "competition": "Very High",
-      "durationNote": "Bachelors 4 years; Masters 2 years; PhD 3-4 years (plus 1 year Turkish language)",
-      "thingsToHaveBeforeApply": [
-        "Strong academic record",
-        "Passport",
-        "English or Turkish proficiency",
-        "Statement of purpose"
-      ],
-      "applyLink": "https://www.turkiyeburslari.gov.tr/en",
-      "infoLink": "https://www.turkiyeburslari.gov.tr/en",
-      "deadlineMonthNum": 2,
-      "fieldTags": [
-        "All fields"
-      ],
-      "isFree": true
-    },
-    {
       "id": "turkiye-burslari",
       "name": "Turkiye Burslari (Turkiye Scholarships)",
       "provider": "Presidency for Turks Abroad and Related Communities (YTB), Republic of Turkiye",
@@ -2934,6 +2869,71 @@
       ],
       "applyLink": "https://tbbs.turkiyeburslari.gov.tr",
       "infoLink": "https://www.turkiyeburslari.gov.tr/scholarshipsprograms",
+      "deadlineMonthNum": 2,
+      "fieldTags": [
+        "All fields"
+      ],
+      "isFree": true
+    },
+    {
+      "id": "turkiye-burslari-ugrad",
+      "name": "Türkiye Burslari (Turkish Government Scholarship)",
+      "provider": "Republic of Turkey / Türkiye Scholarships",
+      "country": "Turkiye",
+      "countryFlag": "🇹🇷",
+      "region": "Europe",
+      "hostUniversities": "Turkish state universities (Istanbul University, METU, Bilkent, Boğaziçi, Sabancı, etc.)",
+      "levels": [
+        "Bachelors",
+        "Masters",
+        "PhD"
+      ],
+      "fields": [
+        "All fields"
+      ],
+      "fundingType": "Fully Funded",
+      "fundingSummary": "Full tuition, monthly stipend ($700-$950), round-trip airfare, accommodation, health insurance, and 1 year Turkish language training for all degree levels.",
+      "benefits": [
+        "Full tuition fee waiver",
+        "Monthly stipend: Bachelors $700, Masters $850, PhD $1,200",
+        "Round-trip economy airfare",
+        "Free accommodation (dormitory)",
+        "Health insurance",
+        "1 year Turkish language training",
+        "Settlement allowance"
+      ],
+      "eligibility": [
+        "Non-Turkish citizen",
+        "Not already studying in Turkey",
+        "Under 21 for Bachelors, under 30 for Masters, under 35 for PhD",
+        "Minimum GPA 75% (for Bachelors 75%, Masters/PhD 80%)",
+        "Healthy enough to study",
+        "Not previously received a Türkiye Burslari scholarship"
+      ],
+      "documentsRequired": [
+        "Online application form",
+        "Academic transcripts and degree certificates",
+        "Passport copy",
+        "Photo (biometric)",
+        "English/Turkish proficiency certificate",
+        "Recommendation letters (Masters/PhD)",
+        "Statement of purpose",
+        "Medical report"
+      ],
+      "applicationFee": "Free",
+      "deadlineMonth": "February",
+      "deadlineNote": "Applications open in January and close in February 20. Results announced in July-August.",
+      "intake": "September-October",
+      "competition": "Very High",
+      "durationNote": "Bachelors 4 years; Masters 2 years; PhD 3-4 years (plus 1 year Turkish language)",
+      "thingsToHaveBeforeApply": [
+        "Strong academic record",
+        "Passport",
+        "English or Turkish proficiency",
+        "Statement of purpose"
+      ],
+      "applyLink": "https://www.turkiyeburslari.gov.tr/en",
+      "infoLink": "https://www.turkiyeburslari.gov.tr/en",
       "deadlineMonthNum": 2,
       "fieldTags": [
         "All fields"
