@@ -83,6 +83,7 @@
       '<div class="container site-footer-bottom">' +
         '<p>© <span class="site-footer-year"></span> AbroadReady.org — a free scholarship board.</p>' +
         '<p class="site-footer-note">Always confirm deadlines and details on the official scholarship website before applying.</p>' +
+        '<p class="site-footer-note" style="margin-top:6px;opacity:0.6;">Last updated: 24 July 2026</p>' +
       '</div>' +
     '</footer>';
   }
