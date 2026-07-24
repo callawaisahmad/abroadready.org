@@ -81,7 +81,7 @@
         ]) +
       '</div>' +
       '<div class="container site-footer-bottom">' +
-        '<p>© 2026 AbroadReady.org — a free scholarship board.</p>' +
+        '<p>© <span class="site-footer-year"></span> AbroadReady.org — a free scholarship board.</p>' +
         '<p class="site-footer-note">Always confirm deadlines and details on the official scholarship website before applying.</p>' +
       '</div>' +
     '</footer>';
@@ -92,7 +92,7 @@
       links.map(function (l) { return '<a href="' + l[1] + '">' + l[0] + "</a>"; }).join("") + "</div>";
   }
   function socialIcon(label, path) {
-    return '<a href="#" class="site-social-link" aria-label="' + label + '" title="' + label + ' (add your link)"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="' + path + '"/></svg></a>';
+    return '<span class="site-social-link" aria-label="' + label + '" title="' + label + '"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="' + path + '"/></svg></span>';
   }
 
   // ---------- MOUNT ----------
@@ -124,6 +124,10 @@
     } else {
       while (footerWrap.firstChild) document.body.appendChild(footerWrap.firstChild);
     }
+
+    // Footer year
+    var yearEl = document.querySelector(".site-footer-year");
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
 
     wire();
   }

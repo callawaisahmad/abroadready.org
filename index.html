@@ -10,7 +10,26 @@
   <meta property="og:description" content="Free AI-powered scholarship matching for Pakistani students. 500+ scholarships, 48 countries.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://abroadready.org">
+  <meta property="og:site_name" content="AbroadReady">
   <link rel="canonical" href="https://abroadready.org">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "AbroadReady",
+    "url": "https://abroadready.org",
+    "description": "Free AI-powered scholarship finder for Pakistani students",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://abroadready.org/pages/results.html?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "AbroadReady"
+    }
+  }
+  </script>
   <link rel="stylesheet" href="css/design-system.css">
   <link rel="stylesheet" href="css/landing.css">
 </head>
@@ -409,7 +428,7 @@
     </div>
 
     <div class="footer-bottom">
-      <p>© 2025 AbroadReady.org — Made with ❤️ For Students</p>
+      <p>© <span id="footerYear"></span> AbroadReady.org — Made with ❤️ For Students</p>
       <p class="footer-note">Free forever. No hidden fees. No data selling.</p>
     </div>
   </div>
@@ -422,5 +441,6 @@
 <script src="js/scholarships.js"></script>
 <script src="js/landing.js"></script>
 <script src="js/components.js"></script>
+<script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
 </body>
 </html>
