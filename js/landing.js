@@ -506,7 +506,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: email, page: window.location.pathname })
+                body: JSON.stringify({ type: 'newsletter', email: email, page: window.location.pathname })
             }).then(() => {
                 btn.innerText = 'Subscribed! 🎉';
                 btn.classList.replace('btn-primary', 'btn-accent');
