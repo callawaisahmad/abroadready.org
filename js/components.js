@@ -9,7 +9,7 @@
 
   var inPages = location.pathname.indexOf("/pages/") !== -1;
   var P = inPages ? "" : "pages/";                 // prefix for page files
-  var HOME = inPages ? "../index.html" : "index.html";
+  var HOME = inPages ? "../" : "/";
 
   var NAV = [
     { label: "Scholarships", href: P + "results.html", match: "results.html" },
