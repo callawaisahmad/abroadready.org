@@ -121,8 +121,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 id: s.id,
                 flag: s.country,
                 title: s.name,
+                provider: s.provider || '',
+                country: s.country,
+                fundingType: s.fundingType || '',
+                levels: (s.levels || []).join(', '),
                 tags: [s.fundingType, (s.levels || []).join('/'), s.country],
                 deadline: d.hasDate ? (d.daysLeft + ' days left') : 'Rolling',
+                deadlineDate: d.hasDate ? d.label : '',
                 daysLeft: d.hasDate ? d.daysLeft : 99999,
                 status: d.status
             };
@@ -162,8 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial Render
     renderFeed();
 
-    // Gently rotate which 6 are shown (keeps the "live feed" feel, real data).
-    if (feedGrid && feedItems.length > 6) {
+    // Gently rotate which 9 are shown (keeps the "live feed" feel, real data).
+    if (feedGrid && feedItems.length > 9) {
         let offset = 0;
         setInterval(() => {
             offset = (offset + 3) % feedItems.length;
@@ -177,21 +182,35 @@ document.addEventListener('DOMContentLoaded', () => {
         offset = offset || 0;
         feedGrid.innerHTML = '';
         const rotated = feedItems.slice(offset).concat(feedItems.slice(0, offset));
-        rotated.slice(0, 6).forEach(scholarship => {
+        rotated.slice(0, 9).forEach(scholarship => {
             const card = document.createElement('div');
             card.className = 'scholarship-card animate-fade-in-up';
             const tagsHTML = scholarship.tags.filter(Boolean).map(tag => `<span class="sc-tag">${tag}</span>`).join('');
             const href = scholarship.id ? `pages/scholarship.html?id=${encodeURIComponent(scholarship.id)}` : 'pages/results.html';
+            const urgentClass = scholarship.status === 'closing' ? ' sc-urgent' : '';
+            const statusLabel = scholarship.status === 'closing' ? '🔥 Closing soon' : '🎓 Open';
+            const deadlineLine = scholarship.deadlineDate
+                ? `<span class="sc-deadline-date">🗓️ ${scholarship.deadlineDate}</span>`
+                : '';
             card.innerHTML = `
                 <div class="sc-header">
                     <span class="sc-flag">${window.SB && SB.flagImg ? SB.flagImg(scholarship.flag, 32) : scholarship.flag}</span>
-                    <span class="sc-match">${scholarship.status === 'closing' ? '🔥 Closing soon' : '🎓 Open'}</span>
+                    <span class="sc-match${urgentClass}">${statusLabel}</span>
                 </div>
                 <h3 class="sc-title">${scholarship.title}</h3>
+                <p class="sc-provider">${scholarship.provider}</p>
+                <div class="sc-details">
+                    <span class="sc-detail">📍 ${scholarship.country}</span>
+                    <span class="sc-detail">🎓 ${scholarship.levels}</span>
+                    <span class="sc-detail">💰 ${scholarship.fundingType}</span>
+                </div>
                 <div class="sc-tags">${tagsHTML}</div>
+                <div class="sc-deadline-row">
+                    <span class="sc-days-left${urgentClass}">⏳ ${scholarship.deadline}</span>
+                    ${deadlineLine}
+                </div>
                 <div class="sc-footer">
-                    <a href="${href}" class="btn btn-ghost btn-sm" style="padding:0; color:var(--primary);">View Details →</a>
-                    <span class="sc-deadline">⏳ ${scholarship.deadline}</span>
+                    <a href="${href}" class="btn btn-primary btn-sm w-full">View Details →</a>
                 </div>
             `;
             feedGrid.appendChild(card);
