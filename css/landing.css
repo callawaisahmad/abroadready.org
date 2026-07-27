@@ -186,6 +186,11 @@
 
 .ticker-bar:hover .ticker-track { animation-play-state: paused; }
 
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 .ticker-item {
   display: flex;
   align-items: center;
