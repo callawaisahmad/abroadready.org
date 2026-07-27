@@ -487,28 +487,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ---- Newsletter Form ---- */
+    const NEWSLETTER_URL = 'https://script.google.com/macros/s/AKfycbwbdLx7pwD8CaewLyhrXlKcEP-D5z7k2A9ITQmAgga-sxc6E6K6w62NlJ6q8O0rI9_l/exec';
     const newsletterForm = document.getElementById('newsletter-form');
     if(newsletterForm) {
         newsletterForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const btn = newsletterForm.querySelector('button');
+            const input = newsletterForm.querySelector('input');
             const originalText = btn.innerText;
+            const email = input.value.trim();
+            
+            if (!email) return;
             
             btn.innerText = 'Subscribing...';
             btn.disabled = true;
             
-            // Simulate API call
-            setTimeout(() => {
+            fetch(NEWSLETTER_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email, page: window.location.pathname })
+            }).then(() => {
                 btn.innerText = 'Subscribed! 🎉';
                 btn.classList.replace('btn-primary', 'btn-accent');
-                newsletterForm.querySelector('input').value = '';
-                
+                input.value = '';
+            }).catch(() => {
+                btn.innerText = 'Try again';
+            }).finally(() => {
                 setTimeout(() => {
                     btn.innerText = originalText;
                     btn.classList.replace('btn-accent', 'btn-primary');
                     btn.disabled = false;
                 }, 3000);
-            }, 1000);
+            });
         });
     }
 });
