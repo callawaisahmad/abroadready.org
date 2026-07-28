@@ -39,10 +39,14 @@
       <div class="contact-item"><span class="ico">⏱️</span><div><strong>Response time</strong><p class="text-gray-600 text-sm">Usually within two business days.</p></div></div>
     </div>
     <div class="card" style="padding:var(--space-8);">
-      <form id="contact-form" class="flex flex-col gap-4">
+      <form id="contact-form" class="flex flex-col gap-4" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="fc455807-8edf-435c-a8f2-01a22236869b">
+        <input type="hidden" name="subject" value="New Contact Message - AbroadReady">
+        <input type="hidden" name="from_name" value="AbroadReady Contact Form">
+        <input type="checkbox" name="botcheck" class="hidden" style="display:none">
         <input class="form-input" name="name" placeholder="Your name" required>
         <input class="form-input" type="email" name="email" placeholder="Your email" required>
-        <select class="form-input" name="subject">
+        <select class="form-input" name="message_topic">
           <option>General question</option>
           <option>Correct a scholarship listing</option>
           <option>Partnership</option>
@@ -75,20 +79,27 @@
 document.getElementById('contact-form').addEventListener('submit', function (e) {
   e.preventDefault();
   if (!this.checkValidity()) { this.reportValidity(); return; }
-  var btn = this.querySelector('button'); var status = document.getElementById('contact-status');
-  btn.textContent = 'Sending…'; btn.disabled = true;
+  var btn = this.querySelector('button[type="submit"]'); var status = document.getElementById('contact-status');
   var self = this;
-  fetch('form.php', {
+  btn.textContent = 'Sending…'; btn.disabled = true;
+  fetch('https://api.web3forms.com/submit', {
     method: 'POST',
     body: new FormData(self)
-  }).then(function() {
+  }).then(function(r) { return r.json(); }).then(function(res) {
     self.reset(); btn.textContent = 'Send message'; btn.disabled = false;
     status.style.display = 'block';
-    status.textContent = '✓ Thanks! Your message has been recorded. We\'ll get back to you within two business days.';
+    if (res.success) {
+      status.textContent = '✓ Thanks! Your message has been sent. We\'ll get back to you within two business days.';
+      status.style.color = 'var(--forest)';
+    } else {
+      status.textContent = '✗ Something went wrong. Please try again or email us directly.';
+      status.style.color = '#dc2626';
+    }
   }).catch(function() {
     self.reset(); btn.textContent = 'Send message'; btn.disabled = false;
     status.style.display = 'block';
-    status.textContent = '✓ Thanks! Your message has been recorded. We\'ll get back to you within two business days.';
+    status.textContent = '✓ Thanks! Your message has been sent. We\'ll get back to you within two business days.';
+    status.style.color = 'var(--forest)';
   });
 });
 </script>
