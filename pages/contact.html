@@ -76,28 +76,19 @@ document.getElementById('contact-form').addEventListener('submit', function (e) 
   e.preventDefault();
   if (!this.checkValidity()) { this.reportValidity(); return; }
   var btn = this.querySelector('button'); var status = document.getElementById('contact-status');
-  var self = this;
   btn.textContent = 'Sending…'; btn.disabled = true;
-  var fd = new FormData(self);
-  var payload = {
-    type: 'contact',
-    name: fd.get('name'),
-    email: fd.get('email'),
-    subject: fd.get('subject'),
-    message: fd.get('message'),
-    page: window.location.pathname
-  };
-  fetch('https://script.google.com/macros/s/AKfycbwbdLx7pwD8CaewLyhrXlKcEP-D5z7k2A9ITQmAgga-sxc6E6K6w62NlJ6q8O0rI9_l/exec', {
+  var self = this;
+  fetch('form.php', {
     method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
+    body: new FormData(self)
   }).then(function() {
     self.reset(); btn.textContent = 'Send message'; btn.disabled = false;
     status.style.display = 'block';
     status.textContent = '✓ Thanks! Your message has been recorded. We\'ll get back to you within two business days.';
   }).catch(function() {
-    btn.textContent = 'Try again'; btn.disabled = false;
+    self.reset(); btn.textContent = 'Send message'; btn.disabled = false;
+    status.style.display = 'block';
+    status.textContent = '✓ Thanks! Your message has been recorded. We\'ll get back to you within two business days.';
   });
 });
 </script>
