@@ -143,13 +143,13 @@
           var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
           var pad = function(n) { return n < 10 ? "0" + n : n; };
           var formatted = d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear() + ", " +
-            pad(d.getHours()) + ":" + pad(d.getMinutes()) + " PKT";
-          el.textContent = "Build #" + v.build + " \u00b7 Last updated: " + formatted;
+            pad(d.getUTCHours()) + ":" + pad(d.getUTCMinutes());
+          el.textContent = "Build #" + v.build + " \u00b7 Last updated: " + formatted + " UTC";
         }
       })
       .catch(function() {
         var el = document.getElementById("site-footer-version");
-        if (el) el.textContent = "Last updated: 27 July 2026, 5:36 PM PKT";
+        if (el) el.textContent = "Last updated: 30 July 2026";
       });
 
     wire();

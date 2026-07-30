@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us | AbroadReady — Free Scholarship Help for Pakistani Students</title>
-  <meta name="description" content="Get in touch with AbroadReady. Have questions about scholarships, study abroad, or want to partner with us? We're here to help Pakistani students find funding.">
-  <meta name="keywords" content="contact abroadready, scholarship help, study abroad questions, Pakistani students, scholarship support">
+  <title>Contact Us | AbroadReady — Free Scholarship Help</title>
+  <meta name="description" content="Get in touch with AbroadReady. Have questions about scholarships, study abroad, or want to partner with us? We're here to help students find funding.">
+  <meta name="keywords" content="contact abroadready, scholarship help, study abroad questions, scholarship support">
   <link rel="canonical" href="https://abroadready.org/pages/contact.html">
   <meta property="og:title" content="Contact AbroadReady — Free Scholarship Help">
-  <meta property="og:description" content="Get in touch with AbroadReady. We help Pakistani students find fully funded international scholarships.">
+  <meta property="og:description" content="Get in touch with AbroadReady. We help students find fully funded international scholarships.">
   <meta property="og:url" content="https://abroadready.org/pages/contact.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="AbroadReady">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Contact AbroadReady">
-  <meta name="twitter:description" content="Get in touch — we help Pakistani students find fully funded scholarships abroad.">
+  <meta name="twitter:description" content="Get in touch — we help students find fully funded scholarships abroad.">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -217,8 +217,8 @@ var COUNTRIES = [
     opt.value = c.d;
     opt.textContent = c.d + ' ' + c.n;
     opt.setAttribute('data-regex', c.r.source);
-    if(c.c==='PK') opt.selected = true;
     sel.appendChild(opt);
+    if(c.c==='US') opt.selected = true;
   });
 
   sel.addEventListener('change', function(){
@@ -258,7 +258,7 @@ document.getElementById('contact-form').addEventListener('submit', function (e) 
     body: fd
   }).then(function(r){return r.json();}).then(function(res){
     self.reset(); btn.textContent='Send message'; btn.disabled=false;
-    document.getElementById('phone-code').selectedIndex = 48;
+    document.getElementById('phone-code').selectedIndex = 0;
     status.style.display='block';
     if(res.success){
       status.textContent='✓ Thanks! Your message has been sent. We\'ll get back to you within two business days.';
