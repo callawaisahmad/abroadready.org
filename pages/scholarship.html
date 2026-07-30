@@ -127,7 +127,9 @@ document.addEventListener('DOMContentLoaded', function () {
     return '<span class="pill pill-blue">' + esc(l) + '</span>';
   }).join('');
 
-  var daysBanner = d.status === 'closed'
+  var daysBanner = d.status === 'closed' && d.opens && d.closes
+    ? '<div class="deadline-banner" style="background:rgba(107,114,128,0.1);border-color:#d1d5db;">🔒 Closed · Next window: ' + esc(SB.monthNames[d.opens.getMonth()]) + ' → ' + esc(SB.monthNames[d.closes.getMonth()]) + ' ' + d.closes.getFullYear() + '</div>'
+    : d.status === 'closed'
     ? '<div class="deadline-banner" style="background:rgba(107,114,128,0.1);border-color:#d1d5db;">🔒 Applications are currently closed. ' + esc(d.label || '') + '</div>'
     : d.status === 'upcoming'
       ? '<div class="deadline-banner" style="background:rgba(245,158,11,0.1);border-color:#f59e0b;">📅 Applications open ' + esc((d.opens ? SB.monthNames[d.opens.getMonth()] + ' ' + d.opens.getFullYear() : d.label || '')) + '</div>'

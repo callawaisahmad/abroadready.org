@@ -300,7 +300,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var levelTags = (s.levels || []).map(function (l) { return '<span class="lvl-tag">' + SB.esc(l) + '</span>'; }).join('');
     var M = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     var daysLine;
-    if (d.status === 'closed') {
+    if (d.status === 'closed' && d.opens && d.closes) {
+      var _oy = d.opens.getFullYear(), _cy = d.closes.getFullYear();
+      daysLine = '🔒 Closed · Reopens: ' + M[d.opens.getMonth()] + ' ' + _oy + ' | Closes: ' + M[d.closes.getMonth()] + ' ' + _cy;
+    } else if (d.status === 'closed') {
       daysLine = '🔒 ' + SB.esc(d.label);
     } else if (d.hasDate && d.opens && d.closes) {
       var oy = d.opens.getFullYear(), cy = d.closes.getFullYear();

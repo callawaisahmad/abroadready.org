@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 windowText: w
             };
         }).filter(function (item) {
-            return item.status !== 'closed' && item.status !== 'upcoming';
+            return item.status !== 'closed';
         }).sort((a, b) => a.daysLeft - b.daysLeft);
 
         // Update the "View all" button + hero counts to real numbers.
