@@ -132,9 +132,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 fundingType: s.fundingType || '',
                 levels: (s.levels || []).join(', '),
                 tags: [s.fundingType, (s.levels || []).join('/'), s.country],
-                deadline: d.hasDate ? (d.daysLeft + ' days left') : 'Rolling',
+                deadline: d.hasDate && d.daysLeft != null ? (d.daysLeft + ' days left') : (d.hasDate ? d.label : 'Rolling'),
                 deadlineDate: d.hasDate ? d.label : '',
-                daysLeft: d.hasDate ? d.daysLeft : 99999,
+                daysLeft: d.daysLeft != null ? d.daysLeft : 99999,
                 status: d.status,
                 windowText: w
             };
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const tagsHTML = scholarship.tags.filter(Boolean).map(tag => `<span class="sc-tag">${tag}</span>`).join('');
             const href = scholarship.id ? `pages/scholarship.html?id=${encodeURIComponent(scholarship.id)}` : 'pages/results.html';
             const urgentClass = scholarship.status === 'closing' ? ' sc-urgent' : '';
-            const statusLabel = scholarship.status === 'closing' ? '🔥 Closing soon' : '🎓 Open';
+            const statusLabel = scholarship.status === 'closing' ? '🔥 Closing soon' : scholarship.status === 'upcoming' ? '📅 Opening soon' : '🎓 Open';
             const windowLine = scholarship.windowText
                 ? `<span class="sc-window">📅 ${scholarship.windowText}</span>`
                 : '';
