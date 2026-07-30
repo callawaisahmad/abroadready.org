@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
             var w = '';
             if (d.opens && d.closes) {
                 var oy = d.opens.getFullYear(), cy = d.closes.getFullYear();
-                w = (oy !== cy ? m[d.opens.getMonth()] + ' ' + oy : m[d.opens.getMonth()]) + ' → ' + m[d.closes.getMonth()] + ' ' + cy;
+                w = 'Open: ' + (oy !== cy ? m[d.opens.getMonth()] + ' ' + oy : m[d.opens.getMonth()]) + ' | Close: ' + m[d.closes.getMonth()] + ' ' + cy;
             }
             return {
                 id: s.id,
@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? `<span class="sc-window">📅 ${scholarship.windowText}</span>`
                 : '';
             const deadlineLine = !scholarship.windowText && scholarship.deadlineDate
-                ? `<span class="sc-deadline-date">🗓️ ${scholarship.deadlineDate}</span>`
+                ? `<span class="sc-deadline-date">🗓️ Close: ${scholarship.deadlineDate}</span>`
                 : '';
             card.innerHTML = `
                 <div class="sc-header">

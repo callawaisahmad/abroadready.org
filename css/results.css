@@ -103,8 +103,10 @@ body {
 
 /* Sidebar Filters */
 .sticky {
-  position: relative;
+  position: sticky;
   top: 100px;
+  max-height: calc(100vh - 130px);
+  overflow-y: auto;
 }
 
 .filter-card {
@@ -477,7 +479,7 @@ body {
 /* Independently scrollable filter sidebar (desktop) */
 @media (min-width: 1025px) {
   .filters-sidebar .filter-card.sticky {
-    position: relative;
+    position: sticky;
     top: 88px;
     max-height: calc(100vh - 108px);
     overflow-y: auto;

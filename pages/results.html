@@ -305,10 +305,10 @@ document.addEventListener('DOMContentLoaded', function () {
     } else if (d.hasDate && d.opens && d.closes) {
       var oy = d.opens.getFullYear(), cy = d.closes.getFullYear();
       var oStr = M[d.opens.getMonth()] + (oy !== cy ? ' ' + oy : '');
-      daysLine = '📅 ' + oStr + ' → ' + M[d.closes.getMonth()] + ' ' + cy
+      daysLine = '📅 Open: ' + oStr + ' | Close: ' + M[d.closes.getMonth()] + ' ' + cy
         + (d.daysLeft != null ? ' · <strong>' + d.daysLeft + ' days left</strong>' : '');
     } else if (d.hasDate) {
-      daysLine = '🗓️ ' + (d.daysLeft != null ? '<strong>' + d.daysLeft + ' days left</strong> · ' : '') + SB.esc(d.label);
+      daysLine = '🗓️ Close: ' + SB.esc(d.label) + (d.daysLeft != null ? ' · <strong>' + d.daysLeft + ' days left</strong>' : '');
     } else {
       daysLine = 'Deadline varies — check official site';
     }
