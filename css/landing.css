@@ -149,7 +149,7 @@
 /* ---- Ticker Bar ---- */
 .ticker-bar {
   background: var(--ink);
-  color: #e2e8f0;
+  color: #ffffff;
   padding: 10px 0;
   overflow: hidden;
   position: relative;
@@ -200,7 +200,7 @@
   font-weight: 600;
   font-size: var(--text-sm);
   white-space: nowrap;
-  color: #e2e8f0;
+  color: #ffffff;
   border-right: 1px solid rgba(255,255,255,0.12);
 }
 
@@ -1244,7 +1244,7 @@
 .newsletter-content {
   position: relative;
   z-index: 1;
-  color: #e2e8f0;
+  color: #ffffff;
 }
 
 .newsletter-content .badge { margin-bottom: var(--space-3); }
@@ -1256,7 +1256,7 @@
 }
 
 .newsletter-content p {
-  color: #cbd5e1;
+  color: #e2e8f0;
   margin-bottom: var(--space-8);
   font-size: var(--text-lg);
 }

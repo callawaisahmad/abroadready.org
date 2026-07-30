@@ -180,7 +180,7 @@ body {
   font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: 1.6;
-  color: #334155; /* Softer text color */
+  color: #000000;
   background: var(--paper);
   overflow-x: hidden;
 }
@@ -511,15 +511,15 @@ h4 { font-size: var(--text-2xl); }
 .site-footer { background: var(--ink); color: #cbd5e1; margin-top: var(--space-24); padding: var(--space-16) 0 var(--space-8); }
 .site-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: var(--space-8); }
 .site-footer .site-logo { color: white; }
-.site-footer-tag { color: #94a3b8; font-size: var(--text-sm); margin: var(--space-4) 0 var(--space-5); max-width: 320px; line-height: 1.6; }
+.site-footer-tag { color: #cbd5e1; font-size: var(--text-sm); margin: var(--space-4) 0 var(--space-5); max-width: 320px; line-height: 1.6; }
 .site-social { display: flex; gap: var(--space-3); }
 .site-social-link { width: 38px; height: 38px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.08); color: #cbd5e1; transition: var(--transition-fast); }
 .site-social-link:hover { background: var(--primary); color: white; transform: translateY(-2px); }
 .site-footer-col h5 { color: white; font-size: var(--text-sm); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: var(--space-4); }
-.site-footer-col a { display: block; color: #94a3b8; font-size: var(--text-sm); text-decoration: none; padding: 5px 0; transition: var(--transition-fast); }
+.site-footer-col a { display: block; color: #cbd5e1; font-size: var(--text-sm); text-decoration: none; padding: 5px 0; transition: var(--transition-fast); }
 .site-footer-col a:hover { color: white; padding-left: 4px; }
 .site-footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-12); padding-top: var(--space-6); border-top: 1px solid rgba(255,255,255,0.08); }
-.site-footer-bottom p { color: #64748b; font-size: var(--text-xs); margin: 0; }
+.site-footer-bottom p { color: #cbd5e1; font-size: var(--text-xs); margin: 0; }
 
 @media (max-width: 900px) {
   .site-footer-grid { grid-template-columns: 1fr 1fr; gap: var(--space-6); }

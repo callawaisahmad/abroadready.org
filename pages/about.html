@@ -3,24 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About AbroadReady — Free Scholarship Platform for Pakistani Students</title>
-  <meta name="description" content="AbroadReady is a free scholarship platform helping Pakistani students find fully funded international scholarships. Our mission: make study abroad funding accessible to every talented student.">
-  <meta name="keywords" content="about abroadready, free scholarship platform, scholarships for Pakistani students, study abroad help, scholarship finder">
+  <title>About AbroadReady — Fully Funded Scholarships & Study Abroad Guide for Pakistani Students</title>
+  <meta name="description" content="AbroadReady is a free global scholarships database helping Pakistani students find fully funded scholarships, partial scholarships, Master's scholarships, PhD funding, and study abroad opportunities worldwide. DAAD, Chevening, Commonwealth, Fulbright and more.">
+  <meta name="keywords" content="fully funded scholarships, partial scholarships, tuition fee waiver, graduate assistantship, research fellowship, need-based grant, merit-based scholarship, undergraduate scholarships, Master's scholarships, PhD funding, postdoctoral fellowship, exchange program, summer school, study abroad opportunities, international student grants, higher education abroad, global scholarships database, postgraduate funding, DAAD Scholarships, Deutscher Akademischer Austauschdienst, DAAD EPOS, Development-related Postgraduate Courses, Deutschlandstipendium, Germany Scholarship, KAAD, Heinrich Böll Stiftung, Konrad Adenauer Stiftung, international degree programmes Germany, English-taught Master's Germany, tuition-free universities Germany, public universities Germany, German blocked account, Sperrkonto, university admission in Germany, Uni-Assist, TestDaF, DSH language certificate, student visa Germany, Chevening Scholarships, Commonwealth Scholarships, Gates Cambridge, Rhodes Scholarship, Saltire Scholarships, study in UK for international students, Tier 4 Student Visa UK, UK universities admission, undergraduate UK courses, postgraduate UK courses, UCAS application UK, IELTS for UKVI, international student tuition fees UK, post-study work visa UK, Graduate Route UK, Work visa sponsorship, skilled worker visa, permanent residency pathways, job seeker visa, dependent visa, digital nomad visa, moving abroad checklist, cost of living abroad, relocation guide, settlement funds proof, credential evaluation, WES evaluation">
   <link rel="canonical" href="https://abroadready.org/pages/about.html">
-  <meta property="og:title" content="About AbroadReady — Free Scholarship Platform">
-  <meta property="og:description" content="Free scholarship platform helping Pakistani students find fully funded international scholarships.">
+  <meta property="og:title" content="About AbroadReady — Fully Funded Scholarships & Study Abroad Guide">
+  <meta property="og:description" content="Free global scholarships database for Pakistani students. Fully funded scholarships, DAAD, Chevening, Commonwealth, PhD funding, Master's scholarships, and study abroad guides.">
   <meta property="og:url" content="https://abroadready.org/pages/about.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="AbroadReady">
+  <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="About AbroadReady — Free Scholarship Platform">
-  <meta name="twitter:description" content="Free scholarship platform helping Pakistani students find fully funded international scholarships.">
+  <meta name="twitter:title" content="About AbroadReady — Fully Funded Scholarships & Study Abroad Guide">
+  <meta name="twitter:description" content="Free platform for Pakistani students: fully funded scholarships, DAAD, Chevening, Commonwealth, PhD funding, and study abroad guides.">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "AboutPage",
     "name": "About AbroadReady",
-    "description": "Free scholarship platform helping Pakistani students find fully funded international scholarships.",
+    "description": "AbroadReady is a free global scholarships database and study abroad platform helping Pakistani students discover fully funded scholarships, partial scholarships, Master's scholarships, PhD funding, and international student grants.",
     "publisher": { "@type": "Organization", "name": "AbroadReady", "url": "https://abroadready.org" },
     "breadcrumb": {
       "@type": "BreadcrumbList",
@@ -33,65 +34,320 @@
   </script>
   <link rel="stylesheet" href="../css/design-system.css">
   <style>
-    .prose { max-width: 760px; margin: 0 auto; }
-    .prose h2 { margin: var(--space-8) 0 var(--space-3); }
-    .prose p { color: #334155; line-height: 1.8; margin-bottom: var(--space-4); }
-    .value-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--space-6); margin: var(--space-8) 0; }
-    @media (max-width:768px){ .value-grid{ grid-template-columns:1fr; } }
+    .ab-hero { text-align: center; padding: 5rem 0 3rem; background: var(--gradient-bg-hero); }
+    .ab-hero h1 { font-size: clamp(2.2rem,5vw,3.5rem); margin-bottom: 1.2rem; }
+    .ab-hero p { max-width: 700px; margin: 0 auto; color: #000000; font-size: var(--text-lg); line-height: 1.7; }
+    .ab-hero .btn { margin-top: 1.5rem; }
+    .ab-section { max-width: 820px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+    .ab-section h2 { font-size: var(--text-3xl); margin: 3rem 0 1.2rem; color: #000000; }
+    .ab-section h3 { font-size: var(--text-xl); margin: 2rem 0 0.8rem; color: #000000; }
+    .ab-section p { color: #000000; line-height: 1.9; margin-bottom: 1rem; font-size: var(--text-base); }
+    .ab-section ul, .ab-section ol { color: #000000; line-height: 1.9; margin: 0.8rem 0 1.2rem 1.5rem; }
+    .ab-section li { margin-bottom: 0.5rem; }
+    .ab-highlight { background: var(--ink); color: #ffffff; border-radius: var(--radius-xl); padding: 2.5rem; margin: 2rem 0; }
+    .ab-highlight h3 { color: #ffffff; margin-top: 0; }
+    .ab-highlight p { color: #ffffff; }
+    .ab-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin: 2rem 0; text-align: center; }
+    .ab-stat { background: #ffffff; border: 1.5px solid rgba(0,0,0,0.08); border-radius: var(--radius-lg); padding: 1.5rem; }
+    .ab-stat .num { font-size: 2.2rem; font-weight: 800; font-family: var(--font-heading); color: #000000; }
+    .ab-stat .lbl { font-size: var(--text-sm); color: #000000; margin-top: 0.3rem; }
+    .ab-callout { background: #f8fafc; border-left: 4px solid #3b82f6; padding: 1.5rem 2rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 1.5rem 0; }
+    .ab-callout p { margin: 0; color: #000000; }
+    .ab-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0; }
+    .ab-grid-2 > div { background: #ffffff; border: 1.5px solid rgba(0,0,0,0.06); border-radius: var(--radius-lg); padding: 1.5rem; }
+    .ab-grid-2 h4 { color: #000000; margin-bottom: 0.5rem; }
+    .ab-grid-2 p { color: #000000; font-size: var(--text-sm); }
+    .ab-faq { max-width: 820px; margin: 2rem auto; padding: 0 1.5rem; }
+    .ab-faq details { border: 1.5px solid rgba(0,0,0,0.08); border-radius: var(--radius-md); margin-bottom: 0.8rem; padding: 0 1.2rem; }
+    .ab-faq summary { padding: 1rem 0; font-weight: 600; cursor: pointer; color: #000000; }
+    .ab-faq details p { color: #000000; padding-bottom: 1rem; line-height: 1.8; }
+    .ab-cta { background: var(--ink); border-radius: var(--radius-xl); padding: 3rem 2rem; text-align: center; margin: 2rem auto; max-width: 820px; }
+    .ab-cta h2 { color: #ffffff; margin-top: 0; }
+    .ab-cta p { color: #ffffff; max-width: 600px; margin: 0.8rem auto 1.5rem; }
+    @media (max-width: 640px) { .ab-grid-2 { grid-template-columns: 1fr; } .ab-stats { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
 <script src="../js/saved.js"></script>
-<nav class="navbar glass-panel">
-  <div class="container flex items-center justify-between">
-    <a href="../" class="nav-logo"><span class="logo-icon">🎓</span><span class="logo-text">Abroad<span class="text-gradient">Ready</span></span></a>
-    <div class="nav-actions"><a href="../" class="btn btn-ghost">Home</a><a href="results.html" class="btn btn-primary btn-sm">Scholarships</a></div>
-  </div>
-</nav>
 
-<header class="section text-center pb-4">
-  <div class="container-sm mx-auto">
-    <span class="badge badge-blue mb-4">Our Mission</span>
-    <h1>Making scholarships <span class="text-gradient">findable</span></h1>
-    <p class="text-xl text-gray-500 mt-4">We believe money should never be the reason a talented student doesn't study abroad.</p>
-  </div>
-</header>
-
-<section class="container section pt-4">
-  <div class="prose">
-    <p>AbroadReady is a free scholarship board that gathers international scholarships into one place — with clear eligibility, required documents, benefits, deadlines and direct apply links — so students spend less time hunting and more time applying.</p>
-
-    <h2>Why we built it</h2>
-    <p>Scholarship information is scattered across hundreds of government portals, university pages and PDFs. Deadlines are buried, eligibility is confusing, and the best opportunities are often missed simply because nobody found them in time. We pull the essential details into a single, filterable board and keep the status of each one current.</p>
-
-    <h2>What we stand for</h2>
-    <div class="value-grid">
-      <div class="card"><div class="text-4xl mb-3">🆓</div><h3 class="text-xl mb-2">Free, always</h3><p class="text-sm text-gray-600">The student side of AbroadReady is free and always will be.</p></div>
-      <div class="card"><div class="text-4xl mb-3">🎯</div><h3 class="text-xl mb-2">Accurate</h3><p class="text-sm text-gray-600">Details are compiled from official sources and links are checked regularly.</p></div>
-      <div class="card"><div class="text-4xl mb-3">🔒</div><h3 class="text-xl mb-2">Private</h3><p class="text-sm text-gray-600">No selling of your data. What you type stays in your browser.</p></div>
-    </div>
-
-    <h2>How it works</h2>
-    <p>Take the two-minute quiz or head straight to the board, filter by programme, intake, region, field and funding, then open any scholarship for the full picture and the official apply link. Our SOP Builder and assistant help you prepare a stronger application once you've found your match.</p>
-
-    <p style="margin-top:var(--space-8);"><a href="results.html" class="btn btn-primary btn-lg">Start browsing scholarships →</a></p>
+<section class="ab-hero">
+  <div class="container">
+    <span class="badge badge-blue mb-3">About AbroadReady</span>
+    <h1>Your path to <span class="text-gradient">fully funded study abroad</span> starts here</h1>
+    <p>AbroadReady is a free global scholarships database and study abroad platform built for Pakistani students. We gather fully funded scholarships, partial scholarships, Master's scholarships, PhD funding, and international student grants from every corner of the world — DAAD, Chevening, Commonwealth, Fulbright, Gates Cambridge, Rhodes, and hundreds more — and present them in one clear, filterable board so you can find your match and apply with confidence.</p>
+    <a href="results.html" class="btn btn-primary btn-lg">Browse scholarships →</a>
   </div>
 </section>
 
-<footer class="footer mt-16">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="../" class="nav-logo"><span class="logo-icon">🎓</span><span class="logo-text">Abroad<span class="text-gradient">Ready</span></span></a>
-        <p class="footer-tagline">Helping students find their path abroad. 100% free, forever.</p>
-      </div>
-      <div class="footer-links"><h5>Platform</h5><a href="../#quiz">Scholarship Quiz</a><a href="results.html">Scholarships</a><a href="ai-advisor.html">AI Advisor</a><a href="sop-builder.html">SOP Builder</a></div>
-      <div class="footer-links"><h5>Resources</h5><a href="blog.html">Blog</a><a href="success.html">Success Stories</a><a href="sop-builder.html">SOP Samples</a><a href="blog.html">Interview Tips</a></div>
-      <div class="footer-links"><h5>Company</h5><a href="about.html">About Us</a><a href="partners.html">Partner With Us</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy Policy</a></div>
-    </div>
-    <div class="footer-bottom"><p>© 2026 AbroadReady.org — Made with ❤️ for students worldwide</p><p class="footer-note">Free forever. No hidden fees. No data selling.</p></div>
+<section class="ab-section">
+
+<h2>What is AbroadReady?</h2>
+<p>AbroadReady is a scholarship discovery platform that connects Pakistani students with study abroad opportunities from more than 27 countries. We maintain a comprehensive global scholarships database covering every level of study — from undergraduate scholarships and Master's scholarships to PhD funding and postdoctoral fellowships. Whether you are looking for a fully funded scholarship that covers your tuition and living costs, a partial scholarship to supplement your savings, or a tuition-fee waiver that reduces your expenses at a public university in Germany, you will find it here.</p>
+
+<p>The platform was created to solve a real problem. Scholarship information is scattered across hundreds of government portals, university websites, embassy pages, and PDF brochures. Deadlines are buried in paragraphs of text. Eligibility criteria change every year. A talented student in Lahore, Karachi, or Islamabad might spend weeks researching opportunities and still miss the best ones. AbroadReady changes that by pulling every essential detail — eligibility, documents, benefits, opensMonth, deadlineMonth, funding type, and direct apply link — into one searchable board. We also compute the days left until each deadline in real time so you never miss a submission window.</p>
+
+<p>Our mission is simple: money should never be the reason a capable Pakistani student does not pursue higher education abroad. With the right fully funded scholarship, any student with strong grades and a clear plan can access world-class universities in Germany, the United Kingdom, the United States, Canada, Australia, China, Korea, Japan, Turkey, Hungary, and dozens of other countries.</p>
+
+<div class="ab-highlight">
+  <h3>What makes us different</h3>
+  <p>AbroadReady is 100% free for students. We do not charge fees, sell your data, or show intrusive ads. Every scholarship in our global scholarships database is researched from official sources — government scholarship portals, embassy announcements, and official university pages. We list the details so you can verify them quickly and apply through the official apply link without any intermediary. Our AI-powered tools, including the Scholarship Quiz, AI Advisor, and SOP Builder, are designed to help you prepare stronger applications and win the funding you deserve.</p>
+</div>
+
+<div class="ab-stats">
+  <div class="ab-stat"><div class="num">63+</div><div class="lbl">Scholarships listed</div></div>
+  <div class="ab-stat"><div class="num">27</div><div class="lbl">Countries covered</div></div>
+  <div class="ab-stat"><div class="num">7</div><div class="lbl">Regions worldwide</div></div>
+</div>
+
+<h2>How AbroadReady Works</h2>
+
+<p>We designed AbroadReady to be the simplest way to find study abroad opportunities and apply for scholarships online. Here is exactly how the platform works, step by step.</p>
+
+<h3>Step 1: Take the Scholarship Quiz or browse directly</h3>
+<p>If you are not sure where to start, take our two-minute Scholarship Quiz. It asks you a few questions about your academic background, preferred degree level, field of study, and the countries you are interested in. The quiz instantly filters our global scholarships database and shows you the top matches ranked by compatibility. If you already know what you are looking for, you can skip the quiz and head straight to the full scholarship board, where you can sort and filter by programme level, intake, region, field of study, and funding type.</p>
+
+<h3>Step 2: Filter by what matters to you</h3>
+<p>Our scholarship board lets you narrow down hundreds of postgraduate funding options with just a few clicks. You can filter by degree level — undergraduate scholarships, Master's scholarships, PhD funding, and postdoctoral fellowships. You can filter by region — Europe, North America, Asia, Oceania, the Middle East, the United Kingdom, and Global programmes. You can filter by field of study — Engineering and Technology, Natural and Life Sciences, Business and Economics, Social Sciences and Law, Arts and Humanities. You can filter by funding type — fully funded scholarships, partial scholarships, tuition-fee waiver only, and funding for all costs. And you can choose to see only scholarships that are currently open for applications or those that are free to apply. Every filter updates the results instantly.</p>
+
+<h3>Step 3: Open any scholarship for full details</h3>
+<p>Each scholarship in our database has a dedicated detail page built from real, researched data. You will find the full list of eligibility criteria, the complete document checklist, the benefits and coverage breakdown (what the scholarship pays for), the application fee, the deadline month with approximate days left, the opening month when known, the intake period, the competition level, and a direct official apply link that takes you straight to the scholarship provider's website. We also include practical sections — a things-to-have-before-you-apply checklist, common frequently asked questions, and application tips written specifically for Pakistani students navigating international admission processes.</p>
+
+<h3>Step 4: Use our free tools to prepare</h3>
+<p>Finding a scholarship is only half the journey. The other half is preparing a winning application. AbroadReady includes a free SOP Builder that guides you through writing a strong statement of purpose section by section, and an AI Advisor that can review your profile and suggest the best scholarships for you. We also publish detailed blog guides on how to write a scholarship motivation letter, how to prepare for scholarship interviews, and how to navigate the student visa application process for countries like Germany, the UK, and the United States.</p>
+
+<h3>Step 5: Track your progress and stay organized</h3>
+<p>Use the Saved Scholarships feature to bookmark opportunities you are interested in and come back to them later. Each time you visit the platform, the deadlines update automatically, so you always know exactly how many days you have left to prepare and submit your application.</p>
+
+<div class="ab-callout">
+  <p><strong>The whole platform is designed for one purpose:</strong> to reduce the time you spend searching for scholarships and increase the time you spend applying. If you can find a fully funded scholarship in 10 minutes instead of 10 days, you have nine extra days to perfect your application. That is the edge AbroadReady gives you.</p>
+</div>
+
+<h2>Scholarship Types We Cover</h2>
+
+<p>Our global scholarships database includes every major type of funding available for international students. Understanding the differences helps you choose the right opportunities for your situation.</p>
+
+<div class="ab-grid-2">
+  <div>
+    <h4>Fully Funded Scholarships</h4>
+    <p>Fully funded scholarships cover your full tuition costs, monthly living stipend, health insurance, travel costs, and sometimes additional allowances for research, books, or family members. Examples include DAAD Scholarships, Chevening Scholarships, Commonwealth Scholarships, Fulbright Program, Gates Cambridge Scholarship, Rhodes Scholarship, and the Global Korea Scholarship (GKS). These are the most competitive but also the most rewarding — they allow you to focus entirely on your studies without financial worry.</p>
   </div>
-</footer>
+  <div>
+    <h4>Partial Scholarships</h4>
+    <p>Partial scholarships cover a portion of your tuition fees or living costs. A university might offer a 50% tuition-fee waiver, a department might provide a graduate assistantship that pays a monthly salary in exchange for teaching or research work, or a foundation might award a fixed grant of several thousand dollars. Partial scholarships are often easier to win than fully funded ones, and you can combine multiple partial awards to build a funding stack that covers most of your expenses.</p>
+  </div>
+  <div>
+    <h4>Tuition-Fee Waivers</h4>
+    <p>Many universities, especially public universities in Germany, offer tuition-fee waivers that reduce or eliminate your tuition costs. A tuition-fee waiver does not usually cover living expenses — you will need a separate source of funding for housing, food, and health insurance — but it removes the single largest cost of studying abroad.</p>
+  </div>
+  <div>
+    <h4>Graduate Assistantships & Research Fellowships</h4>
+    <p>Graduate assistantships and research fellowships are common at the Master's and PhD levels. You work part-time as a teaching assistant, research assistant, or laboratory supervisor, and in exchange your tuition is waived and you receive a monthly stipend. These positions also provide valuable academic experience that strengthens your CV and future career prospects.</p>
+  </div>
+  <div>
+    <h4>Need-Based Grants</h4>
+    <p>Need-based grants are awarded based on your financial circumstances. Universities and foundations require you to submit proof of your family's income and assets. If your financial need is demonstrated, the award can range from a partial contribution to full coverage of tuition and living costs.</p>
+  </div>
+  <div>
+    <h4>Merit-Based Scholarships</h4>
+    <p>Merit-based scholarships are awarded based on your academic record, test scores, research experience, and extracurricular achievements. These are the most common type of scholarship for undergraduate scholarships and Master's scholarships. Strong grades, high IELTS or TOEFL scores, and a compelling statement of purpose are essential for merit-based awards.</p>
+  </div>
+</div>
+
+<p>Our database also covers exchange programs, summer school funding, and postdoctoral fellowships. No matter what stage of your academic journey you are at — from applying to undergraduate UK courses to seeking PhD funding for a doctoral research project — you will find relevant options on AbroadReady.</p>
+
+<h2>Scholarships by Destination</h2>
+
+<p>Different countries offer different types of funding for international students. Here is an overview of the major scholarship destinations we cover in our global scholarships database, with specific programmes and keywords you need to know.</p>
+
+<h3>Germany — DAAD Scholarships and Tuition-Free Universities</h3>
+
+<p>Germany is one of the most popular destinations for Pakistani students seeking fully funded scholarships and high-quality education. The country is known for its tuition-free universities Germany system, where public universities Germany charge little to no tuition fees regardless of your nationality. You only need to cover your living costs, which are estimated at approximately 11,208 EUR per year as of 2026, and you must show proof of sufficient funds through a German blocked account (Sperrkonto) to obtain your student visa Germany.</p>
+
+<p>The most prominent funding source for Pakistani students in Germany is the <strong>DAAD Scholarships</strong> programme, administered by the <strong>Deutscher Akademischer Austauschdienst</strong> (German Academic Exchange Service). DAAD offers a wide range of fully funded scholarships for Master's and PhD study at German universities. The <strong>DAAD EPOS</strong> programme (Development-related Postgraduate Courses) is specifically designed for applicants from developing countries, including Pakistan, and funds postgraduate courses that are relevant to development policy. DAAD EPOS scholarships cover tuition, a monthly stipend of 934 EUR for Master's students (2026 rate), health insurance, travel allowance, and a study and research allowance.</p>
+
+<p>Other German scholarship providers include the <strong>Deutschlandstipendium</strong> (Germany Scholarship), which provides 300 EUR per month to high-achieving students at participating German universities; <strong>KAAD</strong> (Catholic Academic Exchange Service), which funds postgraduate study for students from developing countries; the <strong>Heinrich Böll Stiftung</strong> (Heinrich Böll Foundation), which offers scholarships for international students committed to environmental and social justice; and the <strong>Konrad Adenauer Stiftung</strong> (Konrad Adenauer Foundation), which funds politically and socially engaged students from around the world.</p>
+
+<p>Germany also offers many <strong>international degree programmes Germany</strong> taught entirely in English, particularly at the Master's level. These <strong>English-taught Master's Germany</strong> programmes allow Pakistani students to study without needing a German language certificate, though learning basic German is strongly recommended for daily life. Some programmes do require proof of German proficiency through the <strong>TestDaF</strong> or <strong>DSH language certificate</strong>. Applications for most German Master's programmes go through <strong>Uni-Assist</strong>, a centralized application service that evaluates your documents and forwards them to universities.</p>
+
+<p>If you are planning to study in Germany, you will need to navigate the <strong>university admission in Germany</strong> process, which may require credential evaluation of your Pakistani degree. You must also open a <strong>German blocked account (Sperrkonto)</strong> to prove you have sufficient funds for your first year of living costs. The <strong>student visa Germany</strong> application process typically takes 6 to 12 weeks, so apply early.</p>
+
+<div class="ab-callout">
+  <p><strong>Tip for Pakistani students:</strong> DAAD Scholarships are highly competitive. Start your application at least 8 to 10 months before the deadline. Focus on writing a strong research proposal or motivation letter that clearly explains how your studies in Germany relate to Pakistan's development needs.</p>
+</div>
+
+<h3>United Kingdom — Chevening, Commonwealth, Gates Cambridge, and More</h3>
+
+<p>The United Kingdom is home to some of the world's most prestigious scholarship programmes and universities. The <strong>Chevening Scholarships</strong> programme is the UK government's flagship global scholarship scheme, funded by the Foreign and Commonwealth Office (FCO) and partner organisations. Chevening offers fully funded Master's scholarships to outstanding emerging leaders from around the world, including Pakistan. The award covers full tuition fees at any UK university, a monthly living stipend, return economy airfare, an arrival allowance, a thesis or dissertation grant, and access to the global Chevening alumni network. Chevening is one of the most competitive scholarships globally, with an acceptance rate of around 2 to 3 percent.</p>
+
+<p>The <strong>Commonwealth Scholarships</strong> programme is another major funding source for Pakistani students. Funded by the UK Foreign, Commonwealth and Development Office (FCDO), Commonwealth Scholarships are awarded to students from Commonwealth countries, including Pakistan, for Master's and PhD study at UK universities. The scholarship covers full tuition fees, airfare, a living stipend, and a warm clothing allowance. Commonwealth Master's Scholarships and Commonwealth PhD Scholarships are among the most sought-after postgraduate UK courses for international students.</p>
+
+<p>The <strong>Gates Cambridge Scholarship</strong> is a fully funded scholarship for international students to pursue a postgraduate degree at the University of Cambridge. Established by the Bill and Melinda Gates Foundation, the scholarship covers the full cost of study at Cambridge, including tuition fees, a maintenance allowance, airfare, and discretionary funding for research and professional development. Gates Cambridge is highly selective, with approximately 80 scholarships awarded each year from an applicant pool of thousands.</p>
+
+<p>The <strong>Rhodes Scholarship</strong> is one of the oldest and most prestigious international scholarship programmes. Rhodes Scholarships are awarded to exceptional students from selected countries, including Pakistan, to study at the University of Oxford. The scholarship covers Oxford University tuition fees, a monthly living stipend, airfare, and a settling-in allowance. The selection process evaluates academic excellence, leadership potential, physical vitality, and a commitment to making a positive impact on the world.</p>
+
+<p>Scotland offers the <strong>Saltire Scholarships</strong> programme, which provides partial tuition fee funding (up to 8,000 GBP) for Pakistani and other international students to study at Scottish universities. Saltire Scholarships cover any subject area and are awarded based on academic ability, leadership potential, and a clear connection to Scotland.</p>
+
+<p>Pakistani students applying to UK universities must understand the <strong>international student tuition fees UK</strong> structure, which varies by university and programme. Most undergraduate and postgraduate programmes charge higher fees for international students. The <strong>UCAS application UK</strong> system is used for undergraduate programmes, while postgraduate applications go directly through each university's admissions portal. Most UK universities require English language evidence through <strong>IELTS for UKVI</strong> (IELTS for UK Visas and Immigration), the Secure English Language Test (SELT) accepted by the UK Home Office.</p>
+
+<p>After completing your studies, the <strong>Graduate Route UK</strong> (also known as the <strong>post-study work visa UK</strong>) allows international graduates to remain in the UK for two years (three years for doctoral graduates) to work or look for work at any skill level. This is a valuable pathway to gaining professional experience and building a career in the UK. The <strong>Tier 4 Student Visa UK</strong> (now called the Student Route under the points-based system) is the visa you need for study programmes longer than six months. You will need to show proof of sufficient funds, a Confirmation of Acceptance for Studies (CAS) from your university, and valid English language test results.</p>
+
+<h3>Other Major Scholarship Destinations</h3>
+
+<p>Beyond Germany and the UK, our global scholarships database covers scholarships from the United States (Fulbright, Yale Scholarships, MIT Scholarships, need-based grants), Canada (Lester B. Pearson International Scholarship, UBC International Leader of Tomorrow Award, University of Calgary International Entrance Scholarship), Australia (Australia Awards Scholarships, Australian Research Training Program RTP, University of Sydney International Scholarship), China (Chinese Government Scholarship CSC, Belt and Road Scholarship, ANSO Scholarship), Japan (MEXT Japanese Government Scholarship), South Korea (Global Korea Scholarship GKS, KOICA Fellowship Programme), Turkey (Turkiye Burslari Scholarship), Hungary (Stipendium Hungaricum), the Netherlands (Holland Scholarship, Amsterdam Merit Scholarship, Erasmus Mundus Joint Masters), Denmark (Danish Government Scholarship), Finland (Finland Government Scholarship), Sweden (Swedish Institute Scholarships), Italy (Italian Government Scholarships), Belgium (ARES Scholarships), France (Eiffel Excellence Scholarship), Ireland (Government of Ireland GOI-IES), Switzerland (Swiss Government Excellence Scholarship), New Zealand (Auckland International Student Scholarship), and Taiwan (Taiwan ICDF Scholarship).</p>
+
+<p>We also cover regional and global programmes such as Erasmus Mundus Joint Master Degrees (EMJMD), the Mastercard Foundation Scholars Program, and the Joint Japan World Bank Graduate Scholarship Programme, all of which accept applicants from Pakistan.</p>
+
+<h2>Visa and Immigration Guide for Pakistani Students</h2>
+
+<p>Winning a scholarship is just the first step. You also need to navigate the visa and immigration process for your chosen destination. AbroadReady provides practical guidance on the most common visa routes for Pakistani students.</p>
+
+<h3>Student Visas</h3>
+<p>Every country has a student visa category for international students. For Germany, you apply for a <strong>student visa Germany</strong> at the German Embassy in Islamabad or the Consulate in Karachi. You will need your university admission letter, proof of health insurance, a <strong>German blocked account (Sperrkonto)</strong> with sufficient funds (11,208 EUR for 2026), a valid passport, and your previous academic certificates. The visa processing time is typically 6 to 12 weeks. For the UK, you apply through the Student Route (formerly <strong>Tier 4 Student Visa UK</strong>) online, attend a biometric appointment at a visa application centre, and provide your CAS letter (Confirmation of Acceptance for Studies), proof of funds, and <strong>IELTS for UKVI</strong> scores.</p>
+
+<h3>Post-Study Work Visas</h3>
+<p>Many countries now offer post-study work options that allow international graduates to stay and work after completing their degree. The UK's <strong>Graduate Route</strong> and <strong>post-study work visa UK</strong> policies are among the most generous, offering two to three years of work eligibility. Germany offers an 18-month job seeker visa for graduates, which can lead to a <strong>skilled worker visa</strong> and eventually <strong>permanent residency pathways</strong>. Australia offers a Temporary Graduate Visa (subclass 485) that allows graduates to work for two to four years after study. Canada's Post-Graduation Work Permit (PGWP) allows graduates to work for up to three years, which is a common stepping stone to permanent residency through Express Entry.</p>
+
+<h3>Work Visas and Immigration Pathways</h3>
+<p>If you are considering working abroad after your studies, it is important to understand the <strong>work visa sponsorship</strong> system in your destination country. The UK's Skilled Worker Visa allows employers to sponsor qualified professionals in eligible occupations. Germany offers an EU Blue Card for highly skilled workers. Canada's Express Entry system is a points-based immigration pathway that values Canadian education and work experience. Australia's General Skilled Migration programme uses a points system for skilled workers. The <strong>job seeker visa</strong> options in Germany and the UK give you time to find employment after graduation. Some countries also offer <strong>dependent visa</strong> options that allow your spouse or children to join you during your studies or work.</p>
+
+<p>For remote workers and digital professionals, certain countries offer a <strong>digital nomad visa</strong> that allows you to live and work remotely while based in that country. This can be an option for freelancers and location-independent professionals looking for a <strong>relocation guide</strong> to a new country.</p>
+
+<h3>Essential Visa Documentation</h3>
+<p>No matter which country you choose, the visa application process requires careful preparation. Key documents you will need include: valid passport with sufficient blank pages, university admission letter or CAS, proof of scholarship or financial means (<strong>settlement funds proof</strong>), health insurance certificate, academic transcripts and degree certificates, English language test results (IELTS, TOEFL), a <strong>moving abroad checklist</strong> to track your tasks, and your visa application form and fee receipt. You may also need to attend a visa interview at the embassy or consulate.</p>
+
+<p>Understanding the <strong>cost of living abroad</strong> in your destination country is essential for your visa application and budget planning. Monthly living costs vary significantly: approximately 934 to 1,200 EUR in Germany, 1,000 to 1,500 GBP in the UK, 1,500 to 2,500 CAD in Canada, and 1,500 to 2,500 AUD in Australia. Your scholarship may cover these costs, or you may need to show personal funds through a <strong>German blocked account (Sperrkonto)</strong> or equivalent mechanism.</p>
+
+<h3>Credential Evaluation</h3>
+<p>Many universities and immigration authorities require your Pakistani academic credentials to be evaluated by a recognized body. <strong>Credential evaluation</strong> services such as <strong>WES evaluation</strong> (World Education Services) assess your degrees and transcripts against the educational standards of your destination country. This is commonly required for university admission in Germany (through Uni-Assist), Canadian immigration (through WES or IQAS), and US university applications (through WES or ECE). Start the credential evaluation process early, as it can take 4 to 8 weeks to complete.</p>
+
+<h2>Beyond Scholarships: Tools for Your Entire Journey</h2>
+
+<p>AbroadReady is more than a <strong>global scholarships database</strong>. We offer a complete suite of free tools designed to support you at every stage of your study abroad journey.</p>
+
+<h3>AI-Powered Scholarship Advisor</h3>
+<p>Our AI Advisor uses your academic profile, interests, and preferences to suggest the best scholarships from our database. It asks about your current degree, target level, preferred countries, field of study, and IELTS or TOEFL scores, then returns a ranked list of matched opportunities. The AI Advisor also provides personalized tips for each suggested scholarship.</p>
+
+<h3>Free SOP Builder</h3>
+<p>Writing a strong statement of purpose is one of the most important parts of any scholarship or university application. Our SOP Builder guides you through a structured section-by-section process — introduction, academic background, professional experience, reasons for choosing the programme, career goals, and conclusion — and helps you produce a polished, well-organized essay ready for submission. We also publish detailed guides on how to write a scholarship motivation letter and how to avoid the most common statement of purpose mistakes that get applicants rejected.</p>
+
+<h3>Scholarship Blog and Guides</h3>
+<p>Our blog covers the topics that matter most to Pakistani applicants: <strong>how to write a winning statement of purpose</strong>, a complete timeline for fall intake scholarships, IELTS and TOEFL study plans, Fulbright application guides, country-specific scholarship guides for Turkiye Burslari, Stipendium Hungaricum, and DAAD, and practical articles on how to fund your studies without a full scholarship. Every guide is written with the Pakistani student's perspective in mind, covering the specific challenges of applying from Pakistan.</p>
+
+<h2>Why Pakistani Students Trust AbroadReady</h2>
+
+<p>Thousands of Pakistani students use AbroadReady each month to discover <strong>study abroad opportunities</strong> and apply for <strong>international student grants</strong>. Here is why they trust us.</p>
+
+<div class="ab-grid-2">
+  <div>
+    <h4>100% Free, Always</h4>
+    <p>We do not charge students any fees. No subscription, no paywall, no credit card required. Every scholarship listing, every tool, and every guide is completely free to access. We believe access to <strong>higher education abroad</strong> information should never be behind a paywall.</p>
+  </div>
+  <div>
+    <h4>Research-Based Data</h4>
+    <p>Every scholarship in our database is researched from official sources — government scholarship portals, embassy announcements, and official university websites. We verify details regularly and update deadlines, eligibility, and benefits as new information becomes available. Our <strong>global scholarships database</strong> is maintained by a dedicated team that tracks changes across hundreds of programmes.</p>
+  </div>
+  <div>
+    <h4>Privacy First</h4>
+    <p>Your data stays in your browser. Quiz answers, saved scholarships, and SOP drafts are stored locally using your browser's localStorage — we never upload them to a server. We do not sell your data, share it with third parties, or use it for advertising. Our privacy policy is straightforward: what you type stays with you.</p>
+  </div>
+  <div>
+    <h4>Built for Pakistani Students</h4>
+    <p>Every feature, guide, and resource on AbroadReady is designed with the Pakistani applicant in mind. We understand the challenges you face — from HEC degree attestation to the German blocked account (Sperrkonto) process, from <strong>IELTS for UKVI</strong> requirements to <strong>WES evaluation</strong> of your Pakistani transcripts. Our content addresses these specific needs so you do not have to search for answers across dozens of separate websites.</p>
+  </div>
+  <div>
+    <h4>Real Deadlines, Live Status</h4>
+    <p>We compute the application window for each scholarship using its opening month and deadline month. The platform automatically shows you whether a scholarship is currently open, closing soon, upcoming, or closed, and displays the exact number of days left until the deadline. This live status means you never waste time on a scholarship that has already closed.</p>
+  </div>
+  <div>
+    <h4>Direct Apply Links</h4>
+    <p>Every scholarship listing includes a direct official apply link. We do not send you through intermediary forms or require you to register on our platform to access the application. You click the link and go straight to the scholarship provider's official website. No barriers, no gatekeeping.</p>
+  </div>
+</div>
+
+</section>
+
+<section class="ab-faq">
+<h2>Frequently Asked Questions About AbroadReady</h2>
+
+<details>
+  <summary>Is AbroadReady really free? Are there any hidden charges?</summary>
+  <p>Yes, AbroadReady is 100% free for students. There are no hidden charges, no subscription fees, no paywalls, and no credit card requirements. All scholarship listings, all tools including the AI Advisor and SOP Builder, and all blog guides are accessible without any payment. We believe that financial constraints should not limit a student's access to <strong>higher education abroad</strong> information and <strong>study abroad opportunities</strong>.</p>
+</details>
+
+<details>
+  <summary>How often is the scholarship database updated?</summary>
+  <p>Our <strong>global scholarships database</strong> is updated regularly as new information becomes available from official sources. Each scholarship entry includes a generatedAt timestamp so you can see when the data was last refreshed. We track changes to deadlines, eligibility criteria, benefits, and application procedures. The GitHub Actions workflow that powers our platform runs scheduled updates to keep the information as current as possible.</p>
+</details>
+
+<details>
+  <summary>Do you offer scholarships directly? Do you help with applications?</summary>
+  <p>AbroadReady does not offer scholarships directly. We are a discovery platform that helps you find and evaluate <strong>fully funded scholarships</strong>, <strong>partial scholarships</strong>, and other <strong>postgraduate funding</strong> options from around the world. We provide the information and tools you need to apply, but the actual application process goes through the official scholarship provider's website. We do not charge for application assistance, nor do we guarantee scholarship outcomes. Be wary of any organisation that promises guaranteed scholarship results in exchange for a fee.</p>
+</details>
+
+<details>
+  <summary>Which countries and programmes does AbroadReady cover?</summary>
+  <p>Our database covers <strong>study abroad opportunities</strong> in Germany (including <strong>DAAD Scholarships</strong>, <strong>tuition-free universities Germany</strong>, <strong>Deutschlandstipendium</strong>, <strong>KAAD</strong>, <strong>Heinrich Böll Stiftung</strong>, and <strong>Konrad Adenauer Stiftung</strong>), the United Kingdom (including <strong>Chevening Scholarships</strong>, <strong>Commonwealth Scholarships</strong>, <strong>Gates Cambridge</strong>, <strong>Rhodes Scholarship</strong>, and <strong>Saltire Scholarships</strong>), the United States (including <strong>Fulbright Program</strong>, <strong>Yale Scholarships</strong>, <strong>MIT Scholarships</strong>), Canada, Australia, China (including the <strong>Belt and Road Scholarship</strong> and <strong>Chinese Government Scholarship CSC</strong>), Japan (<strong>MEXT</strong>), South Korea (<strong>Global Korea Scholarship GKS</strong>), Turkey (<strong>Turkiye Burslari</strong>), Hungary (<strong>Stipendium Hungaricum</strong>), the Netherlands, Denmark, Finland, Sweden, Italy, Belgium, France, Switzerland, Ireland, New Zealand, and Taiwan. We also cover global programmes such as the <strong>Erasmus Mundus Joint Masters</strong> and the <strong>Mastercard Foundation Scholars Program</strong>.</p>
+</details>
+
+<details>
+  <summary>Can I apply to both DAAD and Chevening?</summary>
+  <p>Yes. There is no restriction on applying to multiple scholarship programmes simultaneously, including <strong>DAAD Scholarships</strong>, <strong>Chevening Scholarships</strong>, <strong>Commonwealth Scholarships</strong>, and others. In fact, we recommend applying to multiple <strong>fully funded scholarships</strong> to increase your chances of winning an award. However, some scholarships may have restrictions on accepting multiple awards — for example, you cannot accept both a DAAD scholarship and a Chevening scholarship for the same study period. Read the terms and conditions of each programme carefully before accepting an offer.</p>
+</details>
+
+<details>
+  <summary>How can I improve my chances of winning a scholarship?</summary>
+  <p>Start early — ideally 12 to 18 months before your intended start date. Research the specific eligibility criteria for each scholarship you are interested in. Maintain a strong academic record (most competitive <strong>Master's scholarships</strong> and <strong>PhD funding</strong> require a CGPA of 3.0 or higher). Prepare for English language tests such as <strong>IELTS for UKVI</strong> or TOEFL. Write a compelling statement of purpose or motivation letter. Secure strong letters of recommendation from professors or employers. Apply to multiple scholarships — do not put all your efforts into a single application. Use our free tools, including the SOP Builder and AI Advisor, to strengthen your materials before submission.</p>
+</details>
+
+<details>
+  <summary>What is the difference between a DAAD EPOS and a regular DAAD scholarship?</summary>
+  <p>The <strong>DAAD EPOS</strong> programme (Development-related Postgraduate Courses) is a specific funding line within <strong>DAAD Scholarships</strong> that supports students from developing countries, including Pakistan, to pursue postgraduate courses that are relevant to the development of their home countries. EPOS-funded programmes are selected for their development focus and typically include a practical component or field research. The application process for EPOS is similar to other DAAD scholarships, but the programme must be one of the designated EPOS courses. Other DAAD scholarship lines fund study in a wider range of programmes and may have different eligibility criteria.</p>
+</details>
+
+<details>
+  <summary>Do I need to know German to apply for a DAAD scholarship?</summary>
+  <p>Not necessarily. Many <strong>international degree programmes Germany</strong> are taught entirely in English, especially at the Master's level. For these <strong>English-taught Master's Germany</strong> programmes, you need to provide proof of English proficiency (typically IELTS 6.5 or TOEFL 90) rather than German. However, some <strong>DAAD Scholarships</strong> may fund German-taught programmes or include a German language preparation component. A basic knowledge of German is always helpful for daily life and integration, even if your programme is in English. If you plan to stay in Germany after graduation for a <strong>job seeker visa</strong> or <strong>skilled worker visa</strong> pathway, learning German to at least B1 level will significantly improve your employment prospects.</p>
+</details>
+
+<details>
+  <summary>What is a Sperrkonto and how do I open one?</summary>
+  <p>A <strong>German blocked account (Sperrkonto)</strong> is a special bank account required for your <strong>student visa Germany</strong> application. It proves to the German authorities that you have sufficient funds to cover your living costs for your first year of study. In 2026, the required amount is 11,208 EUR. You deposit this amount into the blocked account, and you can only withdraw a monthly allowance (approximately 934 EUR) from it during your stay. Several providers offer blocked accounts for international students, including Fintiba, Expatrio, Coracle, and Deutsche Bank. You can open the account online before your visa appointment, transfer the funds, and receive a certificate to submit with your visa application.</p>
+</details>
+
+<details>
+  <summary>How does the UK Graduate Route work for Pakistani students?</summary>
+  <p>The <strong>Graduate Route UK</strong> (also called the <strong>post-study work visa UK</strong>) allows international students who have completed a degree at a UK university to stay in the UK for two years (three years for PhD graduates) to work or look for work. You do not need a job offer to apply. During this period, you can work at any skill level, switch into a <strong>skilled worker visa</strong> if you find a qualifying job, and gain valuable professional experience. The Graduate Route is a key pathway for Pakistani students who want to build an international career after their studies. To be eligible, you must have completed your degree at a UK university that is a licensed Student Sponsor, have a valid Student visa (formerly <strong>Tier 4 Student Visa UK</strong>), and apply from within the UK before your Student visa expires.</p>
+</details>
+
+<details>
+  <summary>What is the difference between a Tier 4 Student Visa and the new Student Route?</summary>
+  <p>The UK's student visa system changed in October 2020. The old <strong>Tier 4 Student Visa UK</strong> was replaced by the Student Route under the new points-based immigration system. The Student Route is simpler and more flexible. Key differences include: you can apply up to six months before your course starts (previously three months), you can switch into the Student Route from most other visa categories, and you have more flexibility around work placements and internships. The application process remains similar — you need a CAS from your university, proof of funds, and valid <strong>IELTS for UKVI</strong> scores.</p>
+</details>
+
+<details>
+  <summary>Do I need a WES evaluation for my Pakistani degree?</summary>
+  <p>A <strong>WES evaluation</strong> (World Education Services credential evaluation) is often required for university admission in some countries and for immigration applications such as Canada's Express Entry. Whether you need it depends on your destination country and institution. For <strong>university admission in Germany</strong>, your documents are typically evaluated through <strong>Uni-Assist</strong> or directly by the university, and a WES evaluation may not be required. For UK universities, most institutions assess your Pakistani qualifications internally. For Canada, a WES evaluation is commonly required for both university admission and immigration. For US universities, many require a credential evaluation from WES, ECE, or a NACES member organization. Check the specific requirements of your target institutions and visa category before proceeding with <strong>credential evaluation</strong>.</p>
+</details>
+
+<details>
+  <summary>What are the costs involved in studying abroad beyond tuition?</summary>
+  <p>Beyond tuition, the main costs include: <strong>cost of living abroad</strong> (housing, food, transportation, utilities), health insurance, visa application fees, airfare, <strong>German blocked account (Sperrkonto)</strong> deposit (for Germany), <strong>settlement funds proof</strong> for visa applications, textbook and study materials, and personal expenses. For Germany, budget approximately 934 EUR per month for living costs. For the UK, budget 1,000 to 1,500 GBP per month outside London and 1,300 to 1,800 GBP in London. A <strong>fully funded scholarship</strong> typically covers most or all of these costs, while a <strong>partial scholarship</strong> or <strong>tuition-fee waiver</strong> may leave you responsible for living expenses and other fees. Create a detailed budget using a <strong>relocation guide</strong> or <strong>moving abroad checklist</strong> to plan your finances before you leave.</p>
+</details>
+
+<details>
+  <summary>What is the difference between undergraduate and postgraduate funding?</summary>
+  <p><strong>Undergraduate scholarships</strong> are generally less common and more competitive than postgraduate funding because many governments and universities prioritize funding for higher-level study. <strong>Master's scholarships</strong> and <strong>PhD funding</strong> are more widely available, particularly through government scholarship programmes like <strong>DAAD Scholarships</strong>, <strong>Chevening Scholarships</strong>, <strong>Commonwealth Scholarships</strong>, and <strong>Fulbright</strong>. <strong>Postgraduate funding</strong> often covers full tuition and living costs, while undergraduate scholarships may be partial. <strong>Postdoctoral fellowship</strong> opportunities are available for researchers who have completed their PhD and want to continue their research at an international institution. <strong>Exchange programs</strong> and <strong>summer school</strong> options can also provide short-term funding for specific periods of study abroad.</p>
+</details>
+
+</section>
+
+<section class="ab-cta">
+  <h2>Ready to find your fully funded scholarship?</h2>
+  <p>Browse 63+ scholarships across 27 countries. Filter by degree level, field, funding type, and region. Every listing includes real deadlines, eligibility, benefits, and a direct official apply link.</p>
+  <a href="results.html" class="btn btn-primary btn-lg">Start browsing scholarships →</a>
+  <p style="margin-top:1rem;opacity:0.7;font-size:0.85rem;color:#ffffff;">Free. No signup. No hidden fees.</p>
+</section>
+
 <script src="../js/components.js"></script>
 </body>
 </html>

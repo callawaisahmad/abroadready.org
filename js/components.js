@@ -85,7 +85,7 @@
       '<div class="container site-footer-bottom">' +
         '<p>© <span class="site-footer-year"></span> AbroadReady.org — a free scholarship board.</p>' +
         '<p class="site-footer-note">Always confirm deadlines and details on the official scholarship website before applying.</p>' +
-        '<p class="site-footer-note" style="margin-top:6px;opacity:0.6;">Last updated: 27 July 2026, 5:36 PM PKT</p>' +
+        '<p class="site-footer-note" id="site-footer-version" style="margin-top:6px;opacity:0.6;">Loading version…</p>' +
       '</div>' +
     '</footer>';
   }
@@ -131,6 +131,26 @@
     // Footer year
     var yearEl = document.querySelector(".site-footer-year");
     if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // Footer version
+    var versionUrl = (inPages ? "../" : "") + "data/version.json";
+    fetch(versionUrl)
+      .then(function(r) { return r.json(); })
+      .then(function(v) {
+        var el = document.getElementById("site-footer-version");
+        if (el) {
+          var d = new Date(v.date);
+          var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+          var pad = function(n) { return n < 10 ? "0" + n : n; };
+          var formatted = d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear() + ", " +
+            pad(d.getHours()) + ":" + pad(d.getMinutes()) + " PKT";
+          el.textContent = "Build #" + v.build + " \u00b7 Last updated: " + formatted;
+        }
+      })
+      .catch(function() {
+        var el = document.getElementById("site-footer-version");
+        if (el) el.textContent = "Last updated: 27 July 2026, 5:36 PM PKT";
+      });
 
     wire();
   }

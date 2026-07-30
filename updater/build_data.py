@@ -18,6 +18,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RAW_DIR = os.path.join(ROOT, "js", "raw")
 OUT = os.path.join(ROOT, "data", "scholarships.json")
 OUT_JS = os.path.join(ROOT, "js", "scholarships-data.js")
+VERSION_FILE = os.path.join(ROOT, "data", "version.json")
 
 MONTHS = {
     "january": 1, "february": 2, "march": 3, "april": 4, "may": 5, "june": 6,
@@ -112,9 +113,25 @@ def main():
         json.dump(out, fh, ensure_ascii=False, indent=2)
         fh.write(";\n")
 
+    # Version tracking
+    build = 1
+    try:
+        with open(VERSION_FILE, "r") as fh:
+            existing = json.load(fh)
+            build = (existing.get("build", 0) or 0) + 1
+    except (FileNotFoundError, json.JSONDecodeError):
+        pass
+    version_data = {
+        "build": build,
+        "date": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    }
+    with open(VERSION_FILE, "w") as fh:
+        json.dump(version_data, fh, indent=2)
+
     print(f"Wrote {len(scholarships)} scholarships -> {OUT}")
     print(f"Also wrote JS data -> {OUT_JS}")
     print(f"Countries: {len(countries)} | Regions: {', '.join(regions)}")
+    print(f"Build #{build} -> {VERSION_FILE}")
 
 
 if __name__ == "__main__":
