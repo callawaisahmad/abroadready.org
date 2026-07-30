@@ -242,6 +242,8 @@
 .cc-status.st-open { background: rgba(16,185,129,0.12); color: #047857; }
 .cc-status.st-closing { background: rgba(244,63,94,0.12); color: #be123c; }
 .cc-status.st-rolling { background: rgba(139,92,246,0.12); color: #6d28d9; }
+.cc-status.st-closed { background: rgba(107,114,128,0.12); color: #4b5563; }
+.cc-status.st-upcoming { background: rgba(245,158,11,0.12); color: #92400e; }
 .cc-heart { margin-left: auto; border: none; background: none; cursor: pointer; font-size: 1.15rem; color: #cbd5e1; line-height: 1; }
 .cc-heart:hover, .cc-heart.is-saved { color: var(--accent); }
 .cc-name { font-weight: 700; font-size: var(--text-sm); color: var(--ink); line-height: 1.25; margin-bottom: 3px; }

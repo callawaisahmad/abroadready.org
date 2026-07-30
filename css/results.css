@@ -417,6 +417,8 @@ body {
 .st-open { background: rgba(16,185,129,0.12); color: #047857; }
 .st-closing { background: rgba(244,63,94,0.12); color: #be123c; }
 .st-rolling { background: rgba(139,92,246,0.12); color: #6d28d9; }
+.st-closed { background: rgba(107,114,128,0.12); color: #4b5563; }
+.st-upcoming { background: rgba(245,158,11,0.12); color: #92400e; }
 
 .lvl-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: var(--space-4); }
 .lvl-tag { font-size: var(--text-xs); font-weight: 600; color: var(--ink); background: var(--paper); border: 1px solid rgba(0,0,0,0.06); padding: 3px 10px; border-radius: var(--radius-full); }

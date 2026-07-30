@@ -14,35 +14,98 @@
     "July", "August", "September", "October", "November", "December"];
 
   /* ---- Deadline & status (computed live in the browser) ----------------
-     Each scholarship stores deadlineMonthNum (1-12) or null. We roll that
-     month forward to its next occurrence from *today*, so "days left" and
-     the Open / Closing-soon badge are always current without any server. */
+     Each scholarship stores deadlineMonthNum (1-12) and optionally
+     opensMonthNum (1-12). When opensMonthNum is known we check the full
+     application window (opens → closes). If the current date falls outside
+     the window the scholarship is shown as "Closed". When opensMonthNum is
+     not set we fall back to the original behaviour: treat the deadline as
+     an annual recurring date and assume it is always open (the scholarship
+     simply doesn't have a well-defined annual window). */
   function deadlineInfo(s) {
     var now = new Date();
-    if (!s.deadlineMonthNum) {
-      return { hasDate: false, status: "rolling", label: "Rolling / Varies", daysLeft: null, date: null };
+    var cy = now.getFullYear();
+    var D = s.deadlineMonthNum;
+    var O = s.opensMonthNum;
+    var day = 15;
+    var target, daysLeft, status;
+
+    if (!D) {
+      return { hasDate: false, status: "rolling", label: "Rolling / Varies", daysLeft: null, date: null, opens: null, closes: null };
     }
-    var day = 15; // typical mid-month; exact date confirmed on official site
-    var year = now.getFullYear();
-    var target = new Date(year, s.deadlineMonthNum - 1, day, 23, 59, 59);
-    if (target.getTime() < now.getTime()) {
-      target = new Date(year + 1, s.deadlineMonthNum - 1, day, 23, 59, 59);
+
+    // ---- Has an opening month → check the application window ----------
+    if (O) {
+      var openDate, closeDate, nextOpen, nextClose;
+
+      if (O <= D) {
+        // Same-year window: O → D in the same calendar year
+        openDate = new Date(cy, O-1, 1);
+        closeDate = new Date(cy, D-1, day, 23, 59, 59);
+
+        if (now >= openDate && now <= closeDate) {
+          daysLeft = Math.ceil((closeDate - now) / MS_PER_DAY);
+          status = daysLeft <= 30 ? "closing" : "open";
+          return { hasDate: true, status: status, daysLeft: daysLeft, date: closeDate,
+            label: MONTH_NAMES[D-1] + " " + cy + " (approx.)", opens: openDate, closes: closeDate };
+        }
+
+        if (now < openDate) {
+          return { hasDate: true, status: "upcoming", daysLeft: null, date: openDate,
+            label: "Opens " + MONTH_NAMES[O-1] + " " + cy, opens: openDate, closes: closeDate };
+        }
+
+        nextOpen = new Date(cy+1, O-1, 1);
+        nextClose = new Date(cy+1, D-1, day, 23, 59, 59);
+        return { hasDate: true, status: "closed", daysLeft: null, date: nextOpen,
+          label: "Closed · Reopens " + MONTH_NAMES[O-1] + " " + (cy+1), opens: nextOpen, closes: nextClose };
+      }
+
+      // Cross-year window: O(prev year) → D(this year)
+      openDate = new Date(cy-1, O-1, 1);
+      closeDate = new Date(cy, D-1, day, 23, 59, 59);
+
+      if (now >= openDate && now <= closeDate) {
+        daysLeft = Math.ceil((closeDate - now) / MS_PER_DAY);
+        status = daysLeft <= 30 ? "closing" : "open";
+        return { hasDate: true, status: status, daysLeft: daysLeft, date: closeDate,
+          label: MONTH_NAMES[D-1] + " " + cy + " (approx.)", opens: openDate, closes: closeDate };
+      }
+
+      nextOpen = new Date(cy, O-1, 1);
+      nextClose = new Date(cy+1, D-1, day, 23, 59, 59);
+
+      if (now < nextOpen) {
+        return { hasDate: true, status: "closed", daysLeft: null, date: nextOpen,
+          label: "Closed · Reopens " + MONTH_NAMES[O-1] + " " + cy, opens: nextOpen, closes: nextClose };
+      }
+
+      daysLeft = Math.ceil((nextClose - now) / MS_PER_DAY);
+      status = daysLeft <= 30 ? "closing" : "open";
+      return { hasDate: true, status: status, daysLeft: daysLeft, date: nextClose,
+        label: MONTH_NAMES[D-1] + " " + (cy+1) + " (approx.)", opens: nextOpen, closes: nextClose };
     }
-    var daysLeft = Math.ceil((target.getTime() - now.getTime()) / MS_PER_DAY);
-    var status = daysLeft <= 30 ? "closing" : "open";
+
+    // ---- No opening month — original behaviour -------------------------
+    target = new Date(cy, D-1, day, 23, 59, 59);
+    if (target < now) {
+      target = new Date(cy+1, D-1, day, 23, 59, 59);
+    }
+    daysLeft = Math.ceil((target - now) / MS_PER_DAY);
+    status = daysLeft <= 30 ? "closing" : "open";
     return {
-      hasDate: true,
-      status: status,
-      daysLeft: daysLeft,
-      date: target,
-      label: MONTH_NAMES[s.deadlineMonthNum - 1] + " " + target.getFullYear() + " (approx.)"
+      hasDate: true, status: status,
+      daysLeft: daysLeft, date: target,
+      label: MONTH_NAMES[D-1] + " " + target.getFullYear() + " (approx.)",
+      opens: null, closes: null
     };
   }
 
   function statusMeta(status) {
     switch (status) {
+      case "upcoming": return { text: "Opening soon", cls: "st-upcoming" };
       case "closing": return { text: "Closing soon", cls: "st-closing" };
       case "rolling": return { text: "Rolling", cls: "st-rolling" };
+      case "closed": return { text: "Closed", cls: "st-closed" };
       default: return { text: "Open", cls: "st-open" };
     }
   }

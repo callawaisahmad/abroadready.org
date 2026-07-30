@@ -297,6 +297,8 @@
 .st-open { background: rgba(16,185,129,0.14); color: #047857; }
 .st-closing { background: rgba(244,63,94,0.14); color: #be123c; }
 .st-rolling { background: rgba(139,92,246,0.14); color: #6d28d9; }
+.st-closed { background: rgba(107,114,128,0.14); color: #4b5563; }
+.st-upcoming { background: rgba(245,158,11,0.14); color: #92400e; }
 
 .detail-main { display: flex; flex-direction: column; gap: var(--space-6); }
 

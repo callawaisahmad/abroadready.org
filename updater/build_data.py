@@ -3,8 +3,8 @@
 build_data.py — Merge the researched raw scholarship files into a single
 data/scholarships.json used by the AbroadReady website.
 
-This normalises fields, adds a numeric deadline month (deadlineMonthNum) so the
-browser can compute "days left" and Open/Closing-soon status live, and writes a
+This normalises fields, adds numeric deadline/opening months (deadlineMonthNum,
+opensMonthNum) so the browser can compute "days left" and Open/Closing-soon status live, and writes a
 small meta block (counts, generatedAt) the site uses for its stats.
 
 Run:  python3 updater/build_data.py

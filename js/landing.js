@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let feedItems = [];
 
     if (window.SB && window.SB.all && window.SB.all.length) {
-        // Build the feed from the real dataset, soonest deadlines first.
+        // Build feed from real data — only scholarships currently accepting.
         feedItems = window.SB.all.map(s => {
             const d = window.SB.deadlineInfo(s);
             return {
@@ -131,6 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 daysLeft: d.hasDate ? d.daysLeft : 99999,
                 status: d.status
             };
+        }).filter(function (item) {
+            return item.status !== 'closed' && item.status !== 'upcoming';
         }).sort((a, b) => a.daysLeft - b.daysLeft);
 
         // Update the "View all" button + hero counts to real numbers.
@@ -154,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!track || !window.SB || !window.SB.all) return;
         const withDates = window.SB.all
             .map(s => ({ s, d: window.SB.deadlineInfo(s) }))
-            .filter(x => x.d.hasDate)
+            .filter(x => x.d.hasDate && x.d.status !== 'closed' && x.d.status !== 'upcoming')
             .sort((a, b) => a.d.daysLeft - b.d.daysLeft)
             .slice(0, 10);
         if (!withDates.length) return;

@@ -80,9 +80,11 @@ document.addEventListener('DOMContentLoaded', function () {
     return '<div class="fact-row"><span class="fact-label">' + esc(label) + '</span><span class="fact-value">' + esc(value) + '</span></div>';
   }
 
-  var deadlineStat = d.hasDate
-    ? '<span class="stat-val ' + (d.status === 'closing' ? 'text-red' : '') + '">' + esc(d.label) + '</span>'
-    : '<span class="stat-val">' + esc(s.deadlineNote || 'Varies') + '</span>';
+  var deadlineStat = d.status === 'closed' || d.status === 'upcoming'
+    ? '<span class="stat-val" style="color:#6b7280;">' + esc(d.label) + '</span>'
+    : d.hasDate
+      ? '<span class="stat-val ' + (d.status === 'closing' ? 'text-red' : '') + '">' + esc(d.label) + '</span>'
+      : '<span class="stat-val">' + esc(s.deadlineNote || 'Varies') + '</span>';
 
   var feeStat = s.isFree
     ? '<span class="stat-val" style="color:#047857;">Free</span>'
@@ -103,9 +105,13 @@ document.addEventListener('DOMContentLoaded', function () {
     return '<span class="pill pill-blue">' + esc(l) + '</span>';
   }).join('');
 
-  var daysBanner = d.hasDate
-    ? '<div class="deadline-banner ' + (d.status === 'closing' ? 'urgent' : '') + '">⏳ <strong>' + d.daysLeft + ' days</strong> until the approximate ' + esc(SB.monthNames[s.deadlineMonthNum - 1]) + ' deadline</div>'
-    : '<div class="deadline-banner rolling">🔄 Rolling / varies — confirm exact dates on the official site</div>';
+  var daysBanner = d.status === 'closed'
+    ? '<div class="deadline-banner" style="background:rgba(107,114,128,0.1);border-color:#d1d5db;">🔒 Applications are currently closed. ' + esc(d.label || '') + '</div>'
+    : d.status === 'upcoming'
+      ? '<div class="deadline-banner" style="background:rgba(245,158,11,0.1);border-color:#f59e0b;">📅 Applications open ' + esc((d.opens ? SB.monthNames[d.opens.getMonth()] + ' ' + d.opens.getFullYear() : d.label || '')) + '</div>'
+      : d.hasDate
+        ? '<div class="deadline-banner ' + (d.status === 'closing' ? 'urgent' : '') + '">⏳ <strong>' + d.daysLeft + ' days</strong> until the approximate ' + esc(SB.monthNames[s.deadlineMonthNum - 1]) + ' deadline</div>'
+        : '<div class="deadline-banner rolling">🔄 Rolling / varies — confirm exact dates on the official site</div>';
 
   var html = '' +
   '<header class="sc-hero section pb-0">' +

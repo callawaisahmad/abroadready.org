@@ -89,7 +89,7 @@
 
       <div class="filter-group">
         <h4>Status &amp; fees</h4>
-        <label class="checkbox-label"><input type="checkbox" id="filter-open"> Currently open only</label>
+        <label class="checkbox-label"><input type="checkbox" id="filter-open" checked> Currently open only</label>
         <label class="checkbox-label"><input type="checkbox" id="filter-free"> Free to apply only</label>
       </div>
 
@@ -277,9 +277,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var d = SB.deadlineInfo(s);
     var sm = SB.statusMeta(d.status);
     var levelTags = (s.levels || []).map(function (l) { return '<span class="lvl-tag">' + SB.esc(l) + '</span>'; }).join('');
-    var daysLine = d.hasDate
-      ? '<strong>' + d.daysLeft + ' days left</strong> · ' + SB.esc(d.label)
-      : 'Deadline varies — check official site';
+    var daysLine = d.status === 'closed'
+      ? '🔒 ' + SB.esc(d.label)
+      : d.hasDate
+        ? '<strong>' + d.daysLeft + ' days left</strong> · ' + SB.esc(d.label)
+        : 'Deadline varies — check official site';
     var feeBadge = s.isFree
       ? '<span class="fee-badge free">Free to apply</span>'
       : '<span class="fee-badge paid">Fee: ' + SB.esc(s.applicationFee) + '</span>';
