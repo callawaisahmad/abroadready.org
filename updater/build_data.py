@@ -67,6 +67,10 @@ def main():
             dm = s.get("deadlineMonth")
             s["deadlineMonthNum"] = MONTHS.get(dm.lower()) if isinstance(dm, str) else None
 
+            # Numeric opening month for application-window logic
+            om = s.get("opensMonth")
+            s["opensMonthNum"] = MONTHS.get(om.lower()) if isinstance(om, str) else None
+
             # Field buckets for filtering
             s["fieldTags"] = field_tags(s.get("fields", []))
 

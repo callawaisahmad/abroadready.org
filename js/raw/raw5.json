@@ -751,7 +751,7 @@
         "Proof of identity/nationality"
       ],
       "applicationFee": "Free",
-      "deadlineMonth": "null",
+      "deadlineMonth": null,
       "deadlineNote": "Each partner institution sets its own deadlines. Apply directly through the chosen partner institution.",
       "intake": "Fall",
       "competition": "Very High",

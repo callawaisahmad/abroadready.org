@@ -4,13 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scholarship Details — Eligibility, Documents, Deadlines | AbroadReady</title>
-  <meta name="description" content="Full scholarship details: eligibility criteria, documents required, benefits, application fee, deadline and official apply link.">
+  <meta name="description" content="Full scholarship details including eligibility criteria, required documents, benefits, application deadlines, and tips. Browse fully funded international scholarships for Pakistani students.">
+  <meta name="keywords" content="scholarship details, international scholarships, fully funded scholarships, scholarship eligibility, scholarship application tips, study abroad funding, scholarships for Pakistani students">
   <link rel="canonical" href="https://abroadready.org/pages/scholarship.html">
   <meta property="og:title" content="Scholarship Details | AbroadReady">
-  <meta property="og:description" content="Full scholarship details: eligibility, documents, benefits, deadlines and apply links.">
+  <meta property="og:description" content="Full scholarship details: eligibility, documents, benefits, deadlines, and application tips. Find your path abroad.">
   <meta property="og:url" content="https://abroadready.org/pages/scholarship.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="AbroadReady">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Scholarship Details | AbroadReady">
+  <meta name="twitter:description" content="Full scholarship details including eligibility, documents, benefits, deadlines, and application tips.">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Scholarship Details",
+    "description": "Full scholarship details including eligibility criteria, required documents, benefits, deadlines, and application tips for international students.",
+    "publisher": { "@type": "Organization", "name": "AbroadReady", "url": "https://abroadready.org" },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://abroadready.org/" },
+        { "@type": "ListItem", "position": 2, "name": "Scholarships", "item": "https://abroadready.org/pages/results.html" },
+        { "@type": "ListItem", "position": 3, "name": "Scholarship Details", "item": "https://abroadready.org/pages/scholarship.html" }
+      ]
+    }
+  }
+  </script>
   <link rel="stylesheet" href="../css/design-system.css">
   <link rel="stylesheet" href="../css/scholarship.css">
 </head>
@@ -110,7 +132,9 @@ document.addEventListener('DOMContentLoaded', function () {
     : d.status === 'upcoming'
       ? '<div class="deadline-banner" style="background:rgba(245,158,11,0.1);border-color:#f59e0b;">📅 Applications open ' + esc((d.opens ? SB.monthNames[d.opens.getMonth()] + ' ' + d.opens.getFullYear() : d.label || '')) + '</div>'
       : d.hasDate
-        ? '<div class="deadline-banner ' + (d.status === 'closing' ? 'urgent' : '') + '">⏳ <strong>' + d.daysLeft + ' days</strong> until the approximate ' + esc(SB.monthNames[s.deadlineMonthNum - 1]) + ' deadline</div>'
+        ? d.opens && d.closes
+          ? '<div class="deadline-banner ' + (d.status === 'closing' ? 'urgent' : '') + '">📅 <strong>' + esc(SB.monthNames[d.opens.getMonth()]) + ' → ' + esc(SB.monthNames[d.closes.getMonth()]) + ' ' + d.closes.getFullYear() + '</strong> · ⏳ ' + d.daysLeft + ' days left</div>'
+          : '<div class="deadline-banner ' + (d.status === 'closing' ? 'urgent' : '') + '">⏳ <strong>' + d.daysLeft + ' days</strong> until the approximate ' + esc(SB.monthNames[s.deadlineMonthNum - 1]) + ' deadline</div>'
         : '<div class="deadline-banner rolling">🔄 Rolling / varies — confirm exact dates on the official site</div>';
 
   var html = '' +
@@ -183,6 +207,31 @@ document.addEventListener('DOMContentLoaded', function () {
           '<div class="ready-progress"><div class="ready-progress-fill" id="ready-fill" style="width:0%"></div></div>' +
           '<span class="ready-label" id="ready-label">0 of ' + beforeItems.length + ' ready</span>' +
         '</div>' +
+
+        '<div class="info-section card">' +
+          '<h2>💡 Application tips</h2>' +
+          '<ul class="req-list tip-list">' +
+            '<li>📌 <strong>Start early:</strong> Begin gathering documents at least 2-3 months before the deadline to avoid last-minute issues.</li>' +
+            '<li>📌 <strong>Read eligibility carefully:</strong> Every year, hundreds of applicants are rejected for not meeting basic criteria. Double-check every requirement.</li>' +
+            '<li>📌 <strong>Tailor your application:</strong> Generic essays and statements are easy to spot. Customise each application to the specific scholarship programme.</li>' +
+            '<li>📌 <strong>Get feedback on your essays:</strong> Ask a teacher, mentor, or friend to review your statement of purpose and motivation letter before submitting.</li>' +
+            '<li>📌 <strong>Prepare for interviews:</strong> Many scholarships have an interview stage. Practice common scholarship interview questions with a friend.</li>' +
+            '<li>📌 <strong>Apply to multiple scholarships:</strong> Don\'t put all your eggs in one basket. Apply to 3-5 scholarships to increase your chances of winning funding.</li>' +
+          '</ul>' +
+        '</div>' +
+
+        '<div class="info-section card">' +
+          '<h2>❓ Frequently asked questions</h2>' +
+          '<div class="faq-list">' +
+            '<div class="faq-item"><button class="faq-q">Can I apply if I haven\'t taken an English test yet? <span class="faq-toggle">+</span></button><div class="faq-a"><p>Most scholarships accept applications with pending English test scores, but you must submit them before the final deadline. Some scholarships like Chevening and Fulbright require scores by the application deadline. Check the specific requirements on the official website.</p></div></div>' +
+            '<div class="faq-item"><button class="faq-q">What GPA do I need for this scholarship? <span class="faq-toggle">+</span></button><div class="faq-a"><p>Competitive scholarships typically expect a CGPA of 3.0/4.0 or higher (or equivalent). For top scholarships like Chevening, Rhodes, and Gates Cambridge, you need a strong upper-second-class degree (2:1) or first-class equivalent. Check the eligibility section above for specific requirements.</p></div></div>' +
+            '<div class="faq-item"><button class="faq-q">Can I apply if I\'m still in my final year? <span class="faq-toggle">+</span></button><div class="faq-a"><p>Yes — most scholarships accept applications from final-year students who will complete their degree before the programme start date. You can apply with your current transcripts and submit the final certificate later. Many universities issue conditional offers pending degree completion.</p></div></div>' +
+            '<div class="faq-item"><button class="faq-q">How competitive is this scholarship? <span class="faq-toggle">+</span></button><div class="faq-a"><p>This scholarship has a <strong>' + esc(s.competition || 'competitive') + '</strong> selection rate. For very high competition scholarships like Chevening and Rhodes, acceptance rates can be below 1%. Focus on crafting a standout application with a clear narrative about your goals, leadership, and how you will contribute to your home country after your studies.</p></div></div>' +
+            '<div class="faq-item"><button class="faq-q">How do I apply for this scholarship as a Pakistani student? <span class="faq-toggle">+</span></button><div class="faq-a"><p>Pakistani students apply directly through the scholarship\'s official application portal or the relevant Pakistani government channel. Some scholarships (like Chevening, Commonwealth, and Fulbright) have country-specific application processes managed through the British Council, the CSC portal, or the USEFP. Always verify the official Pakistan-specific instructions on the scholarship website.</p></div></div>' +
+            '<div class="faq-item"><button class="faq-q">What documents do I need to prepare in advance? <span class="faq-toggle">+</span></button><div class="faq-a"><p>Essential documents include: academic transcripts (attested by HEC for Pakistani students), degree certificates, valid passport, English proficiency test scores (IELTS or TOEFL), CV/resume, two to three recommendation letters, and a strong statement of purpose or motivation letter. Start collecting these at least 2-3 months before the deadline.</p></div></div>' +
+            '<div class="faq-item"><button class="faq-q">Do I need a supervisor before applying? <span class="faq-toggle">+</span></button><div class="faq-a"><p>For PhD and research-based scholarships, having a confirmed supervisor who agrees to supervise your research significantly strengthens your application. Many scholarships like the Australian RTP, DAAD, and Swiss Excellence require a supervisor support letter. Start contacting potential supervisors 4-6 months before the deadline.</p></div></div>' +
+          '</div>' +
+        '</div>' +
       '</div>' +
 
       '<div class="detail-side">' +
@@ -247,6 +296,46 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
   });
+
+  // ---- FAQ accordion ----
+  app.querySelectorAll('.faq-q').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item = btn.parentElement;
+      var isActive = item.classList.contains('active');
+      item.classList.toggle('active');
+      btn.querySelector('.faq-toggle').textContent = isActive ? '+' : '−';
+    });
+  });
+
+  // ---- Dynamic meta tags for this specific scholarship ----
+  document.title = s.name + ' — Eligibility, Documents, Deadlines, Tips | AbroadReady';
+  var metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.content = 'Full details for ' + esc(s.name) + ': eligibility criteria, documents required, benefits, application deadline, and tips on how to apply as a Pakistani student for this ' + esc(s.fundingType.toLowerCase()) + ' scholarship.';
+  var ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.content = esc(s.name) + ' | AbroadReady';
+  var twitterTitle = document.querySelector('meta[name="twitter:title"]');
+  if (twitterTitle) twitterTitle.content = esc(s.name) + ' | AbroadReady';
+
+  // ---- Dynamic FAQ + Scholarship schema ----
+  var schemaScript = document.createElement('script');
+  schemaScript.type = 'application/ld+json';
+  schemaScript.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Scholarship",
+    "name": s.name,
+    "description": s.fundingSummary || s.name + ' scholarship for international students',
+    "provider": { "@type": "Organization", "name": s.provider },
+    "funder": { "@type": "Organization", "name": s.provider },
+    "offers": {
+      "@type": "Offer",
+      "category": s.fundingType === "Fully Funded" ? "Full Scholarship" : "Partial Scholarship",
+      "description": s.fundingSummary
+    },
+    "eligibleRegion": { "@type": "Place", "name": "International" },
+    "funding": s.fundingType,
+    "url": "https://abroadready.org/pages/scholarship.html?id=" + encodeURIComponent(s.id)
+  });
+  document.head.appendChild(schemaScript);
 });
 </script>
 <script src="../js/components.js"></script>

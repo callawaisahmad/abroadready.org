@@ -117,6 +117,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Build feed from real data — only scholarships currently accepting.
         feedItems = window.SB.all.map(s => {
             const d = window.SB.deadlineInfo(s);
+            const m = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+            var w = '';
+            if (d.opens && d.closes) {
+                var oy = d.opens.getFullYear(), cy = d.closes.getFullYear();
+                w = (oy !== cy ? m[d.opens.getMonth()] + ' ' + oy : m[d.opens.getMonth()]) + ' → ' + m[d.closes.getMonth()] + ' ' + cy;
+            }
             return {
                 id: s.id,
                 flag: s.country,
@@ -129,7 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 deadline: d.hasDate ? (d.daysLeft + ' days left') : 'Rolling',
                 deadlineDate: d.hasDate ? d.label : '',
                 daysLeft: d.hasDate ? d.daysLeft : 99999,
-                status: d.status
+                status: d.status,
+                windowText: w
             };
         }).filter(function (item) {
             return item.status !== 'closed' && item.status !== 'upcoming';
@@ -191,7 +198,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const href = scholarship.id ? `pages/scholarship.html?id=${encodeURIComponent(scholarship.id)}` : 'pages/results.html';
             const urgentClass = scholarship.status === 'closing' ? ' sc-urgent' : '';
             const statusLabel = scholarship.status === 'closing' ? '🔥 Closing soon' : '🎓 Open';
-            const deadlineLine = scholarship.deadlineDate
+            const windowLine = scholarship.windowText
+                ? `<span class="sc-window">📅 ${scholarship.windowText}</span>`
+                : '';
+            const deadlineLine = !scholarship.windowText && scholarship.deadlineDate
                 ? `<span class="sc-deadline-date">🗓️ ${scholarship.deadlineDate}</span>`
                 : '';
             card.innerHTML = `
@@ -208,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div class="sc-tags">${tagsHTML}</div>
                 <div class="sc-deadline-row">
+                    ${windowLine}
                     <span class="sc-days-left${urgentClass}">⏳ ${scholarship.deadline}</span>
                     ${deadlineLine}
                 </div>
