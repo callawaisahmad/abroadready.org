@@ -253,9 +253,27 @@ def index_page(posts, cats):
 
 def sitemap(posts):
     static_pages = ["index.html", "pages/results.html", "pages/saved.html", "pages/ai-advisor.html",
-        "pages/sop-builder.html", "pages/success.html", "pages/blog.html", "pages/partners.html",
-        "pages/about.html", "pages/contact.html", "pages/privacy.html", "pages/terms.html"]
+        "pages/sop-builder.html", "pages/success.html", "pages/blog.html", "pages/about.html",
+        "pages/contact.html", "pages/privacy.html", "pages/terms.html",
+        "pages/study.html", "pages/immigration.html", "pages/visa-guidance.html", "pages/consultancy.html"]
+    country_pages = [
+        "pages/study-in-usa.html", "pages/immigrate-to-usa.html",
+        "pages/study-in-canada.html", "pages/immigrate-to-canada.html",
+        "pages/study-in-uk.html", "pages/immigrate-to-uk.html",
+        "pages/study-in-germany.html", "pages/immigrate-to-germany.html",
+        "pages/study-in-italy.html", "pages/immigrate-to-italy.html",
+        "pages/study-in-france.html", "pages/immigrate-to-france.html",
+        "pages/study-in-turkey.html", "pages/immigrate-to-turkey.html",
+        "pages/study-in-australia.html", "pages/immigrate-to-australia.html",
+        "pages/study-in-netherlands.html", "pages/immigrate-to-netherlands.html",
+        "pages/study-in-sweden.html", "pages/immigrate-to-sweden.html",
+        "pages/study-in-switzerland.html", "pages/immigrate-to-switzerland.html",
+        "pages/study-in-spain.html", "pages/immigrate-to-spain.html",
+        "pages/study-in-ireland.html", "pages/immigrate-to-ireland.html",
+        "pages/study-in-new-zealand.html", "pages/immigrate-to-new-zealand.html",
+    ]
     urls = "".join(f"  <url><loc>{DOMAIN}/{u}</loc><changefreq>weekly</changefreq></url>\n" for u in static_pages)
+    urls += "".join(f"  <url><loc>{DOMAIN}/{u}</loc><changefreq>monthly</changefreq></url>\n" for u in country_pages)
     for p in posts:
         urls += f"  <url><loc>{DOMAIN}/pages/{p['slug']}.html</loc><lastmod>{iso_date(p['date'])}</lastmod><changefreq>monthly</changefreq></url>\n"
     return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "</urlset>\n"

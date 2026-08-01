@@ -499,8 +499,7 @@ document.addEventListener('DOMContentLoaded', () => {
         draw();
     }
 
-    /* ---- Newsletter Form ---- */
-    const NEWSLETTER_URL = 'https://script.google.com/macros/s/AKfycbwbdLx7pwD8CaewLyhrXlKcEP-D5z7k2A9ITQmAgga-sxc6E6K6w62NlJ6q8O0rI9_l/exec';
+    /* ---- Newsletter Form (Web3Forms) ---- */
     const newsletterForm = document.getElementById('newsletter-form');
     if(newsletterForm) {
         newsletterForm.addEventListener('submit', (e) => {
@@ -515,11 +514,16 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.innerText = 'Subscribing...';
             btn.disabled = true;
             
-            fetch(NEWSLETTER_URL, {
+            const fd = new FormData();
+            fd.append('access_key', 'fc455807-8edf-435c-a8f2-01a22236869b');
+            fd.append('email', email);
+            fd.append('subject', 'Newsletter Subscription - AbroadReady');
+            fd.append('from_name', 'AbroadReady Newsletter');
+            fd.append('botcheck', '');
+            
+            fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: email, page: window.location.pathname })
+                body: fd
             }).then(() => {
                 btn.innerText = 'Subscribed! 🎉';
                 btn.classList.replace('btn-primary', 'btn-accent');

@@ -1,9 +1,14 @@
-# AbroadReady — Scholarships Board
+# AbroadReady — Scholarships Board & Study Abroad Guides
 
 A scholarship discovery website: browse international scholarships, filter by
 **programme, intake, region, field and funding**, then open any one to see its
 **eligibility criteria, documents required, benefits, application fee, deadline
 and official apply link** — plus a "before you apply" checklist.
+
+Also includes **Study Abroad** and **Immigration** hubs with in-depth, SEO-ready
+country guides: per-country study and immigration pages for the USA, Canada,
+UK, Germany, Italy, France, Turkey, Australia, Netherlands, Sweden, Switzerland,
+Spain, Ireland and New Zealand.
 
 Built as a set of plain HTML/CSS/JS files with a small Python data pipeline, so
 it hosts **free** anywhere (GitHub Pages, Netlify, your own server) with no
@@ -37,11 +42,17 @@ abroadready/
 │   ├── scholarship.html        ★ Detail page (eligibility, documents, apply)
 │   ├── ai-advisor.html         (your existing pages, unchanged)
 │   ├── sop-builder.html
-│   ├── success.html · blog.html · partners.html
+│   ├── success.html · blog.html
+│   ├── study.html              Hub — study-in-*.html guides (14 countries)
+│   ├── immigration.html        Hub — immigrate-to-*.html guides (14 countries)
+│   ├── visa-guidance.html · consultancy.html
+│   ├── study-in-usa.html … study-in-new-zealand.html
+│   └── immigrate-to-usa.html … immigrate-to-new-zealand.html
 ├── css/
 │   ├── design-system.css       Shared design tokens (colours, buttons, cards)
 │   ├── results.css             Filter/list styles
 │   ├── scholarship.css         Detail-page styles
+│   ├── country.css             Hub + country-guide styles
 │   └── landing.css · tools.css
 ├── js/
 │   ├── scholarships-data.js    Auto-generated data (loaded by the pages)

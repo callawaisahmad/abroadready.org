@@ -201,7 +201,6 @@ Do a find-and-replace across ALL HTML files:
 - `/pages/contact.html`
 - `/pages/privacy.html`
 - `/pages/terms.html`
-- `/pages/partners.html`
 - `/pages/scholarship.html` (individual scholarship journey map)
 
 **Fix:** Either create these pages (priority: privacy.html and terms.html are legally required) or remove links until pages exist. Broken links are penalised by Google.
@@ -575,13 +574,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </url>
 
   <!-- Add remaining blog article URLs following same pattern -->
-
-  <url>
-    <loc>https://abroadready.org/pages/partners.html</loc>
-    <lastmod>2026-07-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
 
 </urlset>
 ```

@@ -14,11 +14,11 @@
   var NAV = [
     { label: "Home", href: HOME, match: "index.html" },
     { label: "Scholarships", href: P + "results.html", match: "results.html" },
-    { label: "AI Advisor", href: P + "ai-advisor.html", match: "ai-advisor.html" },
-    { label: "SOP Builder", href: P + "sop-builder.html", match: "sop-builder.html" },
-    { label: "Success", href: P + "success.html", match: "success.html" },
-    { label: "Blog", href: P + "blog.html", match: "blog.html" },
-    { label: "For Universities", href: P + "partners.html", match: "partners.html" }
+    { label: "Study Abroad", href: P + "study.html", match: "study.html" },
+    { label: "Immigration", href: P + "immigration.html", match: "immigration.html" },
+    { label: "Visa Guidance", href: P + "visa-guidance.html", match: "visa-guidance.html" },
+    { label: "Consultancy", href: P + "consultancy.html", match: "consultancy.html" },
+    { label: "Blog", href: P + "blog.html", match: "blog.html" }
   ];
 
   var current = location.pathname.split("/").pop() || "index.html";
@@ -73,12 +73,18 @@
           ["Scholarship Quiz", HOME + "#quiz"],           ["Scholarships", P + "results.html"],
           ["AI Advisor", P + "ai-advisor.html"], ["SOP Builder", P + "sop-builder.html"], ["Saved", savedHref]
         ]) +
-        footerCol("Resources", [
-          ["Blog", P + "blog.html"], ["Success Stories", P + "success.html"],
-          ["SOP Samples", P + "sop-builder.html"], ["Interview Tips", P + "blog.html"]
+        footerCol("Study Abroad", [
+          ["Study in USA", P + "study-in-usa.html"], ["Study in UK", P + "study-in-uk.html"],
+          ["Study in Canada", P + "study-in-canada.html"], ["Study in Germany", P + "study-in-germany.html"],
+          ["Study in Australia", P + "study-in-australia.html"], ["All Study Guides", P + "study.html"]
+        ]) +
+        footerCol("Immigration", [
+          ["Immigrate to USA", P + "immigrate-to-usa.html"], ["Immigrate to Canada", P + "immigrate-to-canada.html"],
+          ["Immigrate to Germany", P + "immigrate-to-germany.html"], ["Immigrate to UK", P + "immigrate-to-uk.html"],
+          ["Visa Guidance", P + "visa-guidance.html"], ["All Immigration Guides", P + "immigration.html"]
         ]) +
         footerCol("Company", [
-          ["About Us", P + "about.html"], ["Partner With Us", P + "partners.html"],
+          ["About Us", P + "about.html"], ["Consultancy", P + "consultancy.html"],
           ["Contact", P + "contact.html"], ["Privacy Policy", P + "privacy.html"], ["Terms of Service", P + "terms.html"]
         ]) +
       '</div>' +
