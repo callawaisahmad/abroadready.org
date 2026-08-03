@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Scholarship Advisor — Ask Any Scholarship Question | AbroadReady</title>
-  <meta name="description" content="Get instant answers about Chevening, Fulbright, DAAD, and 500+ scholarships from our free AI advisor. Ask about eligibility, documents, SOPs, and deadlines.">
+  <title>AI Study &amp; Immigration Advisor — Ask Any Scholarship or Visa Question | AbroadReady</title>
+  <meta name="description" content="Free AI advisor for studying and moving abroad. Get instant answers about Chevening, Fulbright, DAAD and 500+ scholarships, plus immigration, PR, work visas, student visas and IELTS from our 2026 country guides.">
   <link rel="canonical" href="https://abroadready.org/pages/ai-advisor.html">
-  <meta property="og:title" content="Free AI Scholarship Advisor | AbroadReady">
-  <meta property="og:description" content="Ask anything about Chevening, Fulbright, DAAD and 500+ scholarships. Get expert answers instantly.">
+  <meta property="og:title" content="AI Study & Immigration Advisor | AbroadReady">
+  <meta property="og:description" content="Ask anything about scholarships, immigration, PR, work visas or studying abroad. Instant expert answers from our guides and live database.">
   <meta property="og:url" content="https://abroadready.org/pages/ai-advisor.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="AbroadReady">
   <meta property="og:image" content="https://abroadready.org/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Free AI Scholarship Advisor | AbroadReady">
-  <meta name="twitter:description" content="Ask anything about Chevening, Fulbright, DAAD and 500+ scholarships. Get expert answers instantly.">
+  <meta name="twitter:title" content="AI Study & Immigration Advisor | AbroadReady">
+  <meta name="twitter:description" content="Ask anything about scholarships, immigration, PR, work visas or studying abroad. Instant expert answers from our guides and live database.">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "AI Scholarship Advisor",
+    "name": "AI Study & Immigration Advisor",
     "url": "https://abroadready.org/pages/ai-advisor.html",
-    "description": "Free AI assistant that answers questions about 500+ scholarships, eligibility, documents and deadlines.",
+    "description": "Free AI assistant that answers questions about 500+ scholarships, immigration, PR, work visas, student visas, studying abroad and IELTS.",
     "applicationCategory": "EducationalApplication",
     "publisher": { "@type": "Organization", "name": "AbroadReady", "url": "https://abroadready.org" },
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
@@ -58,8 +58,8 @@
 
   <!-- Sidebar -->
   <aside class="chat-sidebar card">
-    <h1 class="mb-4 text-lg">Scholarship Assistant</h1>
-    <p class="text-xs text-gray-500" style="margin-bottom:16px;">Ask about eligibility, deadlines, documents, fees, or which scholarships fit your field and level. Answers come straight from our live scholarship database.</p>
+    <h1 class="mb-4 text-lg">AI Study &amp; Immigration Advisor</h1>
+    <p class="text-xs text-gray-500" style="margin-bottom:16px;">Ask anything about scholarships, immigration, work visas, studying abroad, student visas or IELTS. Answers come straight from our live scholarship database and our 2026 country guides.</p>
 
     <div class="context-pill">
       <span class="text-xs text-gray-500">In the database</span>
@@ -69,6 +69,10 @@
       <span class="text-xs text-gray-500">Covering</span>
       <p class="font-bold" id="ctx-countries">— countries</p>
     </div>
+    <div class="context-pill">
+      <span class="text-xs text-gray-500">Immigration &amp; study guides</span>
+      <p class="font-bold" id="ctx-imm">— guides</p>
+    </div>
 
     <hr class="my-6 border-gray-100">
 
@@ -77,9 +81,11 @@
       <button class="chat-suggestion" onclick="askNow(this.innerText)">Am I eligible for Chevening?</button>
       <button class="chat-suggestion" onclick="askNow(this.innerText)">Fully funded PhD scholarships</button>
       <button class="chat-suggestion" onclick="askNow(this.innerText)">What documents does DAAD need?</button>
-      <button class="chat-suggestion" onclick="askNow(this.innerText)">Scholarships in Germany with no fee</button>
-      <button class="chat-suggestion" onclick="askNow(this.innerText)">Which deadlines are closing soon?</button>
-      <button class="chat-suggestion" onclick="askNow(this.innerText)">How do I write a leadership essay?</button>
+      <button class="chat-suggestion" onclick="askNow(this.innerText)">Which country is easiest to migrate to?</button>
+      <button class="chat-suggestion" onclick="askNow(this.innerText)">Explain US immigration in simple terms</button>
+      <button class="chat-suggestion" onclick="askNow(this.innerText)">Tell me about Canada PR</button>
+      <button class="chat-suggestion" onclick="askNow(this.innerText)">How do I study in Germany?</button>
+      <button class="chat-suggestion" onclick="askNow(this.innerText)">What IELTS score do I need?</button>
     </div>
   </aside>
 
@@ -90,11 +96,13 @@
       <div class="message ai-message">
         <div class="msg-avatar">🎓</div>
         <div class="msg-bubble">
-          <p>Hi! I'm your scholarship assistant. I can search our whole database and answer questions like:</p>
+          <p>Hi! I'm your AI advisor for studying and moving abroad. I can search our scholarship database <em>and</em> our immigration &amp; study guides — ask anything like:</p>
           <ul>
             <li>"Am I eligible for <em>Fulbright</em>?"</li>
             <li>"Show me <em>fully funded Masters in the UK</em>"</li>
-            <li>"What documents does <em>Erasmus Mundus</em> require?"</li>
+            <li>"<em>Immigrate to Canada</em> — what are the routes?"</li>
+            <li>"Which country is <em>easy to migrate</em> to?"</li>
+            <li>"Explain <em>US immigration</em> in simple terms"</li>
           </ul>
           <p>What would you like to know?</p>
         </div>
@@ -115,6 +123,7 @@
 
 <script src="../js/scholarships-data.js"></script>
 <script src="../js/scholarships.js"></script>
+<script src="../js/immigration-data.js"></script>
 <script>
 (function () {
   var SB = window.SB;
@@ -124,6 +133,7 @@
   // Sidebar context from real data
   document.getElementById('ctx-count').textContent = SB.all.length + ' scholarships';
   document.getElementById('ctx-countries').textContent = (SB.meta.countryCount || '20+') + ' countries';
+  document.getElementById('ctx-imm').textContent = (window.IMM ? (IMM.count + ' immigration + ' + '14 study') : '—') + ' guides';
 
   // ---- distinctive keyword → scholarship id, for name detection ----
   var ALIASES = {
@@ -256,6 +266,56 @@
         '<a href="results.html?region=Europe" style="color:var(--primary);font-weight:600;">Europe</a>. Always check the specific programme\'s language rule.</p>';
     }
 
+    // ===== Immigration, study & visa knowledge =====
+    var IMM = window.IMM;
+    var immCountry = IMM.findCountry(q);
+    var simpleAsk = /simple|simpler|simplif|explain|easy to understand|beginner|overview|in a nutshell|basics|simple terms/.test(q);
+    var immAsk = /immigrat|migrat|move to|permanent resid|\bpr\b|citizenship|settle|green card|work permit|work visa|express entry|points system|skilled worker|relocat|\bvisa\b|settlement|naturalis/.test(q);
+    var visaAsk = /student visa|study visa|\bvisa\b/.test(q);
+
+    if (immAsk) {
+      if (visaAsk && /student|study/.test(q)) {
+        var vLine = '<p><strong>Student visa help:</strong></p>' +
+          '<p>Our <a href="' + IMM.hubs.visa.page + '" style="color:var(--primary);font-weight:600;">' + IMM.esc(IMM.hubs.visa.title) + ' →</a> covers documents, proof of funds, interviews and timelines.';
+        if (immCountry) {
+          vLine += ' For ' + IMM.esc(immCountry.name) + ': ' + IMM.studyLink(immCountry) + ' (visa + costs) · ' + IMM.guideLink(immCountry);
+        }
+        return vLine + '</p>';
+      }
+      if (visaAsk && !immCountry) {
+        return '<p><strong>Visa guidance:</strong></p><p>We cover both sides — <a href="' + IMM.hubs.visa.page + '" style="color:var(--primary);font-weight:600;">Student visa guidance →</a> for study and <a href="' + IMM.hubs.immigration.page + '" style="color:var(--primary);font-weight:600;">immigration &amp; work visa guides →</a> for moving permanently. Ask for a country and I\'ll give you the routes.</p>';
+      }
+      if (/easy|easiest|which country.*(best|easy|easiest)|where.*migrat|best country.*migrat|country is.*migrat/.test(q)) {
+        return IMM.easiest(simpleAsk);
+      }
+      if (immCountry) {
+        return IMM.countryCard(immCountry, simpleAsk);
+      }
+      if (/green card|h-?1b/.test(q)) {
+        return IMM.countryCard(IMM.byName('United States'), simpleAsk);
+      }
+      return '<p>We have detailed 2026 immigration guides for <strong>13 countries</strong> — points systems, work visas, PR and citizenship. Ask about a specific one (e.g. <em>"immigrate to Germany"</em> or <em>"USA PR in simple terms"</em>), or pick from:</p>' +
+        '<div class="chat-cards">' + IMM.countries.map(function (c) {
+          return '<div class="chat-card"><div class="cc-top">' + IMM.flag(c, 22) + '</div>' +
+            '<div class="cc-name">' + IMM.esc(c.name) + '</div>' +
+            '<a class="cc-link" href="immigrate-to-' + c.slug + '.html">View guide →</a></div>';
+        }).join('') + '</div>' +
+        '<p>Or browse <a href="' + IMM.hubs.immigration.page + '" style="color:var(--primary);font-weight:600;">all immigration guides →</a></p>';
+    }
+
+    // IELTS / TOEFL (beyond the "no IELTS" case handled above)
+    if (/ielts|toefl|band score|english test|english language test/.test(q) && !/no ielts|without ielts/.test(q)) {
+      return '<p><strong>English tests — we have you covered:</strong></p>' +
+        '<p>The <a href="' + IMM.hubs.ielts.page + '" style="color:var(--primary);font-weight:600;">' + IMM.esc(IMM.hubs.ielts.title) + ' →</a> explains the band scale, each module, fees, test dates and the score every country/university needs. Also compare: <a href="toefl-vs-ielts-which-test.html" style="color:var(--primary);font-weight:600;">TOEFL vs IELTS →</a></p>';
+    }
+
+    // Studying in a specific country
+    if (/study in|study abroad/.test(q) && immCountry) {
+      return '<p><strong>Studying in ' + IMM.esc(immCountry.name) + ':</strong></p>' +
+        '<p>See the ' + IMM.studyLink(immCountry) + ' guide — universities, tuition costs, student visa and scholarships.</p>' +
+        '<p>Want funding instead? Ask <em>"scholarships in ' + IMM.esc(immCountry.name) + '"</em> and I\'ll pull matches from our live database.</p>';
+    }
+
     // Closing soon
     if (/closing|soon|urgent|earliest|nearest deadline|expiring/.test(q)) {
       var closing = SB.all.filter(function (x) { return SB.deadlineInfo(x).status === 'closing'; })
@@ -293,7 +353,15 @@
     }
 
     // Fallback
-    return "I can search our database for you. Try naming a scholarship (e.g. \"Is Fulbright free to apply?\"), or describe what you want — for example <em>\"fully funded PhD in Europe\"</em> or <em>\"Masters scholarships in Australia\"</em>. You can also <a href='results.html' style='color:var(--primary);font-weight:600;'>browse everything</a>.";
+    return "I can search the whole AbroadReady knowledge base for you. Try one of these: " +
+      "<ul>" +
+      "<li><em>\"Am I eligible for Fulbright?\"</em> — any scholarship by name</li>" +
+      "<li><em>\"fully funded PhD in Europe\"</em> — matches by level, field, region</li>" +
+      "<li><em>\"immigrate to Canada\"</em> or <em>\"USA PR in simple terms\"</em> — immigration guides</li>" +
+      "<li><em>\"which country is easy to migrate to\"</em> — a ranked comparison</li>" +
+      "<li><em>\"study in Germany\"</em>, <em>\"student visa\"</em>, <em>\"IELTS score\"</em> — our guides</li>" +
+      "</ul>" +
+      "Or browse <a href='results.html' style='color:var(--primary);font-weight:600;'>all scholarships</a>, <a href='immigration.html' style='color:var(--primary);font-weight:600;'>immigration guides</a> or the <a href='blog.html' style='color:var(--primary);font-weight:600;'>blog</a>.";
   }
 
   // ---- Chat UI ----
