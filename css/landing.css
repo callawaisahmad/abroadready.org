@@ -1210,6 +1210,110 @@
   align-items: center;
 }
 
+/* ---- Explore Your Journey ---- */
+.path-card {
+  background: var(--bg-blue);
+  padding: var(--space-5);
+  border-radius: var(--radius-xl);
+  border: 1.5px solid var(--border-blue);
+  transition: var(--transition-base);
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.path-card:nth-child(2) {
+  background: var(--bg-purple);
+  border-color: var(--border-purple);
+}
+.path-card:nth-child(2)::before {
+  background: linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%);
+}
+
+.path-card:nth-child(3) {
+  background: var(--bg-green);
+  border-color: var(--border-green);
+}
+.path-card:nth-child(3)::before {
+  background: var(--gradient-gold);
+}
+
+.path-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--gradient-primary);
+  opacity: 1;
+  border-radius: 0 0 4px 0;
+}
+
+.path-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(59,130,246,0.08);
+  border-color: var(--primary-light);
+}
+
+.path-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(139,92,246,0.15) 100%);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: var(--space-3);
+  border: 1.5px solid rgba(59,130,246,0.15);
+  transition: var(--transition-base);
+}
+
+.path-card:hover .path-icon {
+  background: linear-gradient(135deg, rgba(139,92,246,0.15) 0%, rgba(59,130,246,0.15) 100%);
+  border-color: rgba(59,130,246,0.3);
+  transform: scale(1.05);
+}
+
+.path-card h4 {
+  margin-bottom: var(--space-2);
+}
+
+.path-card p {
+  color: var(--gray-600);
+  margin-bottom: var(--space-4);
+}
+
+.path-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.path-tags span {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--blue);
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.2);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.path-card:nth-child(2) .path-tags span {
+  color: var(--purple);
+  background: rgba(139,92,246,0.1);
+  border-color: rgba(139,92,246,0.2);
+}
+
+.path-card:nth-child(3) .path-tags span {
+  color: var(--gold);
+  background: rgba(245,158,11,0.12);
+  border-color: rgba(245,158,11,0.25);
+}
+
 /* ---- Newsletter ---- */
 .newsletter-section {
   padding: var(--space-8) 0 0;
