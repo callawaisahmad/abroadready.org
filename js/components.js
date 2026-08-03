@@ -244,6 +244,12 @@
       });
 
     wire();
+
+    // Sticky "Need to-the-point help?" AI advisor widget (site-wide).
+    var widgetScript = document.createElement("script");
+    widgetScript.src = (inPages ? "../" : "") + "js/advisor-widget.js";
+    widgetScript.async = true;
+    document.body.appendChild(widgetScript);
   }
 
   function wire() {
