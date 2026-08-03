@@ -32,7 +32,8 @@
       { label: "SOP Builder", href: P + "sop-builder.html", match: "sop-builder.html" },
       { label: "AI Advisor", href: P + "ai-advisor.html", match: "ai-advisor.html" },
       { label: "Visa Guidance", href: P + "visa-guidance.html", match: "visa-guidance.html" },
-      { label: "Admission Guidance", href: P + "admission-guidance.html", match: "admission-guidance.html" }
+      { label: "Admission Guidance", href: P + "admission-guidance.html", match: "admission-guidance.html" },
+      { label: "IELTS Guidance", href: P + "ielts-guidance.html", match: "ielts-guidance.html" }
     ]},
     { label: "Study Abroad", href: P + "study.html", match: "study.html", children: [
       { label: "All Study Abroad Destinations", href: P + "study.html", match: "study.html" },
@@ -152,6 +153,7 @@
           ["Scholarships", P + "results.html"],
           ["AI Advisor", P + "ai-advisor.html"],
           ["SOP Builder", P + "sop-builder.html"],
+          ["IELTS Guidance", P + "ielts-guidance.html"],
           ["Saved", savedHref]
         ]) +
         footerCol("Study Abroad", [
