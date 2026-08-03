@@ -146,12 +146,12 @@
         footerCol("Study Abroad", [
           ["Study in USA", P + "study-in-usa.html"], ["Study in UK", P + "study-in-uk.html"],
           ["Study in Canada", P + "study-in-canada.html"], ["Study in Germany", P + "study-in-germany.html"],
-          ["Study in Australia", P + "study-in-australia.html"], ["All Study Abroad Destinations", P + "study.html"]
+          ["All Study Abroad Destinations", P + "study.html"]
         ]) +
         footerCol("Immigration", [
           ["Immigrate to USA", P + "immigrate-to-usa.html"], ["Immigrate to Canada", P + "immigrate-to-canada.html"],
           ["Immigrate to UK", P + "immigrate-to-uk.html"], ["Immigrate to Germany", P + "immigrate-to-germany.html"],
-          ["Immigrate to Australia", P + "immigrate-to-australia.html"], ["All Immigration Guides", P + "immigration.html"]
+          ["All Immigration Guides", P + "immigration.html"]
         ]) +
         footerCol("Company", [
           ["About", P + "about.html"], ["Contact", P + "contact.html"],
