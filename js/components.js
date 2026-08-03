@@ -56,8 +56,7 @@
       { label: "Immigrate to Turkey", href: P + "immigrate-to-turkey.html", match: "immigrate-to-turkey.html" },
       { label: "Immigrate to Ireland", href: P + "immigrate-to-ireland.html", match: "immigrate-to-ireland.html" }
     ]},
-    { label: "About", href: P + "about.html", match: "about.html" },
-    { label: "Contact", href: P + "contact.html", match: "contact.html" }
+    { label: "About", href: P + "about.html", match: "about.html" }
   ];
 
   var current = location.pathname.split("/").pop() || "index.html";
