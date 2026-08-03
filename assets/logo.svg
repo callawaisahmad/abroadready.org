@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="AbroadReady logo">
+  <defs>
+    <linearGradient id="arCap" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="arSwoosh" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f59e0b"/>
+      <stop offset="1" stop-color="#fbbf24"/>
+    </linearGradient>
+  </defs>
+  <!-- Mortarboard -->
+  <path d="M60 18 L96 46 L60 74 L24 46 Z" fill="url(#arCap)"/>
+  <!-- Skull cap base -->
+  <path d="M50 68 L70 68 L65 86 Q60 90 55 86 Z" fill="#2563eb"/>
+  <!-- Takeoff swoosh -->
+  <path d="M74 34 Q95 30 99 12" fill="none" stroke="url(#arSwoosh)" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="99" cy="12" r="5" fill="#f59e0b"/>
+</svg>

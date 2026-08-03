@@ -11,6 +11,18 @@
   var P = inPages ? "" : "pages/";                 // prefix for page files
   var HOME = inPages ? "../" : "/";
 
+  // ---------- LOGO MARK ----------
+  var LOGO_MARK = '<svg class="site-logo-svg" viewBox="0 0 120 120" aria-hidden="true" focusable="false">' +
+    '<defs>' +
+      '<linearGradient id="arCapG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient>' +
+      '<linearGradient id="arSwooshG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#fbbf24"/></linearGradient>' +
+    '</defs>' +
+    '<path d="M60 18 L96 46 L60 74 L24 46 Z" fill="url(#arCapG)"/>' +
+    '<path d="M50 68 L70 68 L65 86 Q60 90 55 86 Z" fill="#2563eb"/>' +
+    '<path d="M74 34 Q95 30 99 12" fill="none" stroke="url(#arSwooshG)" stroke-width="7" stroke-linecap="round"/>' +
+    '<circle cx="99" cy="12" r="5" fill="#f59e0b"/>' +
+  '</svg>';
+
   // ---------- NAVIGATION ----------
   var NAV = [
     { label: "Home", href: HOME, match: "index.html" },
@@ -104,7 +116,7 @@
     return '' +
     '<header class="site-header" id="site-header-el">' +
       '<div class="site-header-inner container">' +
-        '<a href="' + HOME + '" class="site-logo"><span class="site-logo-icon">🎓</span><span class="site-logo-text">Abroad<span class="text-gradient">Ready</span></span></a>' +
+          '<a href="' + HOME + '" class="site-logo"><span class="site-logo-icon">' + LOGO_MARK + '</span><span class="site-logo-text">Abroad<span class="text-gradient">Ready</span></span></a>' +
         '<nav class="site-nav">' + links + '</nav>' +
         '<div class="site-actions">' +
           '<a href="' + savedHref + '" class="site-saved" id="site-saved" title="Saved scholarships">♥ <span id="site-saved-count">0</span></a>' +
@@ -126,7 +138,7 @@
     '<footer class="site-footer">' +
       '<div class="container site-footer-grid">' +
         '<div class="site-footer-brand">' +
-          '<a href="' + HOME + '" class="site-logo"><span class="site-logo-icon">🎓</span><span class="site-logo-text">Abroad<span class="text-gradient">Ready</span></span></a>' +
+        '<a href="' + HOME + '" class="site-logo"><span class="site-logo-icon">' + LOGO_MARK + '</span><span class="site-logo-text">Abroad<span class="text-gradient">Ready</span></span></a>' +
           '<p class="site-footer-tag">A free scholarship board — find funding, deadlines, eligibility and how to apply, all in one place.</p>' +
           '<div class="site-social">' +
             socialIcon("Facebook", "M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07c0 6 4.39 10.97 10.13 11.85v-8.38H7.08v-3.47h3.05V9.43c0-3.01 1.79-4.67 4.53-4.67 1.31 0 2.69.24 2.69.24v2.95h-1.52c-1.49 0-1.96.93-1.96 1.87v2.25h3.33l-.53 3.47h-2.8V24C19.61 23.04 24 18.07 24 12.07z") +

@@ -33,8 +33,14 @@
 }
 
 .logo-icon {
-  font-size: 1.8rem;
+  display: inline-flex;
+  align-items: center;
   animation: bounceIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.logo-icon .logo-svg {
+  width: 34px;
+  height: 34px;
 }
 
 .nav-links {

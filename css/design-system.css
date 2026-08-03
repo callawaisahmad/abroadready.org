@@ -466,7 +466,8 @@ h4 { font-size: var(--text-2xl); }
 .site-header-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: var(--space-6); }
 
 .site-logo { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-heading); font-weight: 800; font-size: 1.25rem; color: var(--ink); text-decoration: none; white-space: nowrap; }
-.site-logo-icon { font-size: 1.4rem; }
+.site-logo-icon { display: inline-flex; align-items: center; }
+.site-logo-icon .site-logo-svg { width: 28px; height: 28px; }
 
 .site-nav { display: flex; align-items: center; gap: var(--space-1); margin-left: auto; }
 .site-link {
