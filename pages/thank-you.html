@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You — Request Received | AbroadReady</title>
+  <meta name="description" content="Your admission guidance request has been received. We'll reply within 48 hours with a personalised study-abroad roadmap.">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://abroadready.org/pages/thank-you.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Thank You | AbroadReady">
+  <meta property="og:description" content="Your admission guidance request has been received.">
+  <meta property="og:url" content="https://abroadready.org/pages/thank-you.html">
+  <meta property="og:site_name" content="AbroadReady">
+  <link rel="stylesheet" href="../css/design-system.css">
+  <style>
+    .thanks-wrap { min-height: 72vh; display: flex; align-items: center; justify-content: center; padding: var(--space-8) var(--space-4); }
+    .thanks-card { max-width: 560px; width: 100%; text-align: center; padding: var(--space-16) var(--space-8); border-radius: var(--radius-2xl); border: 1.5px solid var(--border-green); box-shadow: var(--shadow-lg); }
+    .thanks-card::before { content: ''; display: block; height: 4px; background: var(--gradient-forest); border-radius: var(--radius-full) var(--radius-full) 0 0; margin: calc(-1 * var(--space-16)) calc(-1 * var(--space-8)) var(--space-8); }
+    .thanks-check { width: 72px; height: 72px; margin: 0 auto var(--space-6); border-radius: var(--radius-full); background: var(--bg-green); display: flex; align-items: center; justify-content: center; color: var(--forest); animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+    .thanks-card h1 { font-family: var(--font-heading); font-weight: 800; font-size: var(--text-4xl); color: var(--ink); margin-bottom: var(--space-4); }
+    .thanks-card p { color: #475569; font-size: var(--text-lg); line-height: 1.7; margin-bottom: var(--space-8); }
+    .thanks-actions { display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap; }
+    .thanks-ref { margin-top: var(--space-8); font-size: var(--text-sm); color: #94a3b8; }
+    @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.3); } 50% { opacity: 1; transform: scale(1.05); } 70% { transform: scale(0.95); } 100% { transform: scale(1); } }
+  </style>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#3b82f6">
+</head>
+<body>
+<script src="../js/saved.js"></script>
+
+<main class="thanks-wrap">
+  <div class="thanks-card">
+    <div class="thanks-check">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="36" height="36" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+    </div>
+    <h1>Thank you!</h1>
+    <p>Your admission guidance request is on its way. Our team will reply within 48 hours with your personalised study-abroad roadmap.</p>
+    <div class="thanks-actions">
+      <a href="../" class="btn btn-primary">Back to Home</a>
+      <a href="results.html" class="btn btn-outline">Browse Scholarships</a>
+      <a href="study.html" class="btn btn-outline">Study Guides</a>
+    </div>
+    <p class="thanks-ref">Meanwhile, explore our free guides or take the 2-minute scholarship quiz.</p>
+  </div>
+</main>
+
+<script src="../js/components.js"></script>
+</body>
+</html>

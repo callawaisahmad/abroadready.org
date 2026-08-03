@@ -130,9 +130,20 @@
                 style="width:100%;margin-top:6px;padding:12px 14px;border:1.5px solid #e2e8f0;border-radius:var(--radius-md);font-family:inherit;font-size:1rem;">
             </div>
             <div>
-              <label style="font-weight:600;font-size:var(--text-sm);color:var(--ink);">Rough yearly budget in USD (optional)</label>
-              <input type="text" name="budget" placeholder="e.g. 15000"
+              <label style="font-weight:600;font-size:var(--text-sm);color:var(--ink);">Rough Budget (PKR)</label>
+              <input type="text" name="budget" placeholder="e.g. 500000"
                 style="width:100%;margin-top:6px;padding:12px 14px;border:1.5px solid #e2e8f0;border-radius:var(--radius-md);font-family:inherit;font-size:1rem;">
+            </div>
+            <div>
+              <label style="font-weight:600;font-size:var(--text-sm);color:var(--ink);">Phone number *</label>
+              <div style="display:flex;gap:8px;margin-top:6px;">
+                <select id="adm-phone-code" name="phone_code" required style="width:150px;flex-shrink:0;padding:12px 14px;border:1.5px solid #e2e8f0;border-radius:var(--radius-md);font-family:inherit;font-size:1rem;background:#fff;">
+                  <option value="">Code</option>
+                </select>
+                <input type="tel" id="adm-phone-number" name="phone_number" required placeholder="Phone number"
+                  style="flex:1;padding:12px 14px;border:1.5px solid #e2e8f0;border-radius:var(--radius-md);font-family:inherit;font-size:1rem;">
+              </div>
+              <p id="adm-phone-error" style="color:#be123c;font-size:var(--text-xs);margin-top:6px;display:none;">Please enter a valid phone number for the selected country</p>
             </div>
             <div>
               <label style="font-weight:600;font-size:var(--text-sm);color:var(--ink);">Your question / situation *</label>
@@ -197,32 +208,44 @@
   </div>
 </footer>
 
+<script src="../js/phone-codes.js"></script>
 <script src="../js/components.js"></script>
 <script>
 document.querySelectorAll('.cnt-faq-q').forEach(function(q){
   q.addEventListener('click', function(){ q.parentElement.classList.toggle('open'); });
 });
+populatePhoneSelect('adm-phone-code', 'PK');
+document.getElementById('adm-phone-code').addEventListener('change', function(){
+  document.getElementById('adm-phone-error').style.display = 'none';
+});
 var form = document.getElementById('admission-form');
 var statusEl = document.getElementById('admission-status');
 form.addEventListener('submit', function(e){
   e.preventDefault();
+  if (!form.checkValidity()) { form.reportValidity(); return; }
+  if (!validatePhoneInput('adm-phone-code', 'adm-phone-number')) {
+    document.getElementById('adm-phone-error').style.display = 'block';
+    return;
+  }
+  var btn = form.querySelector('button[type="submit"]');
   statusEl.textContent = 'Submitting…';
+  btn.disabled = true;
   fetch('https://api.web3forms.com/submit', {
     method: 'POST',
     body: new FormData(form),
     headers: { 'Accept': 'application/json' }
   }).then(function(r){ return r.json(); }).then(function(d){
     if (d.success) {
-      statusEl.style.color = '#047857';
-      statusEl.textContent = 'Thanks! Your request is on its way. Expect a reply within 48 hours.';
-      form.reset();
+      window.location.href = 'thank-you.html';
     } else {
       statusEl.style.color = '#be123c';
       statusEl.textContent = 'Something went wrong. Please email us at contact@abroadready.org';
+      btn.disabled = false;
     }
   }).catch(function(){
     statusEl.style.color = '#be123c';
     statusEl.textContent = 'Network error. Please email us at contact@abroadready.org';
+    btn.disabled = false;
   });
 });
 </script>
