@@ -144,8 +144,8 @@
         ]) +
         footerCol("Study Abroad", [
           ["Study in USA", P + "study-in-usa.html"], ["Study in UK", P + "study-in-uk.html"],
-          ["Study in Canada", P + "study-in-canada.html"], ["Study in Germany", P + "study-in-germany.html"],
-          ["All Study Abroad Destinations", P + "study.html"]
+          ["Study in Canada", P + "study-in-canada.html"],           ["Study in Germany", P + "study-in-germany.html"],
+          ["All Study Destinations", P + "study.html"]
         ]) +
         footerCol("Immigration", [
           ["Immigrate to USA", P + "immigrate-to-usa.html"], ["Immigrate to Canada", P + "immigrate-to-canada.html"],
