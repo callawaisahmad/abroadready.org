@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="AbroadReady">
+  <defs>
+    <linearGradient id="arRing" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="arText" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <circle cx="200" cy="200" r="196" fill="url(#arRing)"/>
+  <circle cx="200" cy="200" r="152" fill="#ffffff"/>
+  <text x="200" y="218" text-anchor="middle" font-family="'Outfit','Segoe UI',Arial,sans-serif" font-size="46" font-weight="800" fill="#0f172a" letter-spacing="-0.5">Abroad<tspan fill="url(#arText)">Ready</tspan></text>
+</svg>
