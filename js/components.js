@@ -259,6 +259,22 @@
       });
       item.addEventListener("mouseleave", function () { item.classList.remove("open"); });
     });
+    // Keep dropdowns horizontally inside the viewport (right-edge safe).
+    document.querySelectorAll(".site-nav-item").forEach(function (item) {
+      var drop = item.querySelector(".site-drop");
+      if (!drop) return;
+      var alignDrop = function () {
+        var dw = drop.offsetWidth;
+        if (!dw) return;
+        var r = item.getBoundingClientRect();
+        var nat = r.left + r.width / 2 - dw / 2;
+        var left = Math.max(12, Math.min(nat, window.innerWidth - dw - 12));
+        drop.style.marginLeft = (left - nat) + "px";
+      };
+      alignDrop();
+      window.addEventListener("resize", alignDrop);
+      window.addEventListener("scroll", alignDrop, { passive: true });
+    });
     // Close any open dropdown when clicking elsewhere.
     document.addEventListener("click", function (e) {
       if (!e.target.closest(".site-nav-item")) {
