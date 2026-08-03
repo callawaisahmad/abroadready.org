@@ -150,6 +150,41 @@
       };
     }
 
+    // Visitor / tourist / business (B1/B2-style) visas — temporary, non-immigrant.
+    var visitorAsk = /b-?1\b|\bb-?2\b|tourist|visitor|vacation|holiday|sightsee|family visit|visiting family|tourism|travel visa/.test(q);
+    if (visitorAsk) {
+      var cname = immCountry ? ' in ' + esc(immCountry.name) : '';
+      if (/how long|length of stay|how many months|how many days|max stay|maximum stay|duration/.test(q)) {
+        return {
+          lead: '<p><strong>How long you can stay on a visitor visa \u2014 in short:</strong> usually up to <strong>6 months</strong> per visit' + cname + '. It\u2019s for temporary visits, not long-term living.</p>',
+          extra: '<p>To stay longer (study, work or settle) you need a different visa \u2014 see <a href="' + HUBS.visa + '" style="color:var(--primary);font-weight:600;">student visa guidance \u2192</a> or ask me about work/immigration visas.</p>'
+        };
+      }
+      if (/work|job|employ|earn money|study/.test(q)) {
+        return {
+          lead: '<p><strong>Working or studying on a visitor visa \u2014 in short:</strong> <strong>no</strong> \u2014 a B1/B2-style visitor visa does not allow you to work or study as your main activity' + cname + '. A B1 (business) visitor can attend meetings, but can\u2019t take a job.</p>',
+          extra: '<p>For work you need a work visa (e.g. the US H-1B); for study, a student visa (F-1). See <a href="' + HUBS.visa + '" style="color:var(--primary);font-weight:600;">student visa guidance \u2192</a>.</p>'
+        };
+      }
+      if (/apply|process|how to get|fee|cost|document|interview|appointment|ds-?160|obtain/.test(q)) {
+        return {
+          lead: '<p><strong>Getting a visitor visa \u2014 in short:</strong> fill in the online application, pay the fee (US$185 for the US), book an appointment and attend the visa interview with your passport and supporting documents' + cname + '.</p>',
+          extra: '<p>Approval is not a guarantee of entry \u2014 border officers make the final call on the day. See <a href="' + HUBS.visa + '" style="color:var(--primary);font-weight:600;">student visa guidance \u2192</a>.</p>'
+        };
+      }
+      if (/difference|vs\b|green card|permanent|immigrat|\bpr\b|settle/.test(q)) {
+        return {
+          lead: '<p><strong>Visitor visa vs immigration \u2014 in short:</strong> a B1/B2-style visitor visa is <strong>temporary</strong> (just a visit), while immigration/PR means <strong>permanent</strong> residency. A visitor visa is not a route to a green card' + cname + '.</p>',
+          extra: '<p>For permanent options ask <em>"green card"</em> or <em>"immigrate to ' + (immCountry ? esc(immCountry.name) : 'Canada') + '"</em>.</p>'
+        };
+      }
+      return {
+        lead: '<p><strong>B1/B2 visitor visa \u2014 in short:</strong> it\u2019s a <strong>temporary</strong> visa for visiting \u2014 B1 for business (meetings, conferences) and B2 for tourism, family visits or short courses' + cname + '. It does <strong>not</strong> let you work or study long-term, and it\u2019s not a path to permanent residency.</p>',
+        extra: '<p>You usually get up to <strong>6 months</strong> per visit. To apply: online form \u2192 fee (US$185 for the US) \u2192 embassy interview. Even with a visa, border officers decide whether you enter.</p>' +
+          '<p><a href="' + HUBS.visa + '" style="color:var(--primary);font-weight:600;">Student visa guidance \u2192</a> \u00b7 <a href="' + HUBS.immigration + '" style="color:var(--primary);font-weight:600;">Immigration &amp; work visas \u2192</a></p>'
+      };
+    }
+
     // Immigration / visa / PR knowledge
     if (immAsk) {
       if (visaAsk && /student|study/.test(q)) {
@@ -158,6 +193,12 @@
         return {
           lead: '<p><strong>Student visa \u2014 in short:</strong> you\u2019ll need your admission letter, proof of funds and a valid passport; the exact documents, fees and timeline depend on your destination.</p>',
           extra: vExtra + '</p>'
+        };
+      }
+      if (visaAsk && /what is a visa|visa types|what are visas|visa meaning|what does a visa|whats a visa/.test(q) && !immCountry) {
+        return {
+          lead: '<p><strong>What is a visa \u2014 in short:</strong> a visa is official permission from a country that lets you enter and stay for a specific purpose and time \u2014 for example to study, work, or just visit.</p>',
+          extra: '<p>Common types: <strong>student visa</strong> (study), <strong>work visa</strong> (job), <strong>visitor/tourist visa</strong> (short visits) and <strong>PR/immigration</strong> (permanent). Ask about any of these \u2014 or see <a href="' + HUBS.visa + '" style="color:var(--primary);font-weight:600;">student visa guidance \u2192</a>.</p>'
         };
       }
       if (visaAsk && !immCountry) {
