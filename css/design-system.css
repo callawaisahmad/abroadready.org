@@ -477,6 +477,23 @@ h4 { font-size: var(--text-2xl); }
 .site-link.active { color: var(--primary-dark); }
 .site-link.active::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 2px; height: 2px; background: var(--gradient-primary); border-radius: 2px; }
 
+/* Dropdown nav items */
+.site-nav-item { position: relative; display: flex; align-items: center; }
+.site-nav-item .site-caret { font-size: 0.7rem; margin-left: 2px; color: #94a3b8; pointer-events: none; }
+.site-caret-btn { background: none; border: none; cursor: pointer; padding: 8px 4px; color: #64748b; font-size: 0.7rem; transition: var(--transition-fast); }
+.site-caret-btn:hover { color: var(--ink); }
+.site-drop { position: absolute; top: calc(100% + 10px); left: 50%; transform: translateX(-50%); min-width: 230px; background: #fff; border: 1px solid rgba(15,23,42,0.07); border-radius: var(--radius-lg); box-shadow: 0 20px 45px -18px rgba(15,23,42,0.3); padding: 8px; opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(4px); transition: var(--transition-fast); z-index: var(--z-dropdown); }
+.site-drop-wide { display: grid; grid-template-columns: repeat(2, minmax(150px, 1fr)); min-width: 340px; gap: 2px; }
+.site-nav-item:hover > .site-drop, .site-nav-item.open > .site-drop, .site-nav-item:focus-within > .site-drop { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.site-nav-item:hover > .site-drop-wide, .site-nav-item.open > .site-drop-wide, .site-nav-item:focus-within > .site-drop-wide { transform: translateX(-50%) translateY(0); }
+.site-drop-link { display: block; padding: 9px 14px; border-radius: var(--radius-md); color: #475569; font-weight: 600; font-size: var(--text-sm); text-decoration: none; white-space: nowrap; transition: var(--transition-fast); }
+.site-drop-link:hover { background: rgba(15,23,42,0.05); color: var(--ink); }
+.site-drop-link.active { color: var(--primary-dark); background: rgba(59,130,246,0.07); }
+
+/* Mobile dropdown labels */
+.site-mlabel { display: block; padding: 14px 12px 6px; color: var(--primary-dark); font-weight: 800; font-size: var(--text-sm); text-transform: uppercase; letter-spacing: 0.05em; }
+.site-msub { padding-left: 14px; border-left: 2px solid rgba(59,130,246,0.15); margin-left: 4px; font-size: var(--text-base); }
+
 .site-actions { display: flex; align-items: center; gap: var(--space-3); }
 .site-saved {
   display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: var(--radius-full);
@@ -498,6 +515,15 @@ h4 { font-size: var(--text-2xl); }
 .site-mlink { padding: 14px 12px; border-radius: var(--radius-md); color: var(--ink); font-weight: 600; font-size: var(--text-lg); text-decoration: none; border-bottom: 1px solid rgba(15,23,42,0.05); }
 .site-mlink:hover, .site-mlink.active { color: var(--primary-dark); }
 
+@media (max-width: 1240px) {
+  .site-nav { gap: 2px; }
+  .site-link { padding: 8px 9px; font-size: 0.79rem; }
+  .site-header-inner { gap: var(--space-3); }
+}
+@media (max-width: 1060px) {
+  .site-cta { display: none; }
+  .site-link { padding: 8px 7px; font-size: 0.75rem; }
+}
 @media (max-width: 940px) {
   .site-nav { display: none; }
   .site-cta { display: none; }
@@ -509,7 +535,7 @@ h4 { font-size: var(--text-2xl); }
    SHARED FOOTER (site-footer)
    ============================================ */
 .site-footer { background: var(--ink); color: #cbd5e1; margin-top: var(--space-24); padding: var(--space-16) 0 var(--space-8); }
-.site-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: var(--space-8); }
+.site-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: var(--space-8); }
 .site-footer .site-logo { color: white; }
 .site-footer-tag { color: #cbd5e1; font-size: var(--text-sm); margin: var(--space-4) 0 var(--space-5); max-width: 320px; line-height: 1.6; }
 .site-social { display: flex; gap: var(--space-3); }
@@ -529,7 +555,6 @@ h4 { font-size: var(--text-2xl); }
   .site-footer-grid { grid-template-columns: 1fr; }
   .site-footer-bottom { flex-direction: column; align-items: flex-start; }
 }
-
 /* ============================================
    UTILITY LAYER — makes the Tailwind-style class
    names used across the site actually work.

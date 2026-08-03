@@ -45,7 +45,7 @@ abroadready/
 │   ├── success.html · blog.html
 │   ├── study.html              Hub — study-in-*.html guides (14 countries)
 │   ├── immigration.html        Hub — immigrate-to-*.html guides (14 countries)
-│   ├── visa-guidance.html · consultancy.html
+│   ├── visa-guidance.html · admission-guidance.html
 │   ├── study-in-usa.html … study-in-new-zealand.html
 │   └── immigrate-to-usa.html … immigrate-to-new-zealand.html
 ├── css/
@@ -78,8 +78,10 @@ abroadready/
 The **header and footer are defined once** in `js/components.js` and injected into
 every page at load. Change a nav link, the logo, the footer columns or the social
 icons there and it updates across the whole site — no need to touch 13 files.
-`updater/inject_components.py` is the helper that makes sure every page loads
-`saved.js` + `components.js` (run it after adding a new page).
+The header nav includes dropdowns (Resources, Study Abroad, Immigration) and the
+footer has four link columns: **Quick Links**, **Study Abroad**, **Immigration**
+and **Company**. `updater/inject_components.py` is the helper that makes sure
+every page loads `saved.js` + `components.js` (run it after adding a new page).
 
 ### Saved / wishlist
 

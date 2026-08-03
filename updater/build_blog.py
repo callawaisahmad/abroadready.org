@@ -255,7 +255,7 @@ def sitemap(posts):
     static_pages = ["index.html", "pages/results.html", "pages/saved.html", "pages/ai-advisor.html",
         "pages/sop-builder.html", "pages/success.html", "pages/blog.html", "pages/about.html",
         "pages/contact.html", "pages/privacy.html", "pages/terms.html",
-        "pages/study.html", "pages/immigration.html", "pages/visa-guidance.html", "pages/consultancy.html"]
+        "pages/study.html", "pages/immigration.html", "pages/visa-guidance.html", "pages/admission-guidance.html"]
     country_pages = [
         "pages/study-in-usa.html", "pages/immigrate-to-usa.html",
         "pages/study-in-canada.html", "pages/immigrate-to-canada.html",

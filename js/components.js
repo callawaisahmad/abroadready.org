@@ -11,14 +11,53 @@
   var P = inPages ? "" : "pages/";                 // prefix for page files
   var HOME = inPages ? "../" : "/";
 
+  // ---------- NAVIGATION ----------
   var NAV = [
     { label: "Home", href: HOME, match: "index.html" },
     { label: "Scholarships", href: P + "results.html", match: "results.html" },
-    { label: "Study Abroad", href: P + "study.html", match: "study.html" },
-    { label: "Immigration", href: P + "immigration.html", match: "immigration.html" },
-    { label: "Visa Guidance", href: P + "visa-guidance.html", match: "visa-guidance.html" },
-    { label: "Consultancy", href: P + "consultancy.html", match: "consultancy.html" },
-    { label: "Blog", href: P + "blog.html", match: "blog.html" }
+    { label: "Blog", href: P + "blog.html", match: "blog.html" },
+    { label: "Resources", children: [
+      { label: "SOP Builder", href: P + "sop-builder.html", match: "sop-builder.html" },
+      { label: "AI Advisor", href: P + "ai-advisor.html", match: "ai-advisor.html" },
+      { label: "Visa Guidance", href: P + "visa-guidance.html", match: "visa-guidance.html" },
+      { label: "Admission Guidance", href: P + "admission-guidance.html", match: "admission-guidance.html" }
+    ]},
+    { label: "Study Abroad", href: P + "study.html", match: "study.html", children: [
+      { label: "All Study Abroad Destinations", href: P + "study.html", match: "study.html" },
+      { label: "Study in USA", href: P + "study-in-usa.html", match: "study-in-usa.html" },
+      { label: "Study in UK", href: P + "study-in-uk.html", match: "study-in-uk.html" },
+      { label: "Study in Canada", href: P + "study-in-canada.html", match: "study-in-canada.html" },
+      { label: "Study in Germany", href: P + "study-in-germany.html", match: "study-in-germany.html" },
+      { label: "Study in Australia", href: P + "study-in-australia.html", match: "study-in-australia.html" },
+      { label: "Study in France", href: P + "study-in-france.html", match: "study-in-france.html" },
+      { label: "Study in Italy", href: P + "study-in-italy.html", match: "study-in-italy.html" },
+      { label: "Study in Netherlands", href: P + "study-in-netherlands.html", match: "study-in-netherlands.html" },
+      { label: "Study in Sweden", href: P + "study-in-sweden.html", match: "study-in-sweden.html" },
+      { label: "Study in Switzerland", href: P + "study-in-switzerland.html", match: "study-in-switzerland.html" },
+      { label: "Study in Spain", href: P + "study-in-spain.html", match: "study-in-spain.html" },
+      { label: "Study in Ireland", href: P + "study-in-ireland.html", match: "study-in-ireland.html" },
+      { label: "Study in New Zealand", href: P + "study-in-new-zealand.html", match: "study-in-new-zealand.html" },
+      { label: "Study in Turkey", href: P + "study-in-turkey.html", match: "study-in-turkey.html" }
+    ]},
+    { label: "Immigration", href: P + "immigration.html", match: "immigration.html", children: [
+      { label: "All Immigration Guides", href: P + "immigration.html", match: "immigration.html" },
+      { label: "Immigrate to USA", href: P + "immigrate-to-usa.html", match: "immigrate-to-usa.html" },
+      { label: "Immigrate to Canada", href: P + "immigrate-to-canada.html", match: "immigrate-to-canada.html" },
+      { label: "Immigrate to UK", href: P + "immigrate-to-uk.html", match: "immigrate-to-uk.html" },
+      { label: "Immigrate to Germany", href: P + "immigrate-to-germany.html", match: "immigrate-to-germany.html" },
+      { label: "Immigrate to Australia", href: P + "immigrate-to-australia.html", match: "immigrate-to-australia.html" },
+      { label: "Immigrate to France", href: P + "immigrate-to-france.html", match: "immigrate-to-france.html" },
+      { label: "Immigrate to Italy", href: P + "immigrate-to-italy.html", match: "immigrate-to-italy.html" },
+      { label: "Immigrate to Netherlands", href: P + "immigrate-to-netherlands.html", match: "immigrate-to-netherlands.html" },
+      { label: "Immigrate to New Zealand", href: P + "immigrate-to-new-zealand.html", match: "immigrate-to-new-zealand.html" },
+      { label: "Immigrate to Spain", href: P + "immigrate-to-spain.html", match: "immigrate-to-spain.html" },
+      { label: "Immigrate to Sweden", href: P + "immigrate-to-sweden.html", match: "immigrate-to-sweden.html" },
+      { label: "Immigrate to Switzerland", href: P + "immigrate-to-switzerland.html", match: "immigrate-to-switzerland.html" },
+      { label: "Immigrate to Turkey", href: P + "immigrate-to-turkey.html", match: "immigrate-to-turkey.html" },
+      { label: "Immigrate to Ireland", href: P + "immigrate-to-ireland.html", match: "immigrate-to-ireland.html" }
+    ]},
+    { label: "About", href: P + "about.html", match: "about.html" },
+    { label: "Contact", href: P + "contact.html", match: "contact.html" }
   ];
 
   var current = location.pathname.split("/").pop() || "index.html";
@@ -27,11 +66,40 @@
   var savedHref = P + "saved.html";
 
   // ---------- HEADER ----------
+  function navItem(item) {
+    if (item.children) {
+      var isActive = item.children.some(function (c) { return current === c.match; }) || current === item.match;
+      var cls = "site-link site-link-drop" + (isActive ? " active" : "");
+      var children = item.children.map(function (c) {
+        return '<a href="' + c.href + '" class="site-drop-link' + activeCls(c.match) + '">' + c.label + "</a>";
+      }).join("");
+      var toggle;
+      var wide = item.children.length > 7 ? " site-drop-wide" : "";
+      if (item.href) {
+        // Parent has a real page: label navigates, caret toggles the menu.
+        toggle = '<a href="' + item.href + '" class="' + cls + '">' + item.label + '</a>' +
+                 '<button class="site-caret site-caret-btn" aria-label="Open ' + item.label + ' menu" aria-haspopup="true" aria-expanded="false">▾</button>';
+      } else {
+        // Resources: no page, the whole label toggles the menu.
+        toggle = '<a href="javascript:void(0)" class="' + cls + ' site-drop-toggle" role="button" aria-haspopup="true" aria-expanded="false">' + item.label + ' <span class="site-caret">▾</span></a>';
+      }
+      return '<div class="site-nav-item' + (isActive ? " active" : "") + '">' +
+        toggle +
+        '<div class="site-drop' + wide + '">' + children + "</div>" +
+      "</div>";
+    }
+    return '<a href="' + item.href + '" class="site-link' + activeCls(item.match) + '">' + item.label + "</a>";
+  }
+
   function headerHTML() {
-    var links = NAV.map(function (n) {
-      return '<a href="' + n.href + '" class="site-link' + activeCls(n.match) + '">' + n.label + "</a>";
-    }).join("");
+    var links = NAV.map(navItem).join("");
     var mobileLinks = NAV.map(function (n) {
+      if (n.children) {
+        var kids = n.children.map(function (c) {
+          return '<a href="' + c.href + '" class="site-mlink site-msub' + activeCls(c.match) + '">' + c.label + "</a>";
+        }).join("");
+        return '<span class="site-mlabel">' + n.label + "</span>" + kids;
+      }
       return '<a href="' + n.href + '" class="site-mlink' + activeCls(n.match) + '">' + n.label + "</a>";
     }).join("");
     return '' +
@@ -68,24 +136,27 @@
             socialIcon("Instagram", "M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.64-.07-4.85s.01-3.58.07-4.85C2.4 3.94 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 100 12.32 6.16 6.16 0 000-12.32zM12 16a4 4 0 110-8 4 4 0 010 8zm6.41-11.85a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z") +
           '</div>' +
         '</div>' +
-        footerCol("Platform", [
+        footerCol("Quick Links", [
           ["Home", HOME],
-          ["Scholarship Quiz", HOME + "#quiz"],           ["Scholarships", P + "results.html"],
-          ["AI Advisor", P + "ai-advisor.html"], ["SOP Builder", P + "sop-builder.html"], ["Saved", savedHref]
+          ["Scholarships", P + "results.html"],
+          ["AI Advisor", P + "ai-advisor.html"],
+          ["SOP Builder", P + "sop-builder.html"],
+          ["Saved", savedHref]
         ]) +
         footerCol("Study Abroad", [
           ["Study in USA", P + "study-in-usa.html"], ["Study in UK", P + "study-in-uk.html"],
           ["Study in Canada", P + "study-in-canada.html"], ["Study in Germany", P + "study-in-germany.html"],
-          ["Study in Australia", P + "study-in-australia.html"], ["All Study Guides", P + "study.html"]
+          ["Study in Australia", P + "study-in-australia.html"], ["All Study Abroad Destinations", P + "study.html"]
         ]) +
         footerCol("Immigration", [
           ["Immigrate to USA", P + "immigrate-to-usa.html"], ["Immigrate to Canada", P + "immigrate-to-canada.html"],
-          ["Immigrate to Germany", P + "immigrate-to-germany.html"], ["Immigrate to UK", P + "immigrate-to-uk.html"],
-          ["Visa Guidance", P + "visa-guidance.html"], ["All Immigration Guides", P + "immigration.html"]
+          ["Immigrate to UK", P + "immigrate-to-uk.html"], ["Immigrate to Germany", P + "immigrate-to-germany.html"],
+          ["Immigrate to Australia", P + "immigrate-to-australia.html"], ["All Immigration Guides", P + "immigration.html"]
         ]) +
         footerCol("Company", [
-          ["About Us", P + "about.html"], ["Consultancy", P + "consultancy.html"],
-          ["Contact", P + "contact.html"], ["Privacy Policy", P + "privacy.html"], ["Terms of Service", P + "terms.html"]
+          ["About", P + "about.html"], ["Contact", P + "contact.html"],
+          ["Privacy Policy", P + "privacy.html"], ["Terms of Service", P + "terms.html"],
+          ["Admission Guidance", P + "admission-guidance.html"]
         ]) +
       '</div>' +
       '<div class="container site-footer-bottom">' +
@@ -177,6 +248,24 @@
         });
       });
     }
+    // Desktop dropdown: caret / label toggle opens on click (touch), hover via CSS.
+    document.querySelectorAll(".site-nav-item").forEach(function (item) {
+      var toggle = item.querySelector(".site-drop-toggle, .site-caret-btn");
+      if (!toggle) return;
+      toggle.addEventListener("click", function (e) {
+        e.preventDefault();
+        item.classList.toggle("open");
+        var exp = item.classList.contains("open");
+        item.querySelectorAll("[aria-expanded]").forEach(function (el) { el.setAttribute("aria-expanded", exp ? "true" : "false"); });
+      });
+      item.addEventListener("mouseleave", function () { item.classList.remove("open"); });
+    });
+    // Close any open dropdown when clicking elsewhere.
+    document.addEventListener("click", function (e) {
+      if (!e.target.closest(".site-nav-item")) {
+        document.querySelectorAll(".site-nav-item.open").forEach(function (i) { i.classList.remove("open"); });
+      }
+    });
     // Sticky shadow on scroll
     var header = document.getElementById("site-header-el");
     if (header) {
