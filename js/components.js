@@ -228,16 +228,17 @@
         var el = document.getElementById("site-footer-version");
         if (el) {
           var d = new Date(v.date);
+          var pkt = new Date(d.getTime() + 5 * 60 * 60 * 1000);
           var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
           var pad = function(n) { return n < 10 ? "0" + n : n; };
-          var formatted = d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear() + ", " +
-            pad(d.getUTCHours()) + ":" + pad(d.getUTCMinutes());
-          el.textContent = "Build #" + v.build + " \u00b7 Last updated: " + formatted + " UTC";
+          var formatted = pkt.getUTCDate() + " " + months[pkt.getUTCMonth()] + " " + pkt.getUTCFullYear() + ", " +
+            pad(pkt.getUTCHours()) + ":" + pad(pkt.getUTCMinutes());
+          el.textContent = "Build #" + v.build + " \u00b7 Last updated: " + formatted + " PKT";
         }
       })
       .catch(function() {
         var el = document.getElementById("site-footer-version");
-        if (el) el.textContent = "Last updated: 30 July 2026";
+        if (el) el.textContent = "Last updated: 3 August 2026, 15:32 PKT";
       });
 
     wire();
