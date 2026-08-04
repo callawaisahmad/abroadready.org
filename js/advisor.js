@@ -1,10 +1,13 @@
 /* =========================================================================
    AbroadReady — AI Advisor engine (shared by the AI Advisor page and the
    floating widget). Every answer is a concise, plain-English LEAD paragraph
-   plus optional structured EXTRA (lists, cards, links). The intent pipeline
-   below handles the full range of questions students actually ask:
-   scholarships (by name and general), visas (visitor/student/work/process),
-   immigration & PR, studying abroad, costs, IELTS and writing help.
+   plus optional structured EXTRA (lists, cards, links).
+
+   Query-first: `classify()` tags EVERY question with its intent — greeting,
+   named scholarship, visitor/student/work visa, PR & immigration, IELTS,
+   essay, study & costs, or site tools — and the dispatch below answers the
+   strongest matching intent in priority order, so a question is never
+   shoehorned into the scholarship path.
    Requires: scholarships-data.js, scholarships.js (window.SB),
              immigration-data.js (window.IMM).
    ========================================================================= */
@@ -44,6 +47,28 @@
     return {
       lead: '<p><strong>Working while you study \u2014 in short:</strong> most student visas allow <strong>10\u201320 hours</strong> per week during term and full-time in holidays \u2014 Canada, Australia, Germany, UK and NZ. The US F-1 visa is stricter (on-campus mostly).</p>',
       extra: '<p>' + pmtLink(HUBS.visa, 'Student visa guidance \u2192') + '</p>'
+    };
+  }
+
+  // Ranked easiest/hardest destinations for skilled migration.
+  function countryRanking() {
+    var IMM = window.IMM;
+    var rank = [
+      ['Canada', 'points-based Express Entry, no job offer needed, PR in ~6\u201312 months'],
+      ['Germany', 'EU Blue Card / Opportunity Card, PR in 21\u201327 months'],
+      ['Australia', 'points visas 189/190 with invites at 85\u201395 points'],
+      ['New Zealand', 'Green List occupations can go Straight-to-Residence'],
+      ['Ireland', 'Critical Skills permit and Europe\u2019s fastest citizenship (5-in-9)'],
+      ['Netherlands', 'Highly Skilled Migrant route + 30% tax ruling']
+    ];
+    var lis = rank.map(function (r) {
+      var c = IMM.byName(r[0]);
+      return '<li><strong>' + esc(r[0]) + '</strong> \u2014 ' + esc(r[1]) + ' (' + IMM.guideLink(c) + ')</li>';
+    }).join('');
+    return {
+      lead: '<p><strong>Easiest countries to migrate to \u2014 in short:</strong> for skilled professionals the most accessible are Canada, Germany, Australia, New Zealand, Ireland and the Netherlands. The hardest are the USA (lottery + backlogs) and Switzerland (strict quotas).</p>',
+      extra: '<ol>' + lis + '</ol>' +
+        '<p>Start with a no-job-offer points path: ' + IMM.guideLink(IMM.byName('Canada')) + ' or ' + IMM.guideLink(IMM.byName('Australia')) + '. Browse all guides: ' + pmtLink(HUBS.immigration, 'immigration guides \u2192') + '</p>'
     };
   }
 
@@ -140,26 +165,76 @@
     immigration: 'immigration.html', study: 'study.html', results: 'results.html', blog: 'blog.html'
   };
 
+  // ============================================================
+  //  STEP 1 — UNDERSTAND THE QUERY: tag every question with its
+  //  intent before any answer is chosen.
+  // ============================================================
+  function classify(q, raw, s) {
+    var t = {};
+    t.greeting = /^\s*(hi|hey|hello|salam|assalam)\b/.test(q) && String(raw).length < 20;
+    t.thanks = /^(thanks|thank you|thx|ty|tysm|great|awesome|nice|perfect|ok|okay)\b/.test(q) && String(raw).length < 30;
+    t.named = !!s;
+    t.visitor = /b-?1\b|\bb-?2\b|tourist|visitor|vacation|holiday|sightsee|family visit|visiting family|tourism|travel visa/.test(q);
+    t.noIelts = /no ielts|without ielts|ielts waiver|without english/.test(q);
+    t.ielts = /ielts|toefl|band score|english test|english language test|pte|duolingo|english.*(score|proficien)|score do i need/.test(q);
+    t.sopBuilder = /sop builder|use.*sop builder|open.*sop builder/.test(q);
+    t.sop = /sop|statement of purpose|essay|leadership|motivation letter|personal statement|write/.test(q);
+    t.postStudy = /post.?study|psw\b|\bopt\b|graduate route|work.*after.*(study|graduate|degree|master)|stay.*after.*(study|graduate|degree)/.test(q);
+    t.partTime = /part.?time|work while|while.*(study|studying)|hours.*(week|work)|student.*(job|work)|work.*(during|breaks?)/.test(q);
+    t.studentVisa = /student visa|study visa|study permit|student permit|f-?1\b|study.*visa|visa.*study|visa.*student/.test(q);
+    t.workVisa = /work visa|work permit|job offer|skilled worker visa|blue card|employer.*(sponsor|visa)|job.*visa/.test(q);
+    t.h1b = /h-?1b/.test(q);
+    t.greenCard = /green card/.test(q);
+    t.visa = /\bvisa\b|entry permit|travel permit/.test(q);
+    t.immigration = /immigrat|migrat|move to|permanent resid|\bpr\b|citizenship|settle|express entry|points system|skilled worker|relocat|settlement|naturalis|spouse|wife|husband|partner|dependents|family|dual citizenship|draw/.test(q);
+    t.scholarship = /scholarship|fellowship|funding|grant|stipend|bursary|award/.test(q);
+    t.interview = /visa.*interview|interview.*visa|embassy.*interview|interview.*embassy/.test(q);
+    t.refusal = /(visa|application|entry).*(refus|denied|reject)|(refus|denied|reject).*(visa|entry)/.test(q);
+    t.cost = /cost|tuition|fees|expensive|how much.*(study|cost)|price/.test(q);
+    t.study = /study|uni|university|college|student|degree|abroad|master|undergrad|school/.test(q);
+    t.accommodation = /accommodation|housing|dormitor|where.*(live|stay)|rent|rooms?/.test(q);
+    t.englishTaught = /english.?taught|programs? in english|degrees? in english|taught in english/.test(q);
+    t.freeStudy = /study.*(free|for free|without tuition|tuition.?free)|free.*(education|study|tuition|university)/.test(q);
+    t.worth = /worth it|is it worth|should i (study|go abroad|move)/.test(q);
+    t.closing = /closing|soon|urgent|earliest|nearest deadline|expiring/.test(q);
+    t.quiz = /quiz/.test(q);
+    t.save = /save|saved|bookmark|heart/.test(q);
+    t.contact = /contact|feedback|report.*(bug|issue)|complaint/.test(q);
+    t.capability = /what can you (do|help|answer|tell)|how do you (work|help)|what are you|who are you|what do you know|help me|what topics|what questions/.test(q);
+    t.easyCountry = /(easiest|easy) (country|to migrate|to immigrate|to move|to get a (work )?visa)|which country.*(easy|easiest|best|migrat|visa|pr|move)|best country.*(migrat|work|visa|pr)|where.*(migrate|immigrate|move)/.test(q);
+    t.hardest = /hardest|most difficult|strictest|hard to (migrat|immigrat)/.test(q);
+    return t;
+  }
+
+  // ============================================================
+  //  STEP 2 — ANSWER: dispatch the strongest matching intent.
+  // ============================================================
   function answer(raw) {
     var q = ' ' + String(raw || '').toLowerCase().replace(/[?.!,]/g, ' ') + ' ';
     var s = findScholarship(q);
     var IMM = window.IMM;
     var immCountry = IMM ? IMM.findCountry(q) : null;
     var simpleAsk = /simple|simpler|simplif|explain|easy to understand|beginner|overview|in a nutshell|basics|simple terms|straight/.test(q);
-    var immAsk = /immigrat|migrat|move to|permanent resid|\bpr\b|citizenship|settle|green card|work permit|work visa|express entry|points system|skilled worker|relocat|\bvisa\b|settlement|naturalis|spouse|wife|husband|partner|dependents|family/.test(q);
-    var visaAsk = /student visa|study visa|\bvisa\b/.test(q);
-    var schQ = /scholarship|fellowship|funding|grant|stipend|bursary|award/.test(q);
+    var t = classify(q, raw, s);
 
     // 1) Greetings
-    if (/^\s*(hi|hey|hello|salam|assalam)\b/.test(q) && String(raw).length < 20) {
+    if (t.greeting) {
       return {
         lead: '<p><strong>Hi! \uD83D\uDC4B</strong> I\u2019m your AI advisor for studying and moving abroad. Ask me anything \u2014 scholarships, immigration, PR, study visas or IELTS \u2014 and I\u2019ll give you a short, plain-English answer.</p>',
         extra: ''
       };
     }
 
-    // 2) A specific scholarship is named — answer by intent, always with a short lead.
-    if (s) {
+    // 2) Quick acknowledgements
+    if (t.thanks) {
+      return {
+        lead: '<p>You\u2019re welcome! \uD83D\uDC4D Anything else about scholarships, visas, PR or studying abroad \u2014 just ask.</p>',
+        extra: ''
+      };
+    }
+
+    // 3) A specific scholarship is named — answer by intent, always with a short lead.
+    if (t.named) {
       var d = SB.deadlineInfo(s);
       if (/eligib|qualif|can i apply|am i able|do i qualify/.test(q)) {
         return { lead: '<p><strong>Eligibility for ' + esc(s.name) + ' \u2014 in short:</strong> ' + concise(s.eligibility, 3) + '</p>', extra: ul(s.eligibility) + '<p>Full eligibility and how to apply: ' + link(s) + '</p>' };
@@ -250,17 +325,8 @@
       };
     }
 
-    // 3) Quick acknowledgements
-    if (/^(thanks|thank you|thx|ty|tysm|great|awesome|nice|perfect|ok|okay)\b/.test(q) && String(raw).length < 30) {
-      return {
-        lead: '<p>You\u2019re welcome! \uD83D\uDC4D Anything else about scholarships, visas, PR or studying abroad \u2014 just ask.</p>',
-        extra: ''
-      };
-    }
-
     // 4) Visitor / tourist / business (B1/B2-style) visas — temporary, non-immigrant.
-    var visitorAsk = /b-?1\b|\bb-?2\b|tourist|visitor|vacation|holiday|sightsee|family visit|visiting family|tourism|travel visa/.test(q);
-    if (visitorAsk) {
+    if (t.visitor) {
       var cname = immCountry ? ' in ' + esc(immCountry.name) : '';
       if (/how long|length of stay|how many months|how many days|max stay|maximum stay|duration/.test(q)) {
         return {
@@ -293,12 +359,256 @@
       };
     }
 
-    // 5) General scholarship knowledge (no specific scholarship named)
-    if (schQ) {
+    // 5) English tests (IELTS / TOEFL / PTE / Duolingo) — before visas so
+    //    "IELTS for Canada PR" answers the English test, not the PR blurb.
+    if (t.noIelts) {
+      return {
+        lead: '<p><strong>No IELTS? \u2014 in short:</strong> many European programmes accept a <strong>medium-of-instruction letter</strong> instead, and some scholarships (like Chevening) no longer set their own English requirement.</p>',
+        extra: '<p>Look at ' + pmtLink(HUBS.results + '?region=Europe', 'scholarships in Europe \u2192') + ' and always check the specific programme\u2019s language rule.</p>'
+      };
+    }
+    if (t.ielts) {
+      if (/valid|expir|how long.*(ielts|test)/.test(q)) {
+        return {
+          lead: '<p><strong>How long IELTS is valid \u2014 in short:</strong> <strong>2 years</strong> from your test date. After that, most universities won\u2019t accept it.</p>',
+          extra: '<p>' + pmtLink(HUBS.ielts, 'Full IELTS guidance \u2192') + '</p>'
+        };
+      }
+      if (/book|register|test date|center|centre|fee|cost|how.*take.*(ielts|test)|where.*(ielts|test)/.test(q)) {
+        return {
+          lead: '<p><strong>Booking IELTS \u2014 in short:</strong> register online at <strong>ielts.org</strong> or the British Council / IDP; the test costs roughly US$220\u2013260 and results come in about 13 days.</p>',
+          extra: '<p>Book 1\u20132 months ahead \u2014 slots fill fast. ' + pmtLink(HUBS.ielts, 'IELTS guidance \u2192') + '</p>'
+        };
+      }
+      if (/pte|duolingo/.test(q)) {
+        return {
+          lead: '<p><strong>PTE and Duolingo \u2014 in short:</strong> both are widely accepted as IELTS alternatives \u2014 PTE Academic is scored 10\u201390, and Duolingo English Test is online. Check each university\u2019s accepted tests and minimum scores.</p>',
+          extra: '<p>' + pmtLink('toefl-vs-ielts-which-test.html', 'TOEFL vs IELTS \u2192') + ' \u00b7 ' + pmtLink(HUBS.ielts, 'IELTS guidance \u2192') + '</p>'
+        };
+      }
+      return {
+        lead: '<p><strong>IELTS \u2014 in short:</strong> it\u2019s scored from 1 to 9, and most universities ask for a <strong>6.0\u20137.0</strong> overall (no section below 6.0). It has four parts: Listening, Reading, Writing and Speaking.</p>',
+        extra: '<p>' + pmtLink(HUBS.ielts, 'Full IELTS guidance \u2192') + ' \u00b7 ' + pmtLink('toefl-vs-ielts-which-test.html', 'TOEFL vs IELTS \u2192') + '</p>'
+      };
+    }
+
+    // 6) SOP / essay writing
+    if (t.sopBuilder) {
+      return {
+        lead: '<p><strong>SOP Builder \u2014 in short:</strong> our free tool walks you through a winning statement of purpose step by step, with a built-in score.</p>',
+        extra: '<p>' + pmtLink('sop-builder.html', 'Open the SOP Builder \u2192') + '</p>'
+      };
+    }
+    if (t.sop) {
+      return {
+        lead: '<p><strong>Writing your essay / SOP \u2014 in short:</strong> open with a specific story, use the <strong>STAR method</strong> (Situation, Task, Action, Result) for leadership examples, and tie every paragraph back to <em>why this scholarship</em> and <em>your future plan</em>.</p>',
+        extra: ul(['Open with a specific story, not a generic statement.', 'Quantify impact ("cut deployment time 80%") wherever you can.']) +
+          '<p>Draft and score it in the ' + pmtLink('sop-builder.html', 'SOP Builder \u2192') + '</p>'
+      };
+    }
+
+    // 7) Working after you graduate
+    if (t.postStudy) {
+      return {
+        lead: '<p><strong>Working after you graduate \u2014 in short:</strong> most major destinations give you <strong>1\u20133 years</strong> after your degree \u2014 Canada (PGWP up to 3 yrs), UK (Graduate Route 2 yrs), Australia (up to 4 yrs for some), US (OPT 1\u20133 yrs).</p>',
+        extra: '<p>' + (immCountry ? IMM.studyLink(immCountry) + ' \u00b7 ' + IMM.guideLink(immCountry) : pmtLink(HUBS.visa, 'Student visa guidance \u2192')) + '</p>'
+      };
+    }
+
+    // 8) Part-time work while studying
+    if (t.partTime && (t.studentVisa || t.study || t.visa)) {
+      return partTimeAns();
+    }
+
+    // 9) Easiest / hardest countries (skilled migration & work-visa comparisons)
+    if (t.easyCountry && !t.studentVisa && !/fastest|quickest/.test(q)) {
+      return countryRanking();
+    }
+    if (t.hardest) {
+      return {
+        lead: '<p><strong>Hardest countries to migrate to \u2014 in short:</strong> the USA (H-1B lottery + decade-long green-card backlogs for India/China) and Switzerland (strict work quotas) are the toughest for most applicants.</p>',
+        extra: '<p>Easier alternatives: ' + IMM.guideLink(IMM.byName('Canada')) + ' or ' + IMM.guideLink(IMM.byName('Germany')) + ' points routes \u2014 or ask <em>"which country is easiest to migrate to"</em>.</p>'
+      };
+    }
+
+    // 10) Student visas
+    if (t.studentVisa) {
+      var vExtra = '<p>' + pmtLink(HUBS.visa, 'Student visa guidance \u2192');
+      if (immCountry) vExtra += ' \u00b7 ' + IMM.studyLink(immCountry) + ' \u00b7 ' + IMM.guideLink(immCountry);
+      return {
+        lead: '<p><strong>Student visa \u2014 in short:</strong> you\u2019ll need your admission letter, proof of funds and a valid passport; the exact documents, fees and timeline depend on your destination.</p>',
+        extra: vExtra + '</p>'
+      };
+    }
+
+    // 11) Work visas (incl. H-1B) and green cards
+    if (t.greenCard) {
+      var us = IMM.byName('United States');
+      return {
+        lead: '<p><strong>US green card \u2014 in short:</strong> ' + esc(us.simple) + '</p>',
+        extra: '<p>' + IMM.guideLink(us) + ' \u00b7 ' + pmtLink(HUBS.immigration, 'All immigration guides \u2192') + '</p>'
+      };
+    }
+    if (t.h1b) {
+      return {
+        lead: '<p><strong>H-1B work visa \u2014 in short:</strong> the main US work visa for skilled professionals. An employer must sponsor you, and you\u2019re entered into an annual <strong>lottery</strong> (~1 in 3 odds) because far more people apply than the 85,000 spots.</p>',
+        extra: '<p>Winning the lottery is only step one \u2014 the visa is tied to that employer. See ' + IMM.guideLink(IMM.byName('United States')) + ' or ask <em>"green card"</em> for the path to permanent residency.</p>'
+      };
+    }
+    if (t.workVisa && !t.easyCountry) {
+      return {
+        lead: '<p><strong>Work visa \u2014 in short:</strong> you generally need a <strong>job offer from an employer who sponsors you</strong>, plus a skill level the country wants. Well-known routes: US H-1B (lottery), EU Blue Card (Germany), UK Skilled Worker, Canada Express Entry (points).</p>',
+        extra: (immCountry ? '<p>' + IMM.guideLink(immCountry) + ' covers the exact work-visa routes for that country.</p>' : '') +
+          '<p>' + pmtLink(HUBS.immigration, 'All immigration &amp; work visa guides \u2192') + '</p>'
+      };
+    }
+
+    // 12) Visa process & generic visa guidance
+    if (t.visa) {
+      if (t.interview) {
+        return {
+          lead: '<p><strong>Visa interview \u2014 in short:</strong> be honest and consistent with your application. Expect questions on your study/work plan, funding, and ties back home.</p>',
+          extra: '<ul>' +
+            '<li>Bring your passport, offer/employment letter and proof of funds.</li>' +
+            '<li>Answer in 1\u20132 sentences; don\u2019t volunteer extra detail.</li>' +
+            '<li>Dress neatly and arrive early.</li>' +
+            '</ul>' +
+            '<p>' + pmtLink(HUBS.visa, 'Student visa guidance \u2192') + '</p>'
+        };
+      }
+      if (t.refusal) {
+        return {
+          lead: '<p><strong>Visa refusal \u2014 in short:</strong> the usual reasons are weak proof of funds, missing documents, or doubts about your intent to return. Address the exact reason stated in the refusal letter, then reapply.</p>',
+          extra: '<p>Common fixes: stronger bank statements, a clearer study/career plan, and full supporting documents. See ' + pmtLink(HUBS.visa, 'student visa guidance \u2192') + '.</p>'
+        };
+      }
+      if (/processing time|how long.*(visa|take)|visa.*(processing|waiting)|wait.*visa|timeline.*visa/.test(q)) {
+        return {
+          lead: '<p><strong>Visa processing time \u2014 in short:</strong> it varies widely \u2014 student visas typically take <strong>2\u201312 weeks</strong> depending on the country, season and your case.</p>',
+          extra: '<p>Apply as soon as you have your offer, and check the official processing times for your country: ' + pmtLink(HUBS.visa, 'visa guidance \u2192') + '</p>'
+        };
+      }
+      if (/document|require|need to submit|paperwork|what do i need/.test(q)) {
+        return {
+          lead: '<p><strong>Visa documents \u2014 in short:</strong> you\u2019ll usually need a valid passport, completed application form, photos, proof of funds and travel/study plans \u2014 plus an appointment or biometrics for most countries.</p>',
+          extra: '<p>Exact lists vary by country and visa type \u2014 see ' + pmtLink(HUBS.visa, 'student visa guidance \u2192') + ' or ask about a specific country.</p>'
+        };
+      }
+      if (/proof of funds|bank statement|financial.*(proof|evidence|support)|money.*(bank|need|required)|savings|how much money/.test(q)) {
+        return {
+          lead: '<p><strong>Proof of funds \u2014 in short:</strong> most visas ask you to show you can cover <strong>tuition + about a year of living costs</strong> \u2014 the amount varies by country.</p>',
+          extra: '<p>Usually bank statements from the last 3\u20136 months, sometimes with a sponsor letter. See ' + pmtLink(HUBS.visa, 'visa guidance \u2192') + '.</p>'
+        };
+      }
+      if (/what is a visa|visa types|what are visas|visa meaning|what does a visa|whats a visa/.test(q) && !immCountry) {
+        return {
+          lead: '<p><strong>What is a visa \u2014 in short:</strong> a visa is official permission from a country that lets you enter and stay for a specific purpose and time \u2014 for example to study, work, or just visit.</p>',
+          extra: '<p>Common types: <strong>student visa</strong> (study), <strong>work visa</strong> (job), <strong>visitor/tourist visa</strong> (short visits) and <strong>PR/immigration</strong> (permanent). Ask about any of these \u2014 or see ' + pmtLink(HUBS.visa, 'student visa guidance \u2192') + '.</p>'
+        };
+      }
+      if (immCountry) {
+        return {
+          lead: '<p><strong>Visa for ' + esc(immCountry.name) + ' \u2014 in short:</strong> ' + esc(immCountry.name) + ' issues different visas depending on why you\u2019re going \u2014 study, work or visit \u2014 each with its own documents, fees and processing time.</p>',
+          extra: '<p>' + IMM.studyLink(immCountry) + ' \u00b7 ' + IMM.guideLink(immCountry) + '</p>'
+        };
+      }
+      return {
+        lead: '<p><strong>Visa guidance \u2014 in short:</strong> we cover both sides \u2014 student visas for studying abroad, and work/immigration visas for moving permanently.</p>',
+        extra: '<p>' + pmtLink(HUBS.visa, 'Student visa guidance \u2192') + ' \u00b7 ' + pmtLink(HUBS.immigration, 'Immigration &amp; work visas \u2192') + '</p>'
+      };
+    }
+
+    // 13) Immigration, PR & citizenship
+    if (t.immigration) {
+      if (t.interview) {
+        return {
+          lead: '<p><strong>Visa interview \u2014 in short:</strong> be honest and consistent with your application. Expect questions on your study/work plan, funding, and ties back home.</p>',
+          extra: '<ul>' +
+            '<li>Bring your passport, offer/employment letter and proof of funds.</li>' +
+            '<li>Answer in 1\u20132 sentences; don\u2019t volunteer extra detail.</li>' +
+            '<li>Dress neatly and arrive early.</li>' +
+            '</ul>' +
+            '<p>' + pmtLink(HUBS.visa, 'Student visa guidance \u2192') + '</p>'
+        };
+      }
+      if (t.refusal) {
+        return {
+          lead: '<p><strong>Visa refusal \u2014 in short:</strong> the usual reasons are weak proof of funds, missing documents, or doubts about your intent to return. Address the exact reason stated in the refusal letter, then reapply.</p>',
+          extra: '<p>Common fixes: stronger bank statements, a clearer study/career plan, and full supporting documents. See ' + pmtLink(HUBS.visa, 'student visa guidance \u2192') + '.</p>'
+        };
+      }
+      if (/processing time|how long.*(visa|take)|visa.*(processing|waiting)|wait.*visa|timeline.*visa/.test(q)) {
+        return {
+          lead: '<p><strong>Visa processing time \u2014 in short:</strong> it varies widely \u2014 student visas typically take <strong>2\u201312 weeks</strong> depending on the country, season and your case.</p>',
+          extra: '<p>Apply as soon as you have your offer, and check the official processing times for your country: ' + pmtLink(HUBS.visa, 'visa guidance \u2192') + '</p>'
+        };
+      }
+      if (/proof of funds|bank statement|financial.*(proof|evidence|support)|money.*(bank|need|required)|savings|how much money/.test(q)) {
+        return {
+          lead: '<p><strong>Proof of funds \u2014 in short:</strong> most visas ask you to show you can cover <strong>tuition + about a year of living costs</strong> \u2014 the amount varies by country.</p>',
+          extra: '<p>Usually bank statements from the last 3\u20136 months, sometimes with a sponsor letter. See ' + pmtLink(HUBS.visa, 'visa guidance \u2192') + '.</p>'
+        };
+      }
+      if (/express entry|points system|what is.*(crs|points)/.test(q)) {
+        return {
+          lead: '<p><strong>Express Entry (Canada) \u2014 in short:</strong> Canada\u2019s points-based system for skilled workers \u2014 you\u2019re scored on age, education, language and experience (CRS), and the highest scores get Invitations to Apply in regular draws.</p>',
+          extra: '<p>' + IMM.guideLink(IMM.byName('Canada')) + ' \u00b7 ' + pmtLink(HUBS.immigration, 'All immigration guides \u2192') + '</p>'
+        };
+      }
+      if (/fastest|quickest|which country.*(pr|permanent|citizenship|passport)|pr.*fastest|citizenship.*fastest/.test(q)) {
+        return {
+          lead: '<p><strong>Fastest routes to PR / citizenship \u2014 in short:</strong> fastest <strong>PR</strong>: Canada (6\u201312 months) and Germany (21\u201327 months). Fastest <strong>citizenship</strong>: Ireland (5 of the last 9 years) and Canada (3 of the last 5).</p>',
+          extra: '<p>' + IMM.guideLink(IMM.byName('Canada')) + ' \u00b7 ' + IMM.guideLink(IMM.byName('Ireland')) + '</p>'
+        };
+      }
+      if (/age limit|too old|maximum age|age.*(require|restrict|matter)/.test(q)) {
+        return {
+          lead: '<p><strong>Age and migration \u2014 in short:</strong> most countries don\u2019t set a hard age cap, but points systems reward youth \u2014 e.g. Canada\u2019s Express Entry gives more points under 30 and effectively caps skilled-worker PR in the mid-40s.</p>',
+          extra: '<p>Work visas (like the EU Blue Card) are generally fine at any age. Ask about a specific country for its exact rules.</p>'
+        };
+      }
+      if (/bring.*(family|spouse|children|kids|wife|husband|parents)|family.*(join|reunif|sponsor|with me|move)|dependents?|spouse visa|wife|husband|partner/.test(q)) {
+        return {
+          lead: '<p><strong>Bringing your family \u2014 in short:</strong> most work/PR visas let you bring your spouse and children. In Canada, Australia and New Zealand your spouse usually gets an <strong>open work permit</strong>; in the US an H-1B spouse can\u2019t automatically work.</p>',
+          extra: '<p>Parents are harder \u2014 most points programmes only include spouse and dependent children.' +
+            (immCountry ? ' ' + IMM.guideLink(immCountry) : ' ' + pmtLink(HUBS.immigration, 'All immigration guides \u2192')) + '</p>'
+        };
+      }
+      if (/dual citizenship|become (a )?citizen|naturali[sz]|citizenship.*how long/.test(q)) {
+        return {
+          lead: '<p><strong>Getting citizenship \u2014 in short:</strong> after PR, you usually need a few years of residence to naturalize \u2014 Ireland (5-in-9), Canada (3-of-5) and Germany (~5 years) are among the fastest; most countries allow dual citizenship.</p>',
+          extra: '<p>Check your country\u2019s guide for the exact residency clock: ' + pmtLink(HUBS.immigration, 'all 13 guides \u2192') + '</p>'
+        };
+      }
+      if (immCountry) {
+        var c = immCountry;
+        return {
+          lead: '<p><strong>Immigrating to ' + esc(c.name) + ' \u2014 in short:</strong> ' + (simpleAsk ? esc(c.simple) : esc(c.blurb)) + ' Main routes: ' + esc(c.programs) + '. Difficulty: ' + esc(c.ease) + '.</p>',
+          extra: '<p><strong>Fees:</strong> ' + esc(c.fees) + '.</p><p>' + IMM.guideLink(c) + ' \u00b7 ' + IMM.studyLink(c) + ' \u00b7 ' + pmtLink(HUBS.immigration, 'All immigration guides \u2192') + '</p>'
+        };
+      }
+      return {
+        lead: '<p><strong>Immigration guides \u2014 in short:</strong> we have 2026 guides for 13 countries \u2014 points systems, work visas, PR and citizenship. Pick one:</p>',
+        extra: '<div class="chat-cards">' + IMM.countries.map(function (cc) {
+          return '<div class="chat-card"><div class="cc-top">' + IMM.flag(cc, 22) + '</div>' +
+            '<div class="cc-name">' + esc(cc.name) + '</div>' +
+            '<a class="cc-link" href="immigrate-to-' + cc.slug + '.html">View guide \u2192</a></div>';
+        }).join('') + '</div>'
+      };
+    }
+
+    // 14) General scholarship knowledge (no specific scholarship named)
+    if (t.scholarship) {
       if (/women|female|girls?/.test(q)) {
         return {
           lead: '<p><strong>Scholarships for women \u2014 in short:</strong> a few scholarships are women-only or women-priority; most others are open to all genders.</p>',
           extra: '<p>Filter on ' + pmtLink(HUBS.results, 'the results page \u2192') + ' or ask about a specific country.</p>'
+        };
+      }
+      if (/international (students?|applicants?)/.test(q)) {
+        return {
+          lead: '<p><strong>Scholarships for international students \u2014 in short:</strong> almost every scholarship here is open to international students \u2014 eligibility usually depends on nationality, level and field, not on being local.</p>',
+          extra: '<p>Filter by your level, country and field on ' + pmtLink(HUBS.results, 'the results page \u2192') + '</p>'
         };
       }
       if (/recommend|suggest|match|which scholarship|what scholarship|for me|fit me|suited|best.*(scholarship|for me)/.test(q)) {
@@ -361,247 +671,52 @@
       }
     }
 
-    // 6) Immigration / visa / PR knowledge
-    if (immAsk) {
-      if (/part.?time|work while|while.*(study|studying)|hours.*(week|work)/.test(q) && /student|study|visa/.test(q)) {
+    // 15) Studying abroad — costs, funding, part-time work, accommodation
+    if (t.study) {
+      if (t.cost) {
+        return {
+          lead: '<p><strong>Cost of studying' + (immCountry ? ' in ' + esc(immCountry.name) : ' abroad') + ' \u2014 in short:</strong> tuition and living costs vary hugely by country and city \u2014 Germany is nearly free, while the US, UK and Australia are expensive.' + (immCountry ? ' Our ' + esc(immCountry.name) + ' guide has a full breakdown.' : '') + '</p>',
+          extra: '<p>' + (immCountry ? IMM.studyLink(immCountry) : pmtLink(HUBS.study, 'All study destinations \u2192')) + ' \u00b7 ' + pmtLink('fund-studies-abroad-without-full-scholarship.html', 'Funding studies abroad \u2192') + '</p>'
+        };
+      }
+      if (t.freeStudy) {
+        return {
+          lead: '<p><strong>Studying for free \u2014 in short:</strong> Germany and Norway charge little-to-no tuition at public universities \u2014 the real cost is living (\u20AC900\u20131,200+/month) plus proof of funds.</p>',
+          extra: '<p>' + pmtLink('how-to-study-in-germany-for-free.html', 'How to study in Germany for free \u2192') + ' \u00b7 ' + IMM.studyLink(IMM.byName('Germany')) + '</p>'
+        };
+      }
+      if (t.partTime) {
         return partTimeAns();
       }
-      if (/interview|prep.*embassy|embassy.*interview/.test(q)) {
+      if (t.worth) {
         return {
-          lead: '<p><strong>Visa interview \u2014 in short:</strong> be honest and consistent with your application. Expect questions on your study/work plan, funding, and ties back home.</p>',
-          extra: '<ul>' +
-            '<li>Bring your passport, offer/employment letter and proof of funds.</li>' +
-            '<li>Answer in 1\u20132 sentences; don\u2019t volunteer extra detail.</li>' +
-            '<li>Dress neatly and arrive early.</li>' +
-            '</ul>' +
-            '<p>' + pmtLink(HUBS.visa, 'Student visa guidance \u2192') + '</p>'
+          lead: '<p><strong>Is studying abroad worth it? \u2014 in short:</strong> yes if it advances a clear goal \u2014 a job, PR eligibility or a specific career \u2014 but costs differ hugely: Germany is nearly free, while the US/UK/Australia are expensive.</p>',
+          extra: '<p>' + pmtLink(HUBS.study, 'Study destinations \u2192') + ' \u00b7 ' + pmtLink(HUBS.blog, 'Blog \u2192') + '</p>'
         };
       }
-      if (/refus|denied|reject|rejection|dismissed/.test(q)) {
+      if (t.englishTaught) {
         return {
-          lead: '<p><strong>Visa refusal \u2014 in short:</strong> the usual reasons are weak proof of funds, missing documents, or doubts about your intent to return. Address the exact reason stated in the refusal letter, then reapply.</p>',
-          extra: '<p>Common fixes: stronger bank statements, a clearer study/career plan, and full supporting documents. See ' + pmtLink(HUBS.visa, 'student visa guidance \u2192') + '.</p>'
+          lead: '<p><strong>English-taught programmes \u2014 in short:</strong> at Master\u2019s level, most European countries (Germany, Netherlands, Nordics) offer English-taught degrees; the US, UK, Australia and Canada do by default.</p>',
+          extra: '<p>' + pmtLink(HUBS.study, 'Study destinations \u2192') + '</p>'
         };
       }
-      if (/processing time|how long.*(visa|take)|visa.*(processing|waiting)|wait.*visa|timeline.*visa/.test(q)) {
+      if (t.accommodation) {
         return {
-          lead: '<p><strong>Visa processing time \u2014 in short:</strong> it varies widely \u2014 student visas typically take <strong>2\u201312 weeks</strong> depending on the country, season and your case.</p>',
-          extra: '<p>Apply as soon as you have your offer, and check the official processing times for your country: ' + pmtLink(HUBS.visa, 'visa guidance \u2192') + '</p>'
+          lead: '<p><strong>Student accommodation \u2014 in short:</strong> budget roughly <strong>\u20AC300\u2013800/month</strong> depending on country and city; university residences are usually the easiest for your first year.</p>',
+          extra: '<p>' + pmtLink(HUBS.study, 'Study hub \u2192') + '</p>'
         };
       }
-      if (/proof of funds|bank statement|financial.*(proof|evidence|support)|money.*(bank|need|required)|savings|how much money/.test(q)) {
+      if (/study in|study abroad/.test(q) && immCountry) {
         return {
-          lead: '<p><strong>Proof of funds \u2014 in short:</strong> most student visas ask you to show you can cover <strong>tuition + about a year of living costs</strong> \u2014 the amount varies by country.</p>',
-          extra: '<p>Usually bank statements from the last 3\u20136 months, sometimes with a sponsor letter. See ' + pmtLink(HUBS.visa, 'visa guidance \u2192') + '.</p>'
+          lead: '<p><strong>Studying in ' + esc(immCountry.name) + ' \u2014 in short:</strong> our 2026 guide covers the best universities, tuition costs, the student visa route and available scholarships.</p>',
+          extra: '<p>' + IMM.studyLink(immCountry) + ' \u00b7 ' + IMM.guideLink(immCountry) + ' \u00b7 ' + pmtLink(HUBS.study, 'All study destinations \u2192') + '</p>' +
+            '<p>Want funding? Ask <em>"scholarships in ' + esc(immCountry.name) + '"</em>.</p>'
         };
       }
-      if (visaAsk && /student|study/.test(q)) {
-        var vExtra = '<p>' + pmtLink(HUBS.visa, 'Student visa guidance \u2192');
-        if (immCountry) vExtra += ' \u00b7 ' + IMM.studyLink(immCountry) + ' \u00b7 ' + IMM.guideLink(immCountry);
-        return {
-          lead: '<p><strong>Student visa \u2014 in short:</strong> you\u2019ll need your admission letter, proof of funds and a valid passport; the exact documents, fees and timeline depend on your destination.</p>',
-          extra: vExtra + '</p>'
-        };
-      }
-      if (visaAsk && /what is a visa|visa types|what are visas|visa meaning|what does a visa|whats a visa/.test(q) && !immCountry) {
-        return {
-          lead: '<p><strong>What is a visa \u2014 in short:</strong> a visa is official permission from a country that lets you enter and stay for a specific purpose and time \u2014 for example to study, work, or just visit.</p>',
-          extra: '<p>Common types: <strong>student visa</strong> (study), <strong>work visa</strong> (job), <strong>visitor/tourist visa</strong> (short visits) and <strong>PR/immigration</strong> (permanent). Ask about any of these \u2014 or see ' + pmtLink(HUBS.visa, 'student visa guidance \u2192') + '.</p>'
-        };
-      }
-      if (visaAsk && !immCountry) {
-        return {
-          lead: '<p><strong>Visa guidance \u2014 in short:</strong> we cover both sides \u2014 student visas for studying abroad, and work/immigration visas for moving permanently.</p>',
-          extra: '<p>' + pmtLink(HUBS.visa, 'Student visa guidance \u2192') + ' \u00b7 ' + pmtLink(HUBS.immigration, 'Immigration &amp; work visas \u2192') + '</p>'
-        };
-      }
-      var workAsk = /work visa|work permit|job offer|skilled worker visa|blue card|employer.*(sponsor|visa)|job.*visa/.test(q);
-      if (workAsk && !/which country|easiest|best country|easy to/.test(q)) {
-        return {
-          lead: '<p><strong>Work visa \u2014 in short:</strong> you generally need a <strong>job offer from an employer who sponsors you</strong>, plus a skill level the country wants. Well-known routes: US H-1B (lottery), EU Blue Card (Germany), UK Skilled Worker, Canada Express Entry (points).</p>',
-          extra: (immCountry ? '<p>' + IMM.guideLink(immCountry) + ' covers the exact work-visa routes for that country.</p>' : '') +
-            '<p>' + pmtLink(HUBS.immigration, 'All immigration &amp; work visa guides \u2192') + '</p>'
-        };
-      }
-      if (/easy|easiest|which country.*(best|easy|easiest)|where.*migrat|best country.*migrat|country is.*migrat/.test(q)) {
-        var rank = [
-          ['Canada', 'points-based Express Entry, no job offer needed, PR in ~6\u201312 months'],
-          ['Germany', 'EU Blue Card / Opportunity Card, PR in 21\u201327 months'],
-          ['Australia', 'points visas 189/190 with invites at 85\u201395 points'],
-          ['New Zealand', 'Green List occupations can go Straight-to-Residence'],
-          ['Ireland', 'Critical Skills permit and Europe\u2019s fastest citizenship (5-in-9)'],
-          ['Netherlands', 'Highly Skilled Migrant route + 30% tax ruling']
-        ];
-        var lis = rank.map(function (r) {
-          var c = IMM.byName(r[0]);
-          return '<li><strong>' + esc(r[0]) + '</strong> \u2014 ' + esc(r[1]) + ' (' + IMM.guideLink(c) + ')</li>';
-        }).join('');
-        return {
-          lead: '<p><strong>Easiest countries to migrate to \u2014 in short:</strong> for skilled professionals the most accessible are Canada, Germany, Australia, New Zealand, Ireland and the Netherlands. The hardest are the USA (lottery + backlogs) and Switzerland (strict quotas).</p>',
-          extra: '<ol>' + lis + '</ol>' +
-            '<p>Start with a no-job-offer points path: ' + IMM.guideLink(IMM.byName('Canada')) + ' or ' + IMM.guideLink(IMM.byName('Australia')) + '. Browse all 13: ' + pmtLink(HUBS.immigration, 'immigration guides \u2192') + '</p>'
-        };
-      }
-      if (/hardest|most difficult|strictest|hard to (migrat|immigrat)/.test(q)) {
-        return {
-          lead: '<p><strong>Hardest countries to migrate to \u2014 in short:</strong> the USA (H-1B lottery + decade-long green-card backlogs for India/China) and Switzerland (strict work quotas) are the toughest for most applicants.</p>',
-          extra: '<p>Easier alternatives: ' + IMM.guideLink(IMM.byName('Canada')) + ' or ' + IMM.guideLink(IMM.byName('Germany')) + ' points routes \u2014 or ask <em>"which country is easiest to migrate to"</em>.</p>'
-        };
-      }
-      if (/fastest|quickest|which country.*(pr|permanent|citizenship|passport)|pr.*fastest|citizenship.*fastest/.test(q)) {
-        return {
-          lead: '<p><strong>Fastest routes to PR / citizenship \u2014 in short:</strong> fastest <strong>PR</strong>: Canada (6\u201312 months) and Germany (21\u201327 months). Fastest <strong>citizenship</strong>: Ireland (5 of the last 9 years) and Canada (3 of the last 5).</p>',
-          extra: '<p>' + IMM.guideLink(IMM.byName('Canada')) + ' \u00b7 ' + IMM.guideLink(IMM.byName('Ireland')) + '</p>'
-        };
-      }
-      if (/age limit|too old|maximum age|age.*(require|restrict|matter)/.test(q)) {
-        return {
-          lead: '<p><strong>Age and migration \u2014 in short:</strong> most countries don\u2019t set a hard age cap, but points systems reward youth \u2014 e.g. Canada\u2019s Express Entry gives more points under 30 and effectively caps skilled-worker PR in the mid-40s.</p>',
-          extra: '<p>Work visas (like the EU Blue Card) are generally fine at any age. Ask about a specific country for its exact rules.</p>'
-        };
-      }
-      if (/bring.*(family|spouse|children|kids|wife|husband|parents)|family.*(join|reunif|sponsor|with me|move)|dependents?|spouse visa|wife|husband|partner/.test(q)) {
-        return {
-          lead: '<p><strong>Bringing your family \u2014 in short:</strong> most work/PR visas let you bring your spouse and children. In Canada, Australia and New Zealand your spouse usually gets an <strong>open work permit</strong>; in the US an H-1B spouse can\u2019t automatically work.</p>',
-          extra: '<p>Parents are harder \u2014 most points programmes only include spouse and dependent children.' +
-            (immCountry ? ' ' + IMM.guideLink(immCountry) : ' ' + pmtLink(HUBS.immigration, 'All immigration guides \u2192')) + '</p>'
-        };
-      }
-      if (/dual citizenship|become (a )?citizen|naturali[sz]|citizenship.*how long/.test(q)) {
-        return {
-          lead: '<p><strong>Getting citizenship \u2014 in short:</strong> after PR, you usually need a few years of residence to naturalize \u2014 Ireland (5-in-9), Canada (3-of-5) and Germany (~5 years) are among the fastest; most countries allow dual citizenship.</p>',
-          extra: '<p>Check your country\u2019s guide for the exact residency clock: ' + pmtLink(HUBS.immigration, 'all 13 guides \u2192') + '</p>'
-        };
-      }
-      if (/post.?study|psw\b|opt\b|graduate route|work.*after.*(study|graduate|degree)|stay.*after.*(study|graduate)/.test(q)) {
-        return {
-          lead: '<p><strong>Working after you graduate \u2014 in short:</strong> most major destinations give you <strong>1\u20133 years</strong> after your degree \u2014 Canada (PGWP up to 3 yrs), UK (Graduate Route 2 yrs), Australia (up to 4 yrs for some), US (OPT 1\u20133 yrs).</p>',
-          extra: '<p>Check the exact rules in ' + pmtLink(HUBS.visa, 'student visa guidance \u2192') + ' or ask <em>"study in [country]"</em>.</p>'
-        };
-      }
-      if (/h-?1b/.test(q) && !/green card/.test(q)) {
-        return {
-          lead: '<p><strong>H-1B work visa \u2014 in short:</strong> the main US work visa for skilled professionals. An employer must sponsor you, and you\u2019re entered into an annual <strong>lottery</strong> (~1 in 3 odds) because far more people apply than the 85,000 spots.</p>',
-          extra: '<p>Winning the lottery is only step one \u2014 the visa is tied to that employer. See ' + IMM.guideLink(IMM.byName('United States')) + ' or ask <em>"green card"</em> for the path to permanent residency.</p>'
-        };
-      }
-      if (/green card|h-?1b/.test(q)) {
-        var us = IMM.byName('United States');
-        return {
-          lead: '<p><strong>US green card \u2014 in short:</strong> ' + esc(us.simple) + '</p>',
-          extra: '<p>' + IMM.guideLink(us) + ' \u00b7 ' + pmtLink(HUBS.immigration, 'All immigration guides \u2192') + '</p>'
-        };
-      }
-      if (immCountry) {
-        var c = immCountry;
-        return {
-          lead: '<p><strong>Immigrating to ' + esc(c.name) + ' \u2014 in short:</strong> ' + (simpleAsk ? esc(c.simple) : esc(c.blurb)) + ' Main routes: ' + esc(c.programs) + '. Difficulty: ' + esc(c.ease) + '.</p>',
-          extra: '<p><strong>Fees:</strong> ' + esc(c.fees) + '.</p><p>' + IMM.guideLink(c) + ' \u00b7 ' + IMM.studyLink(c) + ' \u00b7 ' + pmtLink(HUBS.immigration, 'All immigration guides \u2192') + '</p>'
-        };
-      }
-      return {
-        lead: '<p><strong>Immigration guides \u2014 in short:</strong> we have 2026 guides for 13 countries \u2014 points systems, work visas, PR and citizenship. Pick one:</p>',
-        extra: '<div class="chat-cards">' + IMM.countries.map(function (cc) {
-          return '<div class="chat-card"><div class="cc-top">' + IMM.flag(cc, 22) + '</div>' +
-            '<div class="cc-name">' + esc(cc.name) + '</div>' +
-            '<a class="cc-link" href="immigrate-to-' + cc.slug + '.html">View guide \u2192</a></div>';
-        }).join('') + '</div>'
-      };
     }
 
-    // 7) IELTS / TOEFL / English tests
-    if (/ielts|toefl|band score|english test|english language test|pte|duolingo/.test(q) && !/no ielts|without ielts/.test(q)) {
-      if (/valid|expir|how long.*(ielts|test)/.test(q)) {
-        return {
-          lead: '<p><strong>How long IELTS is valid \u2014 in short:</strong> <strong>2 years</strong> from your test date. After that, most universities won\u2019t accept it.</p>',
-          extra: '<p>' + pmtLink(HUBS.ielts, 'Full IELTS guidance \u2192') + '</p>'
-        };
-      }
-      if (/book|register|test date|center|centre|fee|cost|how.*take.*(ielts|test)|where.*(ielts|test)/.test(q)) {
-        return {
-          lead: '<p><strong>Booking IELTS \u2014 in short:</strong> register online at <strong>ielts.org</strong> or the British Council / IDP; the test costs roughly US$220\u2013260 and results come in about 13 days.</p>',
-          extra: '<p>Book 1\u20132 months ahead \u2014 slots fill fast. ' + pmtLink(HUBS.ielts, 'IELTS guidance \u2192') + '</p>'
-        };
-      }
-      if (/pte|duolingo/.test(q)) {
-        return {
-          lead: '<p><strong>PTE and Duolingo \u2014 in short:</strong> both are widely accepted as IELTS alternatives \u2014 PTE Academic is scored 10\u201390, and Duolingo English Test is online. Check each university\u2019s accepted tests and minimum scores.</p>',
-          extra: '<p>' + pmtLink('toefl-vs-ielts-which-test.html', 'TOEFL vs IELTS \u2192') + ' \u00b7 ' + pmtLink(HUBS.ielts, 'IELTS guidance \u2192') + '</p>'
-        };
-      }
-      return {
-        lead: '<p><strong>IELTS \u2014 in short:</strong> it\u2019s scored from 1 to 9, and most universities ask for a <strong>6.0\u20137.0</strong> overall (no section below 6.0). It has four parts: Listening, Reading, Writing and Speaking.</p>',
-        extra: '<p>' + pmtLink(HUBS.ielts, 'Full IELTS guidance \u2192') + ' \u00b7 ' + pmtLink('toefl-vs-ielts-which-test.html', 'TOEFL vs IELTS \u2192') + '</p>'
-      };
-    }
-
-    // 8) SOP / essay writing
-    if (/sop builder|use.*sop builder|open.*sop builder/.test(q)) {
-      return {
-        lead: '<p><strong>SOP Builder \u2014 in short:</strong> our free tool walks you through a winning statement of purpose step by step, with a built-in score.</p>',
-        extra: '<p>' + pmtLink('sop-builder.html', 'Open the SOP Builder \u2192') + '</p>'
-      };
-    }
-    if (/sop|statement of purpose|essay|leadership|motivation letter|personal statement|write/.test(q)) {
-      return {
-        lead: '<p><strong>Writing your essay / SOP \u2014 in short:</strong> open with a specific story, use the <strong>STAR method</strong> (Situation, Task, Action, Result) for leadership examples, and tie every paragraph back to <em>why this scholarship</em> and <em>your future plan</em>.</p>',
-        extra: ul(['Open with a specific story, not a generic statement.', 'Quantify impact ("cut deployment time 80%") wherever you can.']) +
-          '<p>Draft and score it in the ' + pmtLink('sop-builder.html', 'SOP Builder \u2192') + '</p>'
-      };
-    }
-
-    // 9) "No IELTS" advice
-    if (/no ielts|without ielts|ielts waiver|english test|without english/.test(q)) {
-      return {
-        lead: '<p><strong>No IELTS? \u2014 in short:</strong> many European programmes accept a <strong>medium-of-instruction letter</strong> instead, and some scholarships (like Chevening) no longer set their own English requirement.</p>',
-        extra: '<p>Look at ' + pmtLink(HUBS.results + '?region=Europe', 'scholarships in Europe \u2192') + ' and always check the specific programme\u2019s language rule.</p>'
-      };
-    }
-
-    // 10) Studying abroad — costs, funding, part-time work, accommodation
-    if (/cost|tuition|fees|expensive|how much.*(study|cost)|price/.test(q) && (immCountry || /study|uni|student|degree|abroad|school/.test(q))) {
-      return {
-        lead: '<p><strong>Cost of studying' + (immCountry ? ' in ' + esc(immCountry.name) : ' abroad') + ' \u2014 in short:</strong> tuition and living costs vary hugely by country and city \u2014 Germany is nearly free, while the US, UK and Australia are expensive.' + (immCountry ? ' Our ' + esc(immCountry.name) + ' guide has a full breakdown.' : '') + '</p>',
-        extra: '<p>' + (immCountry ? IMM.studyLink(immCountry) : pmtLink(HUBS.study, 'All study destinations \u2192')) + ' \u00b7 ' + pmtLink('fund-studies-abroad-without-full-scholarship.html', 'Funding studies abroad \u2192') + '</p>'
-      };
-    }
-    if (/study.*(free|for free|without tuition|tuition.?free)|free.*(education|study|tuition|university)/.test(q)) {
-      return {
-        lead: '<p><strong>Studying for free \u2014 in short:</strong> Germany and Norway charge little-to-no tuition at public universities \u2014 the real cost is living (\u20AC900\u20131,200+/month) plus proof of funds.</p>',
-        extra: '<p>' + pmtLink('how-to-study-in-germany-for-free.html', 'How to study in Germany for free \u2192') + ' \u00b7 ' + IMM.studyLink(IMM.byName('Germany')) + '</p>'
-      };
-    }
-    if (/part.?time|work while (i )?study|while (i )?(study|studying)|student.*(job|work)|work.*(during|breaks?)|hours.*(work|week)/.test(q) && /student|study|abroad/.test(q)) {
-      return partTimeAns();
-    }
-    if (/worth it|is it worth|should i (study|go abroad|move)/.test(q)) {
-      return {
-        lead: '<p><strong>Is studying abroad worth it? \u2014 in short:</strong> yes if it advances a clear goal \u2014 a job, PR eligibility or a specific career \u2014 but costs differ hugely: Germany is nearly free, while the US/UK/Australia are expensive.</p>',
-        extra: '<p>' + pmtLink(HUBS.study, 'Study destinations \u2192') + ' \u00b7 ' + pmtLink(HUBS.blog, 'Blog \u2192') + '</p>'
-      };
-    }
-    if (/english.?taught|programs? in english|degrees? in english|taught in english/.test(q) && /study|abroad|uni|master|degree/.test(q)) {
-      return {
-        lead: '<p><strong>English-taught programmes \u2014 in short:</strong> at Master\u2019s level, most European countries (Germany, Netherlands, Nordics) offer English-taught degrees; the US, UK, Australia and Canada do by default.</p>',
-        extra: '<p>' + pmtLink(HUBS.study, 'Study destinations \u2192') + '</p>'
-      };
-    }
-    if (/accommodation|housing|dormitor|where.*(live|stay)|rent|rooms?/.test(q) && /student|study|abroad/.test(q)) {
-      return {
-        lead: '<p><strong>Student accommodation \u2014 in short:</strong> budget roughly <strong>\u20AC300\u2013800/month</strong> depending on country and city; university residences are usually the easiest for your first year.</p>',
-        extra: '<p>' + pmtLink(HUBS.study, 'Study hub \u2192') + '</p>'
-      };
-    }
-    if (/study in|study abroad/.test(q) && immCountry) {
-      return {
-        lead: '<p><strong>Studying in ' + esc(immCountry.name) + ' \u2014 in short:</strong> our 2026 guide covers the best universities, tuition costs, the student visa route and available scholarships.</p>',
-        extra: '<p>' + IMM.studyLink(immCountry) + ' \u00b7 ' + IMM.guideLink(immCountry) + ' \u00b7 ' + pmtLink(HUBS.study, 'All study destinations \u2192') + '</p>' +
-          '<p>Want funding? Ask <em>"scholarships in ' + esc(immCountry.name) + '"</em>.</p>'
-      };
-    }
-
-    // 11) Closing soon
-    if (/closing|soon|urgent|earliest|nearest deadline|expiring/.test(q)) {
+    // 16) Closing soon
+    if (t.closing) {
       var closing = SB.all.filter(function (x) { return SB.deadlineInfo(x).status === 'closing'; })
         .sort(function (a, b) { return SB.deadlineInfo(a).daysLeft - SB.deadlineInfo(b).daysLeft; });
       if (!closing.length) {
@@ -616,26 +731,26 @@
       };
     }
 
-    // 12) Tools & site help
-    if (/quiz/.test(q)) {
+    // 17) Tools & site help
+    if (t.quiz) {
       return {
         lead: '<p><strong>Scholarship quiz \u2014 in short:</strong> answer a few quick questions and we\u2019ll shortlist scholarships matched to your profile.</p>',
         extra: '<p>' + pmtLink(siteRoot('index.html#quiz'), 'Take the quiz \u2192') + '</p>'
       };
     }
-    if (/save|saved|bookmark|heart/.test(q) && schQ) {
+    if (t.save && t.scholarship) {
       return {
         lead: '<p><strong>Saving scholarships \u2014 in short:</strong> tap the <strong>heart</strong> on any scholarship card to save it \u2014 your list lives on the Saved page.</p>',
         extra: '<p>' + pmtLink('saved.html', 'Open your saved list \u2192') + '</p>'
       };
     }
-    if (/contact|feedback|report.*(bug|issue)|complaint/.test(q)) {
+    if (t.contact) {
       return {
         lead: '<p><strong>Get in touch \u2014 in short:</strong> we\u2019d love to hear from you \u2014 questions, feedback or bugs.</p>',
         extra: '<p>' + pmtLink('contact.html', 'Contact us \u2192') + '</p>'
       };
     }
-    if (/what can you (do|help|answer|tell)|how do you (work|help)|what are you|who are you|what do you know|help me|what topics|what questions/.test(q)) {
+    if (t.capability) {
       return {
         lead: '<p><strong>What I can help with \u2014 in short:</strong> scholarships (eligibility, documents, deadlines, fees, funding), immigration &amp; PR, work/student/visitor visas, studying abroad, costs, IELTS and essay writing \u2014 all in plain English.</p>',
         extra: '<ul>' +
@@ -648,7 +763,7 @@
       };
     }
 
-    // 13) Search by level / region / field / funding
+    // 18) Search by level / region / field / funding
     var levels = detectLevels(q);
     var loc = detectRegionOrCountry(q);
     var field = detectField(q);
@@ -686,7 +801,7 @@
       };
     }
 
-    // 14) Fallback
+    // 19) Fallback
     return {
       lead: '<p><strong>Here\u2019s how I can help \u2014 in short:</strong> I cover scholarships, immigration, PR, studying abroad, visas and IELTS \u2014 in plain, to-the-point language.</p>',
       extra: '<ul>' +

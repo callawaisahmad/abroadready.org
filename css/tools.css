@@ -15,10 +15,17 @@
   grid-template-columns: 300px 1fr;
   gap: var(--space-6);
   padding: var(--space-6);
-  height: calc(100vh - 80px); /* Minus navbar */
+  height: calc(100vh - 69px); /* Full viewport minus the non-sticky navbar */
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
+}
+
+/* Tool pages are full-viewport apps — keep the site header in normal flow,
+   not sticky, so it never overlaps the chat area. */
+.tool-layout .site-header {
+  position: relative;
+  top: auto;
 }
 
 .chat-sidebar {
@@ -97,10 +104,10 @@
 .chat-messages {
   flex-grow: 1;
   overflow-y: auto;
-  padding: var(--space-6);
+  padding: 18px 24px;
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: 16px;
 }
 
 /* Message Bubbles */
@@ -317,7 +324,7 @@
 }
 .chat-head {
   display: flex; align-items: center; gap: 12px;
-  padding: 16px 20px;
+  padding: 12px 20px;
   background: var(--gradient-primary);
   color: #fff;
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
@@ -343,14 +350,6 @@
 .chat-messages::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: var(--radius-full); }
 .chat-messages::-webkit-scrollbar-thumb:hover { background: #a5b4fc; }
 .chat-messages::-webkit-scrollbar-track { background: transparent; }
-
-.chat-quickbar {
-  display: flex; gap: 8px; overflow-x: auto;
-  padding: 10px 20px; background: #f8fafc;
-  border-top: 1px solid #eef2f7;
-  scrollbar-width: none;
-}
-.chat-quickbar::-webkit-scrollbar { display: none; }
 
 .msg-lead { border-left: 3px solid var(--primary); padding-left: 12px; }
 .msg-lead p { margin-bottom: var(--space-2); }

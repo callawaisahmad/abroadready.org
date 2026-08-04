@@ -30,9 +30,7 @@
     }).join("");
   }
   var sideChips = document.getElementById("ai-side-chips");
-  var quickbar = document.getElementById("chat-quickbar");
   if (sideChips) sideChips.innerHTML = chipHTML(A.chips);
-  if (quickbar) quickbar.innerHTML = chipHTML(A.chips.slice(0, 6));
 
   // ---------- bubbles ----------
   function wireHearts(wrap) {
