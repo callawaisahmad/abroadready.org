@@ -101,7 +101,7 @@
     return null;
   }
 
-  function link(s) { return '<a href="scholarship.html?id=' + s.id + '" style="color:var(--primary);font-weight:600;">' + esc(s.name) + ' →</a>'; }
+  function link(s) { return '<a href="scholarship?id=' + s.id + '" style="color:var(--primary);font-weight:600;">' + esc(s.name) + ' →</a>'; }
   function ul(items) { return '<ul>' + (items || []).map(function (i) { return '<li>' + esc(i) + '</li>'; }).join('') + '</ul>'; }
 
   // Collapse a list of facts into one concise sentence.
@@ -125,7 +125,7 @@
           '<button class="cc-heart' + (saved ? ' is-saved' : '') + '" data-save="' + s.id + '" title="Save">' + (saved ? '\u2665' : '\u2661') + '</button></div>' +
         '<div class="cc-name">' + esc(s.name) + '</div>' +
         '<div class="cc-meta">' + esc(s.country) + ' \u00b7 ' + esc(s.fundingType) + (d.hasDate ? ' \u00b7 ' + d.daysLeft + 'd left' : '') + '</div>' +
-        '<a class="cc-link" href="scholarship.html?id=' + encodeURIComponent(s.id) + '">View details \u2192</a>' +
+        '<a class="cc-link" href="scholarship?id=' + encodeURIComponent(s.id) + '">View details \u2192</a>' +
         '</div>';
     }).join('');
   }
@@ -161,8 +161,8 @@
   }
 
   var HUBS = {
-    visa: 'visa-guidance.html', ielts: 'ielts-guidance.html',
-    immigration: 'immigration.html', study: 'study.html', results: 'results.html', blog: 'blog.html'
+    visa: 'visa-guidance', ielts: 'ielts-guidance',
+    immigration: 'immigration', study: 'study', results: 'results', blog: 'blog'
   };
 
   // ============================================================
@@ -292,7 +292,7 @@
       if (/select|shortlist|interview|how.*chosen|stage|panel|review|evaluat/.test(q)) {
         return {
           lead: '<p><strong>Selection for ' + esc(s.name) + ' \u2014 in short:</strong> applications are checked against eligibility, then shortlisted; shortlisted candidates often face an <strong>interview</strong>.</p>',
-          extra: '<p>Practice motivation, leadership, future plans and impact questions \u2014 see ' + pmtLink('scholarship-interview-questions-how-to-answer.html', 'interview prep \u2192') + ' or ask <em>"how to prepare for the interview"</em>.</p>'
+          extra: '<p>Practice motivation, leadership, future plans and impact questions \u2014 see ' + pmtLink('scholarship-interview-questions-how-to-answer', 'interview prep \u2192') + ' or ask <em>"how to prepare for the interview"</em>.</p>'
         };
       }
       if (/renew|second year|extend|continu/.test(q)) {
@@ -384,12 +384,12 @@
       if (/pte|duolingo/.test(q)) {
         return {
           lead: '<p><strong>PTE and Duolingo \u2014 in short:</strong> both are widely accepted as IELTS alternatives \u2014 PTE Academic is scored 10\u201390, and Duolingo English Test is online. Check each university\u2019s accepted tests and minimum scores.</p>',
-          extra: '<p>' + pmtLink('toefl-vs-ielts-which-test.html', 'TOEFL vs IELTS \u2192') + ' \u00b7 ' + pmtLink(HUBS.ielts, 'IELTS guidance \u2192') + '</p>'
+          extra: '<p>' + pmtLink('toefl-vs-ielts-which-test', 'TOEFL vs IELTS \u2192') + ' \u00b7 ' + pmtLink(HUBS.ielts, 'IELTS guidance \u2192') + '</p>'
         };
       }
       return {
         lead: '<p><strong>IELTS \u2014 in short:</strong> it\u2019s scored from 1 to 9, and most universities ask for a <strong>6.0\u20137.0</strong> overall (no section below 6.0). It has four parts: Listening, Reading, Writing and Speaking.</p>',
-        extra: '<p>' + pmtLink(HUBS.ielts, 'Full IELTS guidance \u2192') + ' \u00b7 ' + pmtLink('toefl-vs-ielts-which-test.html', 'TOEFL vs IELTS \u2192') + '</p>'
+        extra: '<p>' + pmtLink(HUBS.ielts, 'Full IELTS guidance \u2192') + ' \u00b7 ' + pmtLink('toefl-vs-ielts-which-test', 'TOEFL vs IELTS \u2192') + '</p>'
       };
     }
 
@@ -397,14 +397,14 @@
     if (t.sopBuilder) {
       return {
         lead: '<p><strong>SOP Builder \u2014 in short:</strong> our free tool walks you through a winning statement of purpose step by step, with a built-in score.</p>',
-        extra: '<p>' + pmtLink('sop-builder.html', 'Open the SOP Builder \u2192') + '</p>'
+        extra: '<p>' + pmtLink('sop-builder', 'Open the SOP Builder \u2192') + '</p>'
       };
     }
     if (t.sop) {
       return {
         lead: '<p><strong>Writing your essay / SOP \u2014 in short:</strong> open with a specific story, use the <strong>STAR method</strong> (Situation, Task, Action, Result) for leadership examples, and tie every paragraph back to <em>why this scholarship</em> and <em>your future plan</em>.</p>',
         extra: ul(['Open with a specific story, not a generic statement.', 'Quantify impact ("cut deployment time 80%") wherever you can.']) +
-          '<p>Draft and score it in the ' + pmtLink('sop-builder.html', 'SOP Builder \u2192') + '</p>'
+          '<p>Draft and score it in the ' + pmtLink('sop-builder', 'SOP Builder \u2192') + '</p>'
       };
     }
 
@@ -614,7 +614,7 @@
         extra: '<div class="chat-cards">' + IMM.countries.map(function (cc) {
           return '<div class="chat-card"><div class="cc-top">' + IMM.flag(cc, 22) + '</div>' +
             '<div class="cc-name">' + esc(cc.name) + '</div>' +
-            '<a class="cc-link" href="immigrate-to-' + cc.slug + '.html">View guide \u2192</a></div>';
+            '<a class="cc-link" href="immigrate-to-' + cc.slug + '">View guide \u2192</a></div>';
         }).join('') + '</div>'
       };
     }
@@ -652,7 +652,7 @@
       if (/how (do|can|i) (find|search)|how to (find|search)|where (can|do|to) (find|search)/.test(q)) {
         return {
           lead: '<p><strong>How to find scholarships \u2014 in short:</strong> filter the results page by your level, country and field, and check deadlines sorted by soonest.</p>',
-          extra: '<p>' + pmtLink(HUBS.results, 'Browse scholarships \u2192') + ' \u00b7 ' + pmtLink('how-to-find-scholarships-actually-eligible.html', 'How to find ones you\u2019re actually eligible for \u2192') + '</p>'
+          extra: '<p>' + pmtLink(HUBS.results, 'Browse scholarships \u2192') + ' \u00b7 ' + pmtLink('how-to-find-scholarships-actually-eligible', 'How to find ones you\u2019re actually eligible for \u2192') + '</p>'
         };
       }
       if (/easiest|how hard|chances?|competitive|win|easy to (get|win)|hard to (get|win)/.test(q)) {
@@ -676,7 +676,7 @@
       if (/loan|borrow|scholarship.*(or|vs).*loan/.test(q)) {
         return {
           lead: '<p><strong>Scholarship vs education loan \u2014 in short:</strong> a scholarship is free money you don\u2019t repay; a loan must be paid back with interest. Exhaust scholarships, grants and part-time work before borrowing.</p>',
-          extra: '<p>' + pmtLink(HUBS.results, 'Browse scholarships \u2192') + ' \u00b7 ' + pmtLink('fund-studies-abroad-without-full-scholarship.html', 'Funding studies without a full scholarship \u2192') + '</p>'
+          extra: '<p>' + pmtLink(HUBS.results, 'Browse scholarships \u2192') + ' \u00b7 ' + pmtLink('fund-studies-abroad-without-full-scholarship', 'Funding studies without a full scholarship \u2192') + '</p>'
         };
       }
       if (/(gpa|grades|marks)/.test(q) && /(low|bad|below|less|average|poor|not.*good)/.test(q)) {
@@ -698,13 +698,13 @@
       if (t.cost) {
         return {
           lead: '<p><strong>Cost of studying' + (immCountry ? ' in ' + esc(immCountry.name) : ' abroad') + ' \u2014 in short:</strong> tuition and living costs vary hugely by country and city \u2014 Germany is nearly free, while the US, UK and Australia are expensive.' + (immCountry ? ' Our ' + esc(immCountry.name) + ' guide has a full breakdown.' : '') + '</p>',
-          extra: '<p>' + (immCountry ? IMM.studyLink(immCountry) : pmtLink(HUBS.study, 'All study destinations \u2192')) + ' \u00b7 ' + pmtLink('fund-studies-abroad-without-full-scholarship.html', 'Funding studies abroad \u2192') + '</p>'
+          extra: '<p>' + (immCountry ? IMM.studyLink(immCountry) : pmtLink(HUBS.study, 'All study destinations \u2192')) + ' \u00b7 ' + pmtLink('fund-studies-abroad-without-full-scholarship', 'Funding studies abroad \u2192') + '</p>'
         };
       }
       if (t.freeStudy) {
         return {
           lead: '<p><strong>Studying for free \u2014 in short:</strong> Germany and Norway charge little-to-no tuition at public universities \u2014 the real cost is living (\u20AC900\u20131,200+/month) plus proof of funds.</p>',
-          extra: '<p>' + pmtLink('how-to-study-in-germany-for-free.html', 'How to study in Germany for free \u2192') + ' \u00b7 ' + IMM.studyLink(IMM.byName('Germany')) + '</p>'
+          extra: '<p>' + pmtLink('how-to-study-in-germany-for-free', 'How to study in Germany for free \u2192') + ' \u00b7 ' + IMM.studyLink(IMM.byName('Germany')) + '</p>'
         };
       }
       if (t.partTime) {
@@ -757,19 +757,19 @@
     if (t.quiz) {
       return {
         lead: '<p><strong>Scholarship quiz \u2014 in short:</strong> answer a few quick questions and we\u2019ll shortlist scholarships matched to your profile.</p>',
-        extra: '<p>' + pmtLink(siteRoot('index.html#quiz'), 'Take the quiz \u2192') + '</p>'
+        extra: '<p>' + pmtLink(siteRoot('#quiz'), 'Take the quiz \u2192') + '</p>'
       };
     }
     if (t.save && t.scholarship) {
       return {
         lead: '<p><strong>Saving scholarships \u2014 in short:</strong> tap the <strong>heart</strong> on any scholarship card to save it \u2014 your list lives on the Saved page.</p>',
-        extra: '<p>' + pmtLink('saved.html', 'Open your saved list \u2192') + '</p>'
+        extra: '<p>' + pmtLink('saved', 'Open your saved list \u2192') + '</p>'
       };
     }
     if (t.contact) {
       return {
         lead: '<p><strong>Get in touch \u2014 in short:</strong> we\u2019d love to hear from you \u2014 questions, feedback or bugs.</p>',
-        extra: '<p>' + pmtLink('contact.html', 'Contact us \u2192') + '</p>'
+        extra: '<p>' + pmtLink('contact', 'Contact us \u2192') + '</p>'
       };
     }
     if (t.capability) {

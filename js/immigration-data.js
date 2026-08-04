@@ -119,19 +119,19 @@
   ];
 
   var HUBS = {
-    immigration: { title: 'Immigration & Work Visa Guides', page: 'immigration.html' },
-    visa: { title: 'Student Visa Guidance', page: 'visa-guidance.html' },
-    ielts: { title: 'IELTS Guidance', page: 'ielts-guidance.html' },
-    study: { title: 'Study Abroad Hub', page: 'study.html' }
+    immigration: { title: 'Immigration & Work Visa Guides', page: 'immigration' },
+    visa: { title: 'Student Visa Guidance', page: 'visa-guidance' },
+    ielts: { title: 'IELTS Guidance', page: 'ielts-guidance' },
+    study: { title: 'Study Abroad Hub', page: 'study' }
   };
 
   var STUDY = {
-    'canada': 'study-in-canada.html', 'australia': 'study-in-australia.html',
-    'new zealand': 'study-in-new-zealand.html', 'germany': 'study-in-germany.html',
-    'uk': 'study-in-uk.html', 'usa': 'study-in-usa.html', 'france': 'study-in-france.html',
-    'netherlands': 'study-in-netherlands.html', 'ireland': 'study-in-ireland.html',
-    'sweden': 'study-in-sweden.html', 'spain': 'study-in-spain.html', 'italy': 'study-in-italy.html',
-    'switzerland': 'study-in-switzerland.html', 'turkey': 'study-in-turkey.html'
+    'canada': 'study-in-canada', 'australia': 'study-in-australia',
+    'new zealand': 'study-in-new-zealand', 'germany': 'study-in-germany',
+    'uk': 'study-in-uk', 'usa': 'study-in-usa', 'france': 'study-in-france',
+    'netherlands': 'study-in-netherlands', 'ireland': 'study-in-ireland',
+    'sweden': 'study-in-sweden', 'spain': 'study-in-spain', 'italy': 'study-in-italy',
+    'switzerland': 'study-in-switzerland', 'turkey': 'study-in-turkey'
   };
 
   var NAME_PATTERNS = [
@@ -168,7 +168,7 @@
     return '<img src="https://flagcdn.com/' + size + 'x' + Math.round(size * 0.75) + '/' + c.iso + '.png" alt="' + esc(c.name) + ' flag" width="' + size + '" height="' + Math.round(size * 0.75) + '" loading="lazy">';
   }
   function studyLink(c) { return STUDY[c.slug] ? '<a href="' + STUDY[c.slug] + '" style="color:var(--primary);font-weight:600;">Study in ' + esc(c.name) + ' →</a>' : ''; }
-  function guideLink(c) { return '<a href="immigrate-to-' + c.slug + '.html" style="color:var(--primary);font-weight:600;">Full ' + esc(c.name) + ' guide →</a>'; }
+  function guideLink(c) { return '<a href="immigrate-to-' + c.slug + '" style="color:var(--primary);font-weight:600;">Full ' + esc(c.name) + ' guide →</a>'; }
 
   function countryCard(c, simple) {
     var html = '<p><strong>' + flag(c, 22) + ' &nbsp;Immigrating to ' + esc(c.name) + ' — the essentials:</strong></p>';

@@ -6,10 +6,10 @@
   <title>Scholarship Details — Eligibility, Documents, Deadlines | AbroadReady</title>
   <meta name="description" content="Full scholarship details including eligibility criteria, required documents, benefits, application deadlines, and tips. Browse fully funded international scholarships.">
   <meta name="keywords" content="scholarship details, international scholarships, fully funded scholarships, scholarship eligibility, scholarship application tips, study abroad funding, scholarships for Pakistani students">
-  <link rel="canonical" href="https://abroadready.org/pages/scholarship.html">
+  <link rel="canonical" href="https://abroadready.org/pages/scholarship">
   <meta property="og:title" content="Scholarship Details | AbroadReady">
   <meta property="og:description" content="Full scholarship details: eligibility, documents, benefits, deadlines, and application tips. Find your path abroad.">
-  <meta property="og:url" content="https://abroadready.org/pages/scholarship.html">
+  <meta property="og:url" content="https://abroadready.org/pages/scholarship">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="AbroadReady">
   <meta property="og:locale" content="en_US">
@@ -27,8 +27,8 @@
       "@type": "BreadcrumbList",
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://abroadready.org/" },
-        { "@type": "ListItem", "position": 2, "name": "Scholarships", "item": "https://abroadready.org/pages/results.html" },
-        { "@type": "ListItem", "position": 3, "name": "Scholarship Details", "item": "https://abroadready.org/pages/scholarship.html" }
+        { "@type": "ListItem", "position": 2, "name": "Scholarships", "item": "https://abroadready.org/pages/results" },
+        { "@type": "ListItem", "position": 3, "name": "Scholarship Details", "item": "https://abroadready.org/pages/scholarship" }
       ]
     }
   }
@@ -54,7 +54,7 @@
       <span class="logo-text">Abroad<span class="text-gradient">Ready</span></span>
     </a>
     <div class="nav-actions flex items-center gap-4">
-      <a href="results.html" class="btn btn-ghost btn-sm">← Back to all scholarships</a>
+      <a href="results" class="btn btn-ghost btn-sm">← Back to all scholarships</a>
     </div>
   </div>
 </nav>
@@ -67,7 +67,7 @@
   <div style="font-size:3.5rem;">🧭</div>
   <h1>Scholarship not found</h1>
   <p class="sc-org" style="margin:var(--space-4) 0 var(--space-8);">We couldn't find that scholarship. It may have been renamed or removed.</p>
-  <a href="results.html" class="btn btn-primary">Scholarships</a>
+  <a href="results" class="btn btn-primary">Scholarships</a>
 </div>
 
 <footer class="footer">
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var html = '' +
   '<header class="sc-hero section pb-0">' +
     '<div class="container">' +
-      '<a href="results.html" class="hero-back">← All scholarships</a>' +
+      '<a href="results" class="hero-back">← All scholarships</a>' +
       '<div class="sc-hero-card card animate-fade-in-up">' +
         '<div class="sc-hero-top flex justify-between items-start">' +
           '<div class="flex gap-4 items-center">' +
@@ -342,7 +342,7 @@ document.addEventListener('DOMContentLoaded', function () {
     },
     "eligibleRegion": { "@type": "Place", "name": "International" },
     "funding": s.fundingType,
-    "url": "https://abroadready.org/pages/scholarship.html?id=" + encodeURIComponent(s.id)
+    "url": "https://abroadready.org/pages/scholarship?id=" + encodeURIComponent(s.id)
   });
   document.head.appendChild(schemaScript);
 });

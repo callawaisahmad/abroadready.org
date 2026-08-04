@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 build_blog.py — generate the static blog from data/blog.json:
-  * pages/<slug>.html   one SEO-optimised static page per post
-  * pages/blog.html     the blog index (static cards + JS filter/search)
+  * pages/<slug>   one SEO-optimised static page per post
+  * pages/blog     the blog index (static cards + JS filter/search)
   * sitemap.xml, robots.txt
 
 Static HTML (content baked in) is used deliberately so search engines index the
@@ -51,8 +51,8 @@ def head(post, canonical):
         "mainEntity": [{"@type": "Question", "name": f["q"],
             "acceptedAnswer": {"@type": "Answer", "text": strip_tags(f["a"])}} for f in post.get("faq", [])]}
     ld_bc = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/index.html"},
-        {"@type": "ListItem", "position": 2, "name": "Blog", "item": DOMAIN + "/pages/blog.html"},
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": DOMAIN + "/pages/blog"},
         {"@type": "ListItem", "position": 3, "name": post["title"], "item": canonical}]}
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -97,7 +97,7 @@ def related_html(post, posts):
     cards = ""
     for p in picks:
         emoji, grad = cat_style(p["category"])
-        cards += (f'<a class="post-card" href="{p["slug"]}.html">'
+        cards += (f'<a class="post-card" href="{p["slug"]}">'
                   f'<div class="post-thumb" style="background:{grad};">{emoji}</div>'
                   f'<div class="post-body"><span class="post-cat">{esc(p["category"])}</span>'
                   f'<h3>{esc(p["title"])}</h3><p class="post-excerpt">{esc(p.get("excerpt",""))}</p>'
@@ -108,9 +108,9 @@ def related_html(post, posts):
 def prevnext_html(i, posts):
     prev = posts[i-1] if i > 0 else None
     nxt = posts[i+1] if i < len(posts)-1 else None
-    left = (f'<a href="{prev["slug"]}.html"><div class="pn-label">← Previous</div>'
+    left = (f'<a href="{prev["slug"]}"><div class="pn-label">← Previous</div>'
             f'<div class="pn-title">{esc(prev["title"])}</div></a>') if prev else '<span></span>'
-    right = (f'<a class="next" href="{nxt["slug"]}.html"><div class="pn-label">Next →</div>'
+    right = (f'<a class="next" href="{nxt["slug"]}"><div class="pn-label">Next →</div>'
              f'<div class="pn-title">{esc(nxt["title"])}</div></a>') if nxt else '<span></span>'
     return f'<nav class="prevnext">{left}{right}</nav>'
 
@@ -148,11 +148,11 @@ document.addEventListener('DOMContentLoaded', function () {
 """
 
 def article_page(post, i, posts):
-    canonical = f"{DOMAIN}/pages/{post['slug']}.html"
+    canonical = f"{DOMAIN}/pages/{post['slug']}"
     emoji, grad = cat_style(post["category"])
     cta = ('<div class="article-cta"><h3>Ready to find your scholarship?</h3>'
            '<p>Browse fully funded scholarships with live deadlines, eligibility and apply links.</p>'
-           '<a class="btn btn-lg" href="results.html">Browse scholarships →</a></div>')
+           '<a class="btn btn-lg" href="results">Browse scholarships →</a></div>')
     share = ('<div class="article-share"><span>Share:</span>'
              '<button class="share-btn" data-share="twitter" aria-label="Share on X">𝕏</button>'
              '<button class="share-btn" data-share="linkedin" aria-label="Share on LinkedIn">in</button>'
@@ -161,7 +161,7 @@ def article_page(post, i, posts):
     return (head(post, canonical) +
         '<div class="read-progress"></div>' +
         '<article class="article-wrap">' +
-        f'<nav class="breadcrumb"><a href="../index.html">Home</a> › <a href="blog.html">Blog</a> › {esc(post["title"])}</nav>' +
+        f'<nav class="breadcrumb"><a href="../">Home</a> › <a href="blog">Blog</a> › {esc(post["title"])}</nav>' +
         f'<div class="article-hero-emoji">{emoji}</div>' +
         f'<span class="article-cat">{esc(post["category"])}</span>' +
         f'<h1 class="article-title">{esc(post["title"])}</h1>' +
@@ -212,7 +212,7 @@ def index_page(posts, cats):
     cards = ""
     for p in posts:
         emoji, grad = cat_style(p["category"])
-        cards += (f'<a class="post-card" href="{p["slug"]}.html" data-cat="{esc(p["category"])}" '
+        cards += (f'<a class="post-card" href="{p["slug"]}" data-cat="{esc(p["category"])}" '
                   f'data-title="{esc(p["title"])}" data-tags="{esc(" ".join(p.get("tags",[])))}">'
                   f'<div class="post-thumb" style="background:{grad};">{emoji}</div>'
                   f'<div class="post-body"><span class="post-cat">{esc(p["category"])}</span>'
@@ -226,7 +226,7 @@ def index_page(posts, cats):
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scholarship Blog & Study Abroad Guides | AbroadReady</title>
   <meta name="description" content="Expert guides on scholarships, SOPs, IELTS, interviews and studying abroad. {len(posts)} in-depth articles to help you win funding.">
-  <link rel="canonical" href="{DOMAIN}/pages/blog.html">
+  <link rel="canonical" href="{DOMAIN}/pages/blog">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Scholarship Blog & Study Abroad Guides | AbroadReady">
   <meta property="og:description" content="Expert guides on scholarships, SOPs, IELTS, interviews and studying abroad.">
@@ -252,30 +252,30 @@ def index_page(posts, cats):
 {INDEX_SCRIPTS}"""
 
 def sitemap(posts):
-    static_pages = ["index.html", "pages/results.html", "pages/saved.html", "pages/ai-advisor.html",
-        "pages/sop-builder.html", "pages/success.html", "pages/blog.html", "pages/about.html",
-        "pages/contact.html", "pages/privacy.html", "pages/terms.html",
-        "pages/study.html", "pages/immigration.html", "pages/visa-guidance.html", "pages/admission-guidance.html"]
+    static_pages = ["", "pages/results", "pages/saved", "pages/ai-advisor",
+        "pages/sop-builder", "pages/success", "pages/blog", "pages/about",
+        "pages/contact", "pages/privacy", "pages/terms",
+        "pages/study", "pages/immigration", "pages/visa-guidance", "pages/admission-guidance"]
     country_pages = [
-        "pages/study-in-usa.html", "pages/immigrate-to-usa.html",
-        "pages/study-in-canada.html", "pages/immigrate-to-canada.html",
-        "pages/study-in-uk.html", "pages/immigrate-to-uk.html",
-        "pages/study-in-germany.html", "pages/immigrate-to-germany.html",
-        "pages/study-in-italy.html", "pages/immigrate-to-italy.html",
-        "pages/study-in-france.html", "pages/immigrate-to-france.html",
-        "pages/study-in-turkey.html", "pages/immigrate-to-turkey.html",
-        "pages/study-in-australia.html", "pages/immigrate-to-australia.html",
-        "pages/study-in-netherlands.html", "pages/immigrate-to-netherlands.html",
-        "pages/study-in-sweden.html", "pages/immigrate-to-sweden.html",
-        "pages/study-in-switzerland.html", "pages/immigrate-to-switzerland.html",
-        "pages/study-in-spain.html", "pages/immigrate-to-spain.html",
-        "pages/study-in-ireland.html", "pages/immigrate-to-ireland.html",
-        "pages/study-in-new-zealand.html", "pages/immigrate-to-new-zealand.html",
+        "pages/study-in-usa", "pages/immigrate-to-usa",
+        "pages/study-in-canada", "pages/immigrate-to-canada",
+        "pages/study-in-uk", "pages/immigrate-to-uk",
+        "pages/study-in-germany", "pages/immigrate-to-germany",
+        "pages/study-in-italy", "pages/immigrate-to-italy",
+        "pages/study-in-france", "pages/immigrate-to-france",
+        "pages/study-in-turkey", "pages/immigrate-to-turkey",
+        "pages/study-in-australia", "pages/immigrate-to-australia",
+        "pages/study-in-netherlands", "pages/immigrate-to-netherlands",
+        "pages/study-in-sweden", "pages/immigrate-to-sweden",
+        "pages/study-in-switzerland", "pages/immigrate-to-switzerland",
+        "pages/study-in-spain", "pages/immigrate-to-spain",
+        "pages/study-in-ireland", "pages/immigrate-to-ireland",
+        "pages/study-in-new-zealand", "pages/immigrate-to-new-zealand",
     ]
     urls = "".join(f"  <url><loc>{DOMAIN}/{u}</loc><changefreq>weekly</changefreq></url>\n" for u in static_pages)
     urls += "".join(f"  <url><loc>{DOMAIN}/{u}</loc><changefreq>monthly</changefreq></url>\n" for u in country_pages)
     for p in posts:
-        urls += f"  <url><loc>{DOMAIN}/pages/{p['slug']}.html</loc><lastmod>{iso_date(p['date'])}</lastmod><changefreq>monthly</changefreq></url>\n"
+        urls += f"  <url><loc>{DOMAIN}/pages/{p['slug']}</loc><lastmod>{iso_date(p['date'])}</lastmod><changefreq>monthly</changefreq></url>\n"
     return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "</urlset>\n"
 
 def main():

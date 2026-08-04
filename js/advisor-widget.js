@@ -119,7 +119,7 @@
       '<div class="arw-chips" id="arw-chips"></div>' +
       '<div class="arw-foot">' +
         '<div class="arw-input-wrap"><input id="arw-input" type="text" placeholder="Ask about scholarships, visas, PR…" aria-label="Ask the AI Advisor"><button id="arw-send" aria-label="Send">➤</button></div>' +
-        '<div class="arw-go"><a class="arw-go-open" href="' + (inPages ? "" : "pages/") + 'ai-advisor.html#widget">Open full advisor →</a>' +
+        '<div class="arw-go"><a class="arw-go-open" href="' + (inPages ? "" : "pages/") + 'ai-advisor#widget">Open full advisor →</a>' +
         '<button class="arw-go-close">Close</button></div>' +
       "</div>";
 

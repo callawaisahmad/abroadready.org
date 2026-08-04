@@ -6,10 +6,10 @@
   <title>Saved Scholarships | AbroadReady — Your Shortlist of Fully Funded Opportunities</title>
   <meta name="description" content="Your saved scholarship shortlist. Track deadlines, compare funding, and manage your applications for fully funded international scholarships.">
   <meta name="keywords" content="saved scholarships, scholarship shortlist, track scholarships, Pakistani students">
-  <link rel="canonical" href="https://abroadready.org/pages/saved.html">
+  <link rel="canonical" href="https://abroadready.org/pages/saved">
   <meta property="og:title" content="Saved Scholarships | AbroadReady">
   <meta property="og:description" content="Your saved scholarship shortlist — track deadlines and manage applications.">
-  <meta property="og:url" content="https://abroadready.org/pages/saved.html">
+  <meta property="og:url" content="https://abroadready.org/pages/saved">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="AbroadReady">
   <meta name="twitter:card" content="summary_large_image">
@@ -23,7 +23,7 @@
       "@type": "BreadcrumbList",
       "itemListElement": [
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://abroadready.org/" },
-        { "@type": "ListItem", "position": 2, "name": "Saved Scholarships", "item": "https://abroadready.org/pages/saved.html" }
+        { "@type": "ListItem", "position": 2, "name": "Saved Scholarships", "item": "https://abroadready.org/pages/saved" }
       ]
     }
   }
@@ -62,7 +62,7 @@
     <div style="font-size:3.5rem;">💛</div>
     <h3>No saved scholarships yet</h3>
     <p>Browse the board and tap the heart on any scholarship to build your shortlist.</p>
-    <a class="btn btn-primary" href="results.html">Scholarships</a>
+    <a class="btn btn-primary" href="results">Scholarships</a>
   </div>
 </section>
 
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
       '<div class="sch-deadline"><span>🗓️</span><span>' + daysLine + '</span></div>' +
       '<div class="sch-footer"><span class="status-badge ' + sm.cls + '">' + sm.text + '</span> ' + feeBadge + '</div>' +
       '<div class="sch-actions">' +
-        '<a href="scholarship.html?id=' + encodeURIComponent(s.id) + '" class="btn btn-primary w-full">View details</a>' +
+        '<a href="scholarship"?id=' + encodeURIComponent(s.id) + '" class="btn btn-primary w-full">View details</a>' +
         '<a href="' + SB.esc(s.applyLink) + '" target="_blank" rel="noopener" class="btn btn-outline apply-mini">Apply ↗</a>' +
       '</div></article>';
   }

@@ -25,57 +25,57 @@
 
   // ---------- NAVIGATION ----------
   var NAV = [
-    { label: "Home", href: HOME, match: "index.html" },
-    { label: "Scholarships", href: P + "results.html", match: "results.html" },
-    { label: "Blog", href: P + "blog.html", match: "blog.html" },
+    { label: "Home", href: HOME, match: "index" },
+    { label: "Scholarships", href: P + "results", match: "results" },
+    { label: "Blog", href: P + "blog", match: "blog" },
     { label: "Resources", children: [
-      { label: "SOP Builder", href: P + "sop-builder.html", match: "sop-builder.html" },
-      { label: "AI Advisor", href: P + "ai-advisor.html", match: "ai-advisor.html" },
-      { label: "Visa Guidance", href: P + "visa-guidance.html", match: "visa-guidance.html" },
-      { label: "Admission Guidance", href: P + "admission-guidance.html", match: "admission-guidance.html" },
-      { label: "IELTS Guidance", href: P + "ielts-guidance.html", match: "ielts-guidance.html" }
+      { label: "SOP Builder", href: P + "sop-builder", match: "sop-builder" },
+      { label: "AI Advisor", href: P + "ai-advisor", match: "ai-advisor" },
+      { label: "Visa Guidance", href: P + "visa-guidance", match: "visa-guidance" },
+      { label: "Admission Guidance", href: P + "admission-guidance", match: "admission-guidance" },
+      { label: "IELTS Guidance", href: P + "ielts-guidance", match: "ielts-guidance" }
     ]},
-    { label: "Study Abroad", href: P + "study.html", match: "study.html", children: [
-      { label: "All Study Abroad Destinations", href: P + "study.html", match: "study.html" },
-      { label: "Study in USA", href: P + "study-in-usa.html", match: "study-in-usa.html" },
-      { label: "Study in UK", href: P + "study-in-uk.html", match: "study-in-uk.html" },
-      { label: "Study in Canada", href: P + "study-in-canada.html", match: "study-in-canada.html" },
-      { label: "Study in Germany", href: P + "study-in-germany.html", match: "study-in-germany.html" },
-      { label: "Study in Australia", href: P + "study-in-australia.html", match: "study-in-australia.html" },
-      { label: "Study in France", href: P + "study-in-france.html", match: "study-in-france.html" },
-      { label: "Study in Italy", href: P + "study-in-italy.html", match: "study-in-italy.html" },
-      { label: "Study in Netherlands", href: P + "study-in-netherlands.html", match: "study-in-netherlands.html" },
-      { label: "Study in Sweden", href: P + "study-in-sweden.html", match: "study-in-sweden.html" },
-      { label: "Study in Switzerland", href: P + "study-in-switzerland.html", match: "study-in-switzerland.html" },
-      { label: "Study in Spain", href: P + "study-in-spain.html", match: "study-in-spain.html" },
-      { label: "Study in Ireland", href: P + "study-in-ireland.html", match: "study-in-ireland.html" },
-      { label: "Study in New Zealand", href: P + "study-in-new-zealand.html", match: "study-in-new-zealand.html" },
-      { label: "Study in Turkey", href: P + "study-in-turkey.html", match: "study-in-turkey.html" }
+    { label: "Study Abroad", href: P + "study", match: "study", children: [
+      { label: "All Study Abroad Destinations", href: P + "study", match: "study" },
+      { label: "Study in USA", href: P + "study-in-usa", match: "study-in-usa" },
+      { label: "Study in UK", href: P + "study-in-uk", match: "study-in-uk" },
+      { label: "Study in Canada", href: P + "study-in-canada", match: "study-in-canada" },
+      { label: "Study in Germany", href: P + "study-in-germany", match: "study-in-germany" },
+      { label: "Study in Australia", href: P + "study-in-australia", match: "study-in-australia" },
+      { label: "Study in France", href: P + "study-in-france", match: "study-in-france" },
+      { label: "Study in Italy", href: P + "study-in-italy", match: "study-in-italy" },
+      { label: "Study in Netherlands", href: P + "study-in-netherlands", match: "study-in-netherlands" },
+      { label: "Study in Sweden", href: P + "study-in-sweden", match: "study-in-sweden" },
+      { label: "Study in Switzerland", href: P + "study-in-switzerland", match: "study-in-switzerland" },
+      { label: "Study in Spain", href: P + "study-in-spain", match: "study-in-spain" },
+      { label: "Study in Ireland", href: P + "study-in-ireland", match: "study-in-ireland" },
+      { label: "Study in New Zealand", href: P + "study-in-new-zealand", match: "study-in-new-zealand" },
+      { label: "Study in Turkey", href: P + "study-in-turkey", match: "study-in-turkey" }
     ]},
-    { label: "Immigration", href: P + "immigration.html", match: "immigration.html", children: [
-      { label: "All Immigration Guides", href: P + "immigration.html", match: "immigration.html" },
-      { label: "Immigrate to USA", href: P + "immigrate-to-usa.html", match: "immigrate-to-usa.html" },
-      { label: "Immigrate to Canada", href: P + "immigrate-to-canada.html", match: "immigrate-to-canada.html" },
-      { label: "Immigrate to UK", href: P + "immigrate-to-uk.html", match: "immigrate-to-uk.html" },
-      { label: "Immigrate to Germany", href: P + "immigrate-to-germany.html", match: "immigrate-to-germany.html" },
-      { label: "Immigrate to Australia", href: P + "immigrate-to-australia.html", match: "immigrate-to-australia.html" },
-      { label: "Immigrate to France", href: P + "immigrate-to-france.html", match: "immigrate-to-france.html" },
-      { label: "Immigrate to Italy", href: P + "immigrate-to-italy.html", match: "immigrate-to-italy.html" },
-      { label: "Immigrate to Netherlands", href: P + "immigrate-to-netherlands.html", match: "immigrate-to-netherlands.html" },
-      { label: "Immigrate to New Zealand", href: P + "immigrate-to-new-zealand.html", match: "immigrate-to-new-zealand.html" },
-      { label: "Immigrate to Spain", href: P + "immigrate-to-spain.html", match: "immigrate-to-spain.html" },
-      { label: "Immigrate to Sweden", href: P + "immigrate-to-sweden.html", match: "immigrate-to-sweden.html" },
-      { label: "Immigrate to Switzerland", href: P + "immigrate-to-switzerland.html", match: "immigrate-to-switzerland.html" },
-      { label: "Immigrate to Turkey", href: P + "immigrate-to-turkey.html", match: "immigrate-to-turkey.html" },
-      { label: "Immigrate to Ireland", href: P + "immigrate-to-ireland.html", match: "immigrate-to-ireland.html" }
+    { label: "Immigration", href: P + "immigration", match: "immigration", children: [
+      { label: "All Immigration Guides", href: P + "immigration", match: "immigration" },
+      { label: "Immigrate to USA", href: P + "immigrate-to-usa", match: "immigrate-to-usa" },
+      { label: "Immigrate to Canada", href: P + "immigrate-to-canada", match: "immigrate-to-canada" },
+      { label: "Immigrate to UK", href: P + "immigrate-to-uk", match: "immigrate-to-uk" },
+      { label: "Immigrate to Germany", href: P + "immigrate-to-germany", match: "immigrate-to-germany" },
+      { label: "Immigrate to Australia", href: P + "immigrate-to-australia", match: "immigrate-to-australia" },
+      { label: "Immigrate to France", href: P + "immigrate-to-france", match: "immigrate-to-france" },
+      { label: "Immigrate to Italy", href: P + "immigrate-to-italy", match: "immigrate-to-italy" },
+      { label: "Immigrate to Netherlands", href: P + "immigrate-to-netherlands", match: "immigrate-to-netherlands" },
+      { label: "Immigrate to New Zealand", href: P + "immigrate-to-new-zealand", match: "immigrate-to-new-zealand" },
+      { label: "Immigrate to Spain", href: P + "immigrate-to-spain", match: "immigrate-to-spain" },
+      { label: "Immigrate to Sweden", href: P + "immigrate-to-sweden", match: "immigrate-to-sweden" },
+      { label: "Immigrate to Switzerland", href: P + "immigrate-to-switzerland", match: "immigrate-to-switzerland" },
+      { label: "Immigrate to Turkey", href: P + "immigrate-to-turkey", match: "immigrate-to-turkey" },
+      { label: "Immigrate to Ireland", href: P + "immigrate-to-ireland", match: "immigrate-to-ireland" }
     ]},
-    { label: "About", href: P + "about.html", match: "about.html" }
+    { label: "About", href: P + "about", match: "about" }
   ];
 
-  var current = location.pathname.split("/").pop() || "index.html";
+  var current = (location.pathname.split("/").pop() || "index").replace(/\.html$/, "");
   function activeCls(match) { return current === match ? " active" : ""; }
 
-  var savedHref = P + "saved.html";
+  var savedHref = P + "saved";
 
   // ---------- HEADER ----------
   function navItem(item) {
@@ -121,7 +121,7 @@
         '<nav class="site-nav">' + links + '</nav>' +
         '<div class="site-actions">' +
           '<a href="' + savedHref + '" class="site-saved" id="site-saved" title="Saved scholarships">♥ <span id="site-saved-count">0</span></a>' +
-          '<a href="' + P + 'results.html" class="btn btn-primary btn-sm site-cta">Find Scholarships</a>' +
+          '<a href="' + P + 'results" class="btn btn-primary btn-sm site-cta">Find Scholarships</a>' +
           '<button class="site-burger" id="site-burger" aria-label="Menu"><span></span><span></span><span></span></button>' +
         '</div>' +
       '</div>' +
@@ -129,7 +129,7 @@
     '<div class="site-mobile" id="site-mobile"><div class="site-mobile-inner">' +
       mobileLinks +
       '<a href="' + savedHref + '" class="site-mlink">♥ Saved</a>' +
-      '<a href="' + P + 'results.html" class="btn btn-primary w-full" style="margin-top:12px;">Find Scholarships</a>' +
+      '<a href="' + P + 'results" class="btn btn-primary w-full" style="margin-top:12px;">Find Scholarships</a>' +
     '</div></div>';
   }
 
@@ -150,26 +150,26 @@
         '</div>' +
         footerCol("Quick Links", [
           ["Home", HOME],
-          ["Scholarships", P + "results.html"],
-          ["AI Advisor", P + "ai-advisor.html"],
-          ["SOP Builder", P + "sop-builder.html"],
-          ["IELTS Guidance", P + "ielts-guidance.html"],
+          ["Scholarships", P + "results"],
+          ["AI Advisor", P + "ai-advisor"],
+          ["SOP Builder", P + "sop-builder"],
+          ["IELTS Guidance", P + "ielts-guidance"],
           ["Saved", savedHref]
         ]) +
         footerCol("Study Abroad", [
-          ["Study in USA", P + "study-in-usa.html"], ["Study in UK", P + "study-in-uk.html"],
-          ["Study in Canada", P + "study-in-canada.html"],           ["Study in Germany", P + "study-in-germany.html"],
-          ["All Study Destinations", P + "study.html"]
+          ["Study in USA", P + "study-in-usa"], ["Study in UK", P + "study-in-uk"],
+          ["Study in Canada", P + "study-in-canada"],           ["Study in Germany", P + "study-in-germany"],
+          ["All Study Destinations", P + "study"]
         ]) +
         footerCol("Immigration", [
-          ["Immigrate to USA", P + "immigrate-to-usa.html"], ["Immigrate to Canada", P + "immigrate-to-canada.html"],
-          ["Immigrate to UK", P + "immigrate-to-uk.html"], ["Immigrate to Germany", P + "immigrate-to-germany.html"],
-          ["All Immigration Guides", P + "immigration.html"]
+          ["Immigrate to USA", P + "immigrate-to-usa"], ["Immigrate to Canada", P + "immigrate-to-canada"],
+          ["Immigrate to UK", P + "immigrate-to-uk"], ["Immigrate to Germany", P + "immigrate-to-germany"],
+          ["All Immigration Guides", P + "immigration"]
         ]) +
         footerCol("Company", [
-          ["About", P + "about.html"], ["Contact", P + "contact.html"],
-          ["Privacy Policy", P + "privacy.html"], ["Terms of Service", P + "terms.html"],
-          ["Admission Guidance", P + "admission-guidance.html"]
+          ["About", P + "about"], ["Contact", P + "contact"],
+          ["Privacy Policy", P + "privacy"], ["Terms of Service", P + "terms"],
+          ["Admission Guidance", P + "admission-guidance"]
         ]) +
       '</div>' +
       '<div class="container site-footer-bottom">' +
@@ -326,4 +326,11 @@
   // parsed — mount immediately to avoid a flash of the old markup.
   if (document.body) mount();
   else document.addEventListener("DOMContentLoaded", mount);
+
+  // Service worker — serves clean URLs (no .html) on GitHub Pages.
+  if ("serviceWorker" in navigator && location.protocol === "https:") {
+    window.addEventListener("load", function () {
+      navigator.serviceWorker.register("/sw.js").catch(function () {});
+    });
+  }
 })();
