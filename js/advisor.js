@@ -200,6 +200,7 @@
     t.quiz = /quiz/.test(q);
     t.save = /save|saved|bookmark|heart/.test(q);
     t.contact = /contact|feedback|report.*(bug|issue)|complaint/.test(q);
+    t.blocked = /blocked account|sperrkonto|blocked amount|blocked funds/.test(q);
     t.capability = /what can you (do|help|answer|tell)|how do you (work|help)|what are you|who are you|what do you know|help me|what topics|what questions/.test(q);
     t.easyCountry = /(easiest|easy) (country|to migrate|to immigrate|to move|to get a (work )?visa)|which country.*(easy|easiest|best|migrat|visa|pr|move)|best country.*(migrat|work|visa|pr)|where.*(migrate|immigrate|move)/.test(q);
     t.hardest = /hardest|most difficult|strictest|hard to (migrat|immigrat)/.test(q);
@@ -431,7 +432,28 @@
       };
     }
 
-    // 10) Student visas
+    // 10) German blocked account (Sperrkonto) & general proof of funds
+    var fundsQ = t.blocked || /proof of funds|bank statement|financial.*(proof|evidence|support|requirement)|how much money do i need|how much.*(need to show|to show|deposit|in my account)|savings.*(need|required)/.test(q);
+    var deRef = IMM && IMM.byName('Germany');
+    if (t.blocked || (fundsQ && /germany|german|deutschland|deutsch/.test(q))) {
+      return {
+        lead: '<p><strong>German blocked account (Sperrkonto) \u2014 in short:</strong> for 2026 you need <strong>\u20AC11,904</strong> deposited \u2014 that\u2019s <strong>\u20AC992 per month</strong> for 12 months \u2014 and the amount has been unchanged since 2024.</p>',
+        extra: '<ul>' +
+          '<li>You deposit the full \u20AC11,904 upfront with an approved provider; after you arrive, \u20AC992 is released to you each month.</li>' +
+          '<li>It\u2019s the standard proof of funds for a German <strong>student visa</strong> (the Opportunity Card path needs \u20AC1,091/month).</li>' +
+          '<li>Open it 4\u20136 weeks before your visa appointment \u2014 the blocking confirmation is part of your application.</li>' +
+          '</ul>' +
+          (deRef ? '<p>' + IMM.studyLink(deRef) + ' \u00b7 ' + IMM.guideLink(deRef) + '</p>' : '')
+      };
+    }
+    if (fundsQ && (t.study || t.studentVisa || t.visa)) {
+      return {
+        lead: '<p><strong>Proof of funds \u2014 in short:</strong> most student visas ask you to show you can cover <strong>tuition plus about a year of living costs</strong>' + (immCountry ? ' in ' + esc(immCountry.name) : '') + ' \u2014 the exact amount is set by each country and updated yearly.</p>',
+        extra: '<p>You usually provide 3\u20136 months of bank statements, a sponsor letter, or a blocked account. ' + (immCountry && IMM ? IMM.studyLink(immCountry) + ' \u00b7 ' : '') + pmtLink(HUBS.visa, 'Student visa guidance \u2192') + '</p>'
+      };
+    }
+
+    // 11) Student visas
     if (t.studentVisa) {
       var vExtra = '<p>' + pmtLink(HUBS.visa, 'Student visa guidance \u2192');
       if (immCountry) vExtra += ' \u00b7 ' + IMM.studyLink(immCountry) + ' \u00b7 ' + IMM.guideLink(immCountry);
@@ -441,7 +463,7 @@
       };
     }
 
-    // 11) Work visas (incl. H-1B) and green cards
+    // 12) Work visas (incl. H-1B) and green cards
     if (t.greenCard) {
       var us = IMM.byName('United States');
       return {
@@ -463,7 +485,7 @@
       };
     }
 
-    // 12) Visa process & generic visa guidance
+    // 13) Visa process & generic visa guidance
     if (t.visa) {
       if (t.interview) {
         return {
@@ -518,7 +540,7 @@
       };
     }
 
-    // 13) Immigration, PR & citizenship
+    // 14) Immigration, PR & citizenship
     if (t.immigration) {
       if (t.interview) {
         return {
@@ -597,7 +619,7 @@
       };
     }
 
-    // 14) General scholarship knowledge (no specific scholarship named)
+    // 15) General scholarship knowledge (no specific scholarship named)
     if (t.scholarship) {
       if (/women|female|girls?/.test(q)) {
         return {
@@ -671,7 +693,7 @@
       }
     }
 
-    // 15) Studying abroad — costs, funding, part-time work, accommodation
+    // 16) Studying abroad — costs, funding, part-time work, accommodation
     if (t.study) {
       if (t.cost) {
         return {
@@ -715,7 +737,7 @@
       }
     }
 
-    // 16) Closing soon
+    // 17) Closing soon
     if (t.closing) {
       var closing = SB.all.filter(function (x) { return SB.deadlineInfo(x).status === 'closing'; })
         .sort(function (a, b) { return SB.deadlineInfo(a).daysLeft - SB.deadlineInfo(b).daysLeft; });
@@ -731,7 +753,7 @@
       };
     }
 
-    // 17) Tools & site help
+    // 18) Tools & site help
     if (t.quiz) {
       return {
         lead: '<p><strong>Scholarship quiz \u2014 in short:</strong> answer a few quick questions and we\u2019ll shortlist scholarships matched to your profile.</p>',
@@ -763,14 +785,16 @@
       };
     }
 
-    // 18) Search by level / region / field / funding
+    // 19) Search by level / region / field / funding
     var levels = detectLevels(q);
     var loc = detectRegionOrCountry(q);
     var field = detectField(q);
     var wantFunded = /fully funded|full funding|full scholarship|fully-funded/.test(q);
     var wantFree = /no fee|free to apply|without fee|fee-free/.test(q);
+    var schIntent = t.scholarship || wantFunded || wantFree || !!field || levels.length > 0 ||
+      /scholarship|scholarships|fellowship|grant|stipend|bursary|award|funding|funded|financial aid|tuition|university|universities|college|degree|program|course|study/.test(q);
 
-    if (levels.length || loc.regions.length || loc.countries.length || field || wantFunded || wantFree) {
+    if (schIntent && (levels.length || loc.regions.length || loc.countries.length || field || wantFunded || wantFree)) {
       var list = SB.all.filter(function (x) {
         if (levels.length && !levels.some(function (l) { return (x.levels || []).indexOf(l) !== -1; })) return false;
         if (loc.regions.length && loc.regions.indexOf(x.region) === -1 && !loc.countries.length) return false;
@@ -801,7 +825,7 @@
       };
     }
 
-    // 19) Fallback
+    // 20) Fallback
     return {
       lead: '<p><strong>Here\u2019s how I can help \u2014 in short:</strong> I cover scholarships, immigration, PR, studying abroad, visas and IELTS \u2014 in plain, to-the-point language.</p>',
       extra: '<ul>' +
