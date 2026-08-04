@@ -162,7 +162,7 @@
 
   var HUBS = {
     visa: 'visa-guidance', ielts: 'ielts-guidance',
-    immigration: 'immigration', study: 'study', results: 'results', blog: 'blog'
+    immigration: 'immigration', study: 'study', results: 'scholarships', blog: 'blog'
   };
 
   // ============================================================

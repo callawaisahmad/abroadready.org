@@ -26,7 +26,7 @@
   // ---------- NAVIGATION ----------
   var NAV = [
     { label: "Home", href: HOME, match: "index" },
-    { label: "Scholarships", href: P + "results", match: "results" },
+    { label: "Scholarships", href: P + "scholarships", match: "scholarships" },
     { label: "Blog", href: P + "blog", match: "blog" },
     { label: "Resources", children: [
       { label: "SOP Builder", href: P + "sop-builder", match: "sop-builder" },
@@ -150,7 +150,7 @@
         '</div>' +
         footerCol("Quick Links", [
           ["Home", HOME],
-          ["Scholarships", P + "results"],
+          ["Scholarships", P + "scholarships"],
           ["AI Advisor", P + "ai-advisor"],
           ["SOP Builder", P + "sop-builder"],
           ["IELTS Guidance", P + "ielts-guidance"],

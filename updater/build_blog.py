@@ -152,7 +152,7 @@ def article_page(post, i, posts):
     emoji, grad = cat_style(post["category"])
     cta = ('<div class="article-cta"><h3>Ready to find your scholarship?</h3>'
            '<p>Browse fully funded scholarships with live deadlines, eligibility and apply links.</p>'
-           '<a class="btn btn-lg" href="results">Browse scholarships →</a></div>')
+           '<a class="btn btn-lg" href="pages/scholarships">Browse scholarships  →</a></div>')
     share = ('<div class="article-share"><span>Share:</span>'
              '<button class="share-btn" data-share="twitter" aria-label="Share on X">𝕏</button>'
              '<button class="share-btn" data-share="linkedin" aria-label="Share on LinkedIn">in</button>'
@@ -252,7 +252,7 @@ def index_page(posts, cats):
 {INDEX_SCRIPTS}"""
 
 def sitemap(posts):
-    static_pages = ["", "pages/results", "pages/saved", "pages/ai-advisor",
+    static_pages = ["", "pages/scholarships", "pages/saved", "pages/ai-advisor",
         "pages/sop-builder", "pages/success", "pages/blog", "pages/about",
         "pages/contact", "pages/privacy", "pages/terms",
         "pages/study", "pages/immigration", "pages/visa-guidance", "pages/admission-guidance"]

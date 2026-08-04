@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }).sort((a, b) => a.daysLeft - b.daysLeft);
 
         // Update the "View all" button + hero counts to real numbers.
-        const viewAllBtn = document.querySelector('a[href="pages/results"].btn-outline');
+        const viewAllBtn = document.querySelector('a[href="pages/scholarships"].btn-outline');
         if (viewAllBtn) viewAllBtn.textContent = 'View all ' + window.SB.all.length + ' scholarships →';
         const schStat = document.querySelector('.hero-stat-number[data-count="500"]');
         if (schStat) schStat.setAttribute('data-count', window.SB.all.length);
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('div');
             card.className = 'scholarship-card animate-fade-in-up';
             const tagsHTML = scholarship.tags.filter(Boolean).map(tag => `<span class="sc-tag">${tag}</span>`).join('');
-            const href = scholarship.id ? `pages/scholarship?id=${encodeURIComponent(scholarship.id)}` : 'pages/results';
+            const href = scholarship.id ? `pages/scholarship?id=${encodeURIComponent(scholarship.id)}` : 'pages/scholarships';
             const urgentClass = scholarship.status === 'closing' ? ' sc-urgent' : '';
             const statusLabel = scholarship.status === 'closing' ? '🔥 Closing soon' : scholarship.status === 'upcoming' ? '📅 Opening soon' : '🎓 Open';
             const windowLine = scholarship.windowText
@@ -374,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (answers[1] !== undefined && levelMap[answers[1]]) params.set('level', levelMap[answers[1]]);
         if (answers[5] !== undefined && regionMap[answers[5]]) params.set('region', regionMap[answers[5]]);
         const qs = params.toString();
-        return 'pages/results' + (qs ? ('?' + qs) : '');
+        return 'pages/scholarships' + (qs ? ('?' + qs) : '');
     }
 
     function showQuizLoading() {

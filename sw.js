@@ -1,5 +1,5 @@
 /* AbroadReady service worker — serves clean URLs (no .html) on GitHub Pages.
-   Maps an extensionless path like /pages/results to the real file
+   Maps an extensionless path like /pages/scholarships to the real file
    /pages/results.html and returns it with a 200 status. Existing .html
    URLs keep working unchanged. */
 self.addEventListener('install', function (e) {
