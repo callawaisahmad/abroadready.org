@@ -28,6 +28,7 @@ jobs:
         run: python3 updater/update_scholarships.py
 
       - name: Commit refreshed data (if anything changed)
+        id: commit
         run: |
           git config user.name  "abroadready-bot"
           git config user.email "actions@users.noreply.github.com"
@@ -35,7 +36,30 @@ jobs:
           [ -f updater/link_report.json ] && git add updater/link_report.json || true
           if git diff --cached --quiet; then
             echo "No changes to commit."
+            echo "changed=false" >> $GITHUB_OUTPUT
           else
             git commit -m "chore: automated scholarship data refresh ($(date -u +%Y-%m-%d))"
             git push
+            echo "changed=true" >> $GITHUB_OUTPUT
           fi
+
+      - name: Notify IndexNow (Bing) about updated URLs
+        if: steps.commit.outputs.changed == 'true'
+        run: |
+          KEY=$(tr -d '\r\n ' < ae01e1b7ea0f4d0bb2a0c248d36da968.txt)
+          python3 - "$KEY" <<'EOF'
+          import json, re, sys, urllib.request
+          key = sys.argv[1]
+          urls = re.findall(r'<loc>([^<]+)</loc>', open('sitemap.xml', encoding='utf-8').read())
+          body = json.dumps({"host": "abroadready.org", "key": key, "urlList": urls}).encode('utf-8')
+          req = urllib.request.Request(
+              "https://api.indexnow.org/indexnow",
+              data=body,
+              headers={"Content-Type": "application/json; charset=utf-8"},
+          )
+          try:
+              with urllib.request.urlopen(req, timeout=30) as resp:
+                  print("IndexNow status:", resp.status, "|", len(urls), "URLs submitted")
+          except Exception as exc:
+              print("IndexNow failed:", exc)
+          EOF
