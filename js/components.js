@@ -27,6 +27,7 @@
   var NAV = [
     { label: "Home", href: HOME, match: "index" },
     { label: "Scholarships", href: P + "scholarships", match: "scholarships" },
+    { label: "Internships", href: P + "internships", match: "internships" },
     { label: "Blog", href: P + "blog", match: "blog" },
     { label: "Resources", children: [
       { label: "SOP Builder", href: P + "sop-builder", match: "sop-builder" },

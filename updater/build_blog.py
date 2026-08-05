@@ -23,6 +23,9 @@ CAT_STYLE = {
     "SOP & Essays":            ("✍️", "linear-gradient(135deg,#f59e0b,#fbbf24)"),
     "Test Prep & Interviews":  ("📝", "linear-gradient(135deg,#8b5cf6,#6366f1)"),
     "Applications & Funding":  ("💰", "linear-gradient(135deg,#14b8a6,#0ea5e9)"),
+    "Internships":             ("💼", "linear-gradient(135deg,#f97316,#ef4444)"),
+    "Study Abroad":            ("✈️", "linear-gradient(135deg,#06b6d4,#3b82f6)"),
+    "Opportunities":           ("🎯", "linear-gradient(135deg,#22c55e,#10b981)"),
 }
 def cat_style(c): return CAT_STYLE.get(c, ("📄", "linear-gradient(135deg,#3b82f6,#8b5cf6)"))
 
@@ -78,7 +81,9 @@ def head(post, canonical):
   <meta property="og:title" content="{esc(post['title'])}">
   <meta property="og:description" content="{esc(post['metaDescription'])}">
   <meta property="og:url" content="{canonical}">
+  <meta property="og:image" content="{DOMAIN}/assets/blog/{post['slug']}.jpg">
   <meta property="og:site_name" content="AbroadReady">
+  <meta name="twitter:image" content="{DOMAIN}/assets/blog/{post['slug']}.jpg">
   <meta property="article:section" content="{esc(post['category'])}">
   <meta property="article:published_time" content="{iso_date(post['date'])}">
   <meta name="twitter:card" content="summary_large_image">
@@ -89,6 +94,13 @@ def head(post, canonical):
   <script type="application/ld+json">{json.dumps(ld_article, ensure_ascii=False)}</script>
   <script type="application/ld+json">{json.dumps(ld_faq, ensure_ascii=False)}</script>
   <script type="application/ld+json">{json.dumps(ld_bc, ensure_ascii=False)}</script>
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#3b82f6">
 </head>
 <body>
 <script src="../js/saved.js"></script>
@@ -108,12 +120,12 @@ def related_html(post, posts):
     cards = ""
     for p in picks:
         emoji, grad = cat_style(p["category"])
-        cards += (f'<a class="post-card" href="{p["slug"]}">'
-                  f'<div class="post-thumb" style="background:{grad};">{emoji}</div>'
-                  f'<div class="post-body"><span class="post-cat">{esc(p["category"])}</span>'
-                  f'<h3>{esc(p["title"])}</h3><p class="post-excerpt">{esc(p.get("excerpt",""))}</p>'
-                  f'<div class="post-meta"><span>{esc(p["date"])}</span><span>{p.get("readMins",8)} min read</span></div>'
-                  f'</div></a>')
+    cards += (f'<a class="post-card" href="{p["slug"]}">'
+              f'<img class="post-thumb-img" src="../assets/blog/{p["slug"]}.jpg" alt="{esc(p["title"])}" loading="lazy" width="1200" height="630">'
+              f'<div class="post-body"><span class="post-cat">{esc(p["category"])}</span>'
+              f'<h3>{esc(p["title"])}</h3><p class="post-excerpt">{esc(p.get("excerpt",""))}</p>'
+              f'<div class="post-meta"><span>{esc(p["date"])}</span><span>{p.get("readMins",8)} min read</span></div>'
+              f'</div></a>')
     return f'<section class="related container"><h2>Related guides</h2><div class="blog-grid">{cards}</div></section>'
 
 def prevnext_html(i, posts):
@@ -162,8 +174,8 @@ def article_page(post, i, posts):
     canonical = f"{DOMAIN}/pages/{post['slug']}"
     emoji, grad = cat_style(post["category"])
     cta = ('<div class="article-cta"><h3>Ready to find your scholarship?</h3>'
-           '<p>Browse fully funded scholarships with live deadlines, eligibility and apply links.</p>'
-           '<a class="btn btn-lg" href="pages/scholarships">Browse scholarships  →</a></div>')
+           '<p>Find fully funded scholarships with live deadlines, eligibility and apply links.</p>'
+           '<a class="btn btn-lg" href="scholarships">Scholarships  →</a></div>')
     share = ('<div class="article-share"><span>Share:</span>'
              '<button class="share-btn" data-share="twitter" aria-label="Share on X">𝕏</button>'
              '<button class="share-btn" data-share="linkedin" aria-label="Share on LinkedIn">in</button>'
@@ -173,8 +185,8 @@ def article_page(post, i, posts):
         '<div class="read-progress"></div>' +
         '<article class="article-wrap">' +
         f'<nav class="breadcrumb"><a href="../">Home</a> › <a href="blog">Blog</a> › {esc(post["title"])}</nav>' +
-        f'<div class="article-hero-emoji">{emoji}</div>' +
-        f'<span class="article-cat">{esc(post["category"])}</span>' +
+        f'<img class="article-hero-img" src="../assets/blog/{post["slug"]}.jpg" alt="{esc(post["title"])}" loading="lazy" width="1200" height="630">' +
+        f'<a class="article-cat" href="blog">{esc(post["category"])}</a>' +
         f'<h1 class="article-title">{esc(post["title"])}</h1>' +
         f'<div class="article-meta"><span>🗓️ {esc(post["date"])}</span><span>⏱️ {post.get("readMins",8)} min read</span><span>✍️ AbroadReady Team</span></div>' +
         f'<div class="article-body">{post["bodyHtml"]}</div>' +
@@ -225,7 +237,7 @@ def index_page(posts, cats):
         emoji, grad = cat_style(p["category"])
         cards += (f'<a class="post-card" href="{p["slug"]}" data-cat="{esc(p["category"])}" '
                   f'data-title="{esc(p["title"])}" data-tags="{esc(" ".join(p.get("tags",[])))}">'
-                  f'<div class="post-thumb" style="background:{grad};">{emoji}</div>'
+                  f'<img class="post-thumb-img" src="../assets/blog/{p["slug"]}.jpg" alt="{esc(p["title"])}" loading="lazy" width="1200" height="630">'
                   f'<div class="post-body"><span class="post-cat">{esc(p["category"])}</span>'
                   f'<h3>{esc(p["title"])}</h3><p class="post-excerpt">{esc(p.get("excerpt",""))}</p>'
                   f'<div class="post-meta"><span>{esc(p["date"])}</span><span>{p.get("readMins",8)} min read</span></div>'
@@ -234,22 +246,69 @@ def index_page(posts, cats):
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MDWR309ZKM"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){{dataLayer.push(arguments);}}
+  gtag('js', new Date());
+  gtag('config', 'G-MDWR309ZKM');
+  </script>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7542350506460545"
+     crossorigin="anonymous"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scholarship Blog & Study Abroad Guides | AbroadReady</title>
-  <meta name="description" content="Expert guides on scholarships, SOPs, IELTS, interviews and studying abroad. {len(posts)} in-depth articles to help you win funding.">
+  <meta name="description" content="Expert guides on scholarships, SOPs, IELTS, interviews, internships and studying abroad. {len(posts)}+ in-depth articles to help you win fully funded scholarships.">
+  <meta name="keywords" content="scholarship blog, study abroad guides, scholarship application tips, SOP writing, IELTS preparation, scholarship interview tips, internships abroad">
   <link rel="canonical" href="{DOMAIN}/pages/blog">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Scholarship Blog & Study Abroad Guides | AbroadReady">
-  <meta property="og:description" content="Expert guides on scholarships, SOPs, IELTS, interviews and studying abroad.">
+  <meta property="og:description" content="Expert guides on scholarships, SOPs, IELTS, internships and studying abroad.">
+  <meta property="og:url" content="{DOMAIN}/pages/blog">
+  <meta property="og:image" content="{DOMAIN}/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="AbroadReady - Find fully funded international scholarships">
+  <meta property="og:site_name" content="AbroadReady">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Scholarship Blog & Study Abroad Guides">
+  <meta name="twitter:description" content="Expert guides on winning fully funded scholarships, SOPs, IELTS, internships and studying abroad.">
+  <script type="application/ld+json">
+  {{
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "AbroadReady Scholarship Blog",
+    "url": "{DOMAIN}/pages/blog",
+    "description": "Expert scholarship guides - SOP writing, IELTS prep, interview tips, and more",
+    "publisher": {{ "@type": "Organization", "name": "AbroadReady", "url": "{DOMAIN}" }},
+    "breadcrumb": {{
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {{ "@type": "ListItem", "position": 1, "name": "Home", "item": "{DOMAIN}/" }},
+        {{ "@type": "ListItem", "position": 2, "name": "Blog", "item": "{DOMAIN}/pages/blog" }}
+      ]
+    }}
+  }}
+  </script>
   <link rel="stylesheet" href="../css/design-system.css">
   <link rel="stylesheet" href="../css/blog.css">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#3b82f6">
 </head>
 <body>
 <script src="../js/saved.js"></script>
 <section class="blog-index-hero">
   <div class="container text-center">
     <h1>Scholarship &amp; Study-Abroad Guides</h1>
-    <p>In-depth, up-to-date guides on winning scholarships, writing standout applications, and studying abroad — {len(posts)} articles and counting.</p>
+    <p>In-depth, up-to-date guides on winning scholarships, writing standout applications, internships and studying abroad — {len(posts)} articles and counting.</p>
     <div class="blog-search">
       <input id="blog-search-input" type="text" placeholder="Search guides (e.g. Chevening, IELTS, SOP)…" autocomplete="off">
     </div>
@@ -263,10 +322,11 @@ def index_page(posts, cats):
 {INDEX_SCRIPTS}"""
 
 def sitemap(posts):
-    static_pages = ["", "pages/scholarships", "pages/saved", "pages/ai-advisor",
+    static_pages = ["", "pages/scholarships", "pages/internships", "pages/saved", "pages/ai-advisor",
         "pages/sop-builder", "pages/success", "pages/blog", "pages/about",
         "pages/contact", "pages/privacy", "pages/terms",
-        "pages/study", "pages/immigration", "pages/visa-guidance", "pages/admission-guidance"]
+        "pages/study", "pages/immigration", "pages/visa-guidance", "pages/admission-guidance",
+        "pages/ielts-guidance", "pages/scholarship"]
     country_pages = [
         "pages/study-in-usa", "pages/immigrate-to-usa",
         "pages/study-in-canada", "pages/immigrate-to-canada",
