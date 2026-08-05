@@ -81,7 +81,7 @@ const SCRIPTS_TOP = `  <meta charset="UTF-8">
 `;
 
 function head(post, canonical) {
-  const ogImg = DOMAIN + "/assets/blog/" + post.slug + ".jpg";
+  const ogImg = post.heroImage || DOMAIN + "/assets/blog/" + post.slug + ".jpg";
   const ld_article = {
     "@context": "https://schema.org", "@type": "BlogPosting",
     headline: post.title, description: post.metaDescription,
@@ -217,7 +217,7 @@ function articlePage(post, i, posts) {
     '<div class="read-progress"></div>' +
     '<article class="article-wrap">' +
     `<nav class="breadcrumb"><a href="../">Home</a> \u203A <a href="blog">Blog</a> \u203A ${esc(post.title)}</nav>` +
-    `<img class="article-hero-img" src="../assets/blog/${post.slug}.jpg" alt="${esc(post.title)}" loading="lazy" width="1200" height="630">` +
+    `<img class="article-hero-img" src="${post.heroImage || "../assets/blog/" + post.slug + ".jpg"}" alt="${esc(post.title)}" loading="lazy" width="1200" height="630">` +
     `<a class="article-cat" href="blog">${esc(post.category)}</a>` +
     `<h1 class="article-title">${esc(post.title)}</h1>` +
     `<div class="article-meta"><span>\u{1F5D3}\uFE0F ${esc(post.date)}</span><span>\u23F1\uFE0F ${post.readMins || 8} min read</span><span>\u270D\uFE0F AbroadReady Team</span></div>` +
