@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const statsObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const target = parseInt(entry.target.getAttribute('data-count'));
+                const target = parseFloat(entry.target.getAttribute('data-count'));
                 let count = 0;
                 const duration = 2000; // ms
                 const increment = target / (duration / 16); // 60fps
