@@ -362,8 +362,22 @@ def main():
     with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8") as fh:
         fh.write(sitemap(posts))
     with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8") as fh:
-        fh.write("User-agent: *\nAllow: /\nSitemap: %s/sitemap.xml\n" % DOMAIN)
+        fh.write(_robots_txt(DOMAIN))
     print("Generated %d article pages + blog.html + sitemap.xml + robots.txt" % len(posts))
+
+
+def _robots_txt(domain):
+    ai_crawlers = [
+        "gptbot", "chatgpt-user", "oai-searchbot",
+        "claudebot", "anthropic-ai", "claude-web",
+        "google-extended", "ccbot", "bytespider",
+        "applebot-extended", "perplexitybot", "diffbot",
+        "cohere-ai", "facebookbot", "amazonbot",
+        "omgili", "omgilibot", "iaskspider", "youbot", "img2dataset",
+    ]
+    blocks = "".join("User-agent: %s\nAllow: /\n" % bot for bot in ai_crawlers)
+    return "%sUser-agent: *\nAllow: /\nSitemap: %s/sitemap.xml\n" % (blocks, domain)
+
 
 if __name__ == "__main__":
     main()

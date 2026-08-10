@@ -1563,3 +1563,15 @@
   .quiz-wrapper { padding: var(--space-4) var(--space-3); }
   .quiz-options { grid-template-columns: 1fr; }
 }
+
+/* ---- FAQ / Quick Answers ---- */
+.faq-list { display: flex; flex-direction: column; gap: var(--space-3); max-width: 860px; margin: 0 auto; }
+.faq-item { border: 1.5px solid var(--border-purple); border-radius: var(--radius-lg); margin-bottom: var(--space-3); overflow: hidden; transition: var(--transition-base); position: relative; background: var(--bg-purple); }
+.faq-item::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(135deg, #8b5cf6, #a78bfa); z-index: 2; }
+.faq-item:hover { border-color: #a78bfa; box-shadow: var(--shadow-purple); }
+.faq-q { padding: var(--space-4) var(--space-5); font-weight: 700; color: #000; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); background: white; }
+.faq-q:hover { background: var(--paper); }
+.faq-a { padding: 0 var(--space-5); max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; color: #000; }
+.faq-item.open .faq-a { padding: 0 var(--space-5) var(--space-5); max-height: 600px; }
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-icon { font-size: 1.4rem; color: var(--primary); transition: transform 0.2s ease; }

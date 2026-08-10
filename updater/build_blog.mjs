@@ -377,8 +377,21 @@ function main() {
   });
   fs.writeFileSync(path.join(pagesDir, "blog.html"), indexPage(posts, cats));
   fs.writeFileSync(path.join(ROOT, "sitemap.xml"), sitemap(posts));
-  fs.writeFileSync(path.join(ROOT, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${DOMAIN}/sitemap.xml\n`);
+  fs.writeFileSync(path.join(ROOT, "robots.txt"), robotsTxt());
   console.log(`Generated ${posts.length} article pages + blog.html + sitemap.xml + robots.txt`);
+}
+
+function robotsTxt() {
+  const aiCrawlers = [
+    "gptbot", "chatgpt-user", "oai-searchbot",
+    "claudebot", "anthropic-ai", "claude-web",
+    "google-extended", "ccbot", "bytespider",
+    "applebot-extended", "perplexitybot", "diffbot",
+    "cohere-ai", "facebookbot", "amazonbot",
+    "omgili", "omgilibot", "iaskspider", "youbot", "img2dataset"
+  ];
+  const blocks = aiCrawlers.map((bot) => `User-agent: ${bot}\nAllow: /\n`).join("");
+  return `${blocks}User-agent: *\nAllow: /\nSitemap: ${DOMAIN}/sitemap.xml\n`;
 }
 
 main();

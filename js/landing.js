@@ -539,4 +539,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    /* ---- FAQ toggle ---- */
+    document.querySelectorAll('.faq-q').forEach(q => {
+        q.addEventListener('click', () => q.parentElement.classList.toggle('open'));
+    });
 });
