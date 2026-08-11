@@ -346,8 +346,13 @@ def sitemap(posts):
     urls = "".join(f"  <url><loc>{DOMAIN}/{u}</loc><changefreq>weekly</changefreq></url>\n" for u in static_pages)
     urls += "".join(f"  <url><loc>{DOMAIN}/{u}</loc><changefreq>monthly</changefreq></url>\n" for u in country_pages)
     for p in posts:
-        urls += f"  <url><loc>{DOMAIN}/pages/{p['slug']}</loc><lastmod>{iso_date(p['date'])}</lastmod><changefreq>monthly</changefreq></url>\n"
-    return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "</urlset>\n"
+        img = p.get("heroImage") or "%s/assets/blog/%s.jpg" % (DOMAIN, p["slug"])
+        urls += (f"  <url><loc>{DOMAIN}/pages/{p['slug']}</loc><lastmod>{iso_date(p['date'])}</lastmod>"
+                 f"<changefreq>monthly</changefreq>"
+                 f"<image:image><image:loc>{img}</image:loc><image:title>{esc(p['title'])}</image:title></image:image></url>\n")
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+            'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' + urls + "</urlset>\n")
 
 def main():
     with open(os.path.join(ROOT, "data", "blog.json"), encoding="utf-8") as fh:
@@ -363,7 +368,31 @@ def main():
         fh.write(sitemap(posts))
     with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8") as fh:
         fh.write(_robots_txt(DOMAIN))
-    print("Generated %d article pages + blog.html + sitemap.xml + robots.txt" % len(posts))
+    with open(os.path.join(ROOT, "llms.txt"), "w", encoding="utf-8") as fh:
+        fh.write(_llms_txt(posts))
+    print("Generated %d article pages + blog.html + sitemap.xml + robots.txt + llms.txt" % len(posts))
+
+
+def _llms_txt(posts):
+    lines = [
+        "# AbroadReady",
+        "",
+        "> AbroadReady helps students find and apply for fully funded and partial international scholarships. Free AI-powered matching, live deadlines, step-by-step application guides, an SOP builder and an AI advisor.",
+        "",
+        "Key pages:",
+        "- [Scholarships](https://abroadready.org/pages/scholarships): Browse 60+ fully funded scholarships filterable by country, degree and deadline.",
+        "- [Study Abroad Guides](https://abroadready.org/pages/study): Country-by-country guides to tuition, universities, visas and costs.",
+        "- [Immigration Guides](https://abroadready.org/pages/immigration): Work visa and permanent residency pathways for 14 countries.",
+        "- [Student Visa Guidance](https://abroadready.org/pages/visa-guidance): Visa fees, documents and timelines for every country.",
+        "- [Internships](https://abroadready.org/pages/internships): Funded internship programmes with stipends and deadlines.",
+        "- [AI Advisor](https://abroadready.org/pages/ai-advisor): Free AI answers to scholarship and visa questions.",
+        "- [Blog](https://abroadready.org/pages/blog): All in-depth guides.",
+        "",
+        "## Articles",
+    ]
+    for p in posts:
+        lines.append("- [%s](https://abroadready.org/pages/%s): %s" % (p["title"], p["slug"], strip_tags(p.get("excerpt", ""))))
+    return "\n".join(lines) + "\n"
 
 
 def _robots_txt(domain):

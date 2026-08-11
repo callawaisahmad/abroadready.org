@@ -362,9 +362,11 @@ function sitemap(posts) {
   let urls = static_pages.map((u) => `  <url><loc>${DOMAIN}/${u}</loc><changefreq>weekly</changefreq></url>\n`).join("");
   urls += country_pages.map((u) => `  <url><loc>${DOMAIN}/${u}</loc><changefreq>monthly</changefreq></url>\n`).join("");
   for (const p of posts) {
-    urls += `  <url><loc>${DOMAIN}/pages/${p.slug}</loc><lastmod>${isoDate(p.date)}</lastmod><changefreq>monthly</changefreq></url>\n`;
+    const img = p.heroImage || `${DOMAIN}/assets/blog/${p.slug}.jpg`;
+    urls += `  <url><loc>${DOMAIN}/pages/${p.slug}</loc><lastmod>${isoDate(p.date)}</lastmod><changefreq>monthly</changefreq>` +
+      `<image:image><image:loc>${img}</image:loc><image:title>${esc(p.title)}</image:title></image:image></url>\n`;
   }
-  return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "</urlset>\n";
+  return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' + urls + "</urlset>\n";
 }
 
 function main() {
@@ -378,7 +380,31 @@ function main() {
   fs.writeFileSync(path.join(pagesDir, "blog.html"), indexPage(posts, cats));
   fs.writeFileSync(path.join(ROOT, "sitemap.xml"), sitemap(posts));
   fs.writeFileSync(path.join(ROOT, "robots.txt"), robotsTxt());
-  console.log(`Generated ${posts.length} article pages + blog.html + sitemap.xml + robots.txt`);
+  fs.writeFileSync(path.join(ROOT, "llms.txt"), llmsTxt(posts));
+  console.log(`Generated ${posts.length} article pages + blog.html + sitemap.xml + robots.txt + llms.txt`);
+}
+
+function llmsTxt(posts) {
+  const lines = [
+    "# AbroadReady",
+    "",
+    "> AbroadReady helps students find and apply for fully funded and partial international scholarships. Free AI-powered matching, live deadlines, step-by-step application guides, an SOP builder and an AI advisor.",
+    "",
+    "Key pages:",
+    "- [Scholarships](https://abroadready.org/pages/scholarships): Browse 60+ fully funded scholarships filterable by country, degree and deadline.",
+    "- [Study Abroad Guides](https://abroadready.org/pages/study): Country-by-country guides to tuition, universities, visas and costs.",
+    "- [Immigration Guides](https://abroadready.org/pages/immigration): Work visa and permanent residency pathways for 14 countries.",
+    "- [Student Visa Guidance](https://abroadready.org/pages/visa-guidance): Visa fees, documents and timelines for every country.",
+    "- [Internships](https://abroadready.org/pages/internships): Funded internship programmes with stipends and deadlines.",
+    "- [AI Advisor](https://abroadready.org/pages/ai-advisor): Free AI answers to scholarship and visa questions.",
+    "- [Blog](https://abroadready.org/pages/blog): All in-depth guides.",
+    "",
+    "## Articles",
+  ];
+  for (const p of posts) {
+    lines.push(`- [${p.title}](https://abroadready.org/pages/${p.slug}): ${stripTags(p.excerpt || "")}`);
+  }
+  return lines.join("\n") + "\n";
 }
 
 function robotsTxt() {
