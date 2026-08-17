@@ -364,6 +364,16 @@
 .tip-list li { padding-left: 0; }
 .tip-list li::before { content: none; }
 
+.how-to-apply-list { counter-reset: step; }
+.how-to-apply-list li { padding-left: var(--space-8); }
+.how-to-apply-list li::before { content: counter(step); counter-increment: step; position: absolute; left: 0; top: 2px; width: 24px; height: 24px; background: var(--primary); color: white; border-radius: 50%; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+
+.related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-4); }
+.related-card { display: block; padding: var(--space-5); text-decoration: none; color: inherit; transition: all 0.2s ease; border: 1.5px solid var(--border-blue); border-radius: var(--radius-xl); background: white; }
+.related-card:hover { border-color: var(--primary-light); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.related-card strong { font-size: var(--text-base); line-height: 1.3; }
+.related-card .muted { margin-bottom: 0; }
+
 @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
 @media (max-width: 1024px) {

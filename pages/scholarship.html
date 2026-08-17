@@ -162,6 +162,125 @@ document.addEventListener('DOMContentLoaded', function () {
           : '<div class="deadline-banner ' + (d.status === 'closing' ? 'urgent' : '') + '">⏳ <strong>' + d.daysLeft + ' days</strong> until the approximate ' + esc(SB.monthNames[s.deadlineMonthNum - 1]) + ' deadline</div>'
         : '<div class="deadline-banner rolling">🔄 Rolling / varies — confirm exact dates on the official site</div>';
 
+  /* ---- Dynamic content generation ----------------------------------- */
+  function extractEligibility(regex) {
+    var found = [];
+    (s.eligibility || []).forEach(function (e) { if (regex.test(e)) found.push(e); });
+    return found;
+  }
+  var engItems = extractEligibility(/ielts|toefl|pte|duolingo|english|language|cambridge/i);
+  var gpaItems = extractEligibility(/gpa|cgpa|grade|degree|class|honours|honor|2:1|first.class|upper.second|merit|distinction|gmat|gre/i);
+  var ageItems = extractEligibility(/age|under \d|year.*old/i);
+  var expItems = extractEligibility(/experience|work|employed|professional/i);
+  var isPhD = (s.levels || []).some(function (l) { return /phd|doctoral|doctor/i.test(l); });
+  var isMasters = (s.levels || []).some(function (l) { return /master/i.test(l); });
+  var isUG = (s.levels || []).some(function (l) { return /bachelor|undergrad/i.test(l); });
+
+  /* ---- Dynamic "How to Apply" section -------------------------------- */
+  var howToApplyHtml = '<div class="info-section card">' +
+    '<h2>📋 How to Apply — Step by Step</h2>' +
+    '<ol class="req-list how-to-apply-list">' +
+      '<li><strong>Check eligibility:</strong> Review the criteria above — ' + (s.eligibility && s.eligibility.length ? esc(s.eligibility[0]) + '.' : 'ensure you meet all requirements.') + ' Every year applicants are rejected for missing basic criteria.</li>' +
+      '<li><strong>Gather documents:</strong> Prepare all required documents listed above. ' + (s.documentsRequired && s.documentsRequired.length > 2 ? 'At minimum you need ' + esc(s.documentsRequired[0]) + ', ' + esc(s.documentsRequired[1]) + ', and ' + esc(s.documentsRequired[2]) + '.' : 'Start early — some documents take weeks to obtain.') + ' Attestation and notarisation may be needed depending on your country.</li>' +
+      '<li><strong>Apply on the official portal:</strong> <a href="' + esc(s.applyLink) + '" target="_blank" rel="noopener">Open official application portal ↗</a>. ' + (s.isFree ? 'This scholarship is free to apply — there is no application fee.' : 'Note the application fee of ' + esc(s.applicationFee) + '.') + '</li>' +
+      '<li><strong>Submit before the deadline:</strong> ' + (d.hasDate ? 'The deadline is approximately <strong>' + esc(SB.monthNames[s.deadlineMonthNum - 1]) + '</strong>. Submit at least a few days before the final date to avoid last-minute technical issues.' : 'Check the official website for the exact deadline — this scholarship has ' + esc(s.deadlineNote || 'a rolling or variable deadline') + '.') + '</li>' +
+      '<li><strong>Track your application:</strong> After submitting, monitor your email and the application portal for updates. Some scholarships require an interview or additional documents after the initial submission.</li>' +
+    '</ol>' +
+    (s.infoLink && s.infoLink !== s.applyLink ? '<p style="margin-top:var(--space-4);"><a href="' + esc(s.infoLink) + '" target="_blank" rel="noopener" class="btn btn-outline btn-sm">Read full eligibility and instructions on official site ↗</a></p>' : '') +
+  '</div>';
+
+  /* ---- Dynamic FAQ generation ---------------------------------------- */
+  var faqItems = [];
+
+  faqItems.push({
+    q: 'What English test scores does this scholarship require?',
+    a: engItems.length > 0
+      ? '<p>' + engItems.map(function (i) { return esc(i); }).join(' ') + '</p><p>Many universities also accept PTE Academic, Duolingo English Test, or Cambridge English qualifications as alternatives to IELTS and TOEFL. Check the official website for the full list of accepted tests and minimum scores.</p>'
+      : '<p>This scholarship requires proof of English proficiency. Typical requirements are IELTS 6.0–7.0, TOEFL iBT 80–100, PTE 58–76, or Duolingo 105–120, but exact scores vary by programme. Some scholarships waive the English test requirement if your previous degree was taught in English. Check the eligibility section above and the official website for specific requirements.</p>'
+  });
+
+  faqItems.push({
+    q: 'What GPA or academic score do I need?',
+    a: gpaItems.length > 0
+      ? '<p>' + gpaItems.map(function (i) { return esc(i); }).join(' ') + '</p><p>For reference, a CGPA of 3.0/4.0 (or 60–70% depending on your grading system) is generally the minimum for competitive international scholarships. Top scholarships like Chevening, Rhodes, and Gates Cambridge typically require a first-class or strong upper-second-class equivalent.</p>'
+      : '<p>Competitive scholarships typically expect a CGPA of 3.0/4.0 or higher (or equivalent percentage depending on your country\'s grading system). For reference, 60–70% in the Indian or Pakistani grading system is roughly equivalent to a 3.0/4.0 CGPA. Top-tier scholarships like Chevening, Rhodes, and Gates Cambridge typically require a first-class or strong upper-second-class (2:1) equivalent. Check the eligibility section above for this scholarship\'s specific requirements.</p>'
+  });
+
+  faqItems.push({
+    q: 'Can I apply if I\'m still in my final year?',
+    a: '<p>Yes — most international scholarships accept applications from final-year students. You can apply with your current transcripts and submit the final degree certificate before the programme starts. Many universities issue conditional offers pending degree completion. If you are in your final year, mention your expected graduation date in your application and provide updated transcripts once available.</p>'
+  });
+
+  faqItems.push({
+    q: 'How competitive is this scholarship?',
+    a: '<p>This scholarship has a <strong>' + esc(s.competition || 'competitive') + '</strong> selection rate. ' +
+      (s.competition === 'Very High'
+        ? 'Acceptance rates for very high competition scholarships can be below 1%. Thousands of qualified applicants apply each year. To stand out, focus on a clear narrative about your career goals, demonstrate leadership and impact in your community, and show how studying abroad will help you contribute to your home country\'s development.'
+        : s.competition === 'High'
+        ? 'High competition means many qualified applicants compete for limited spots. Strengthen your application by tailoring your motivation letter to this specific programme, getting strong recommendation letters from academic or professional references, and demonstrating clear career goals tied to your field of study.'
+        : 'Moderate competition means you have a realistic chance if you prepare a strong application. Focus on presenting a clear motivation letter, strong academic record, and well-prepared documents.') +
+      '</p>'
+  });
+
+  faqItems.push({
+    q: 'Can I study abroad without IELTS?',
+    a: (engItems.length > 0 && /ielts/i.test(engItems.join(' ')) === false)
+      ? '<p>This particular scholarship accepts alternative English proficiency proofs — check the eligibility section above for details. Many scholarships and universities worldwide accept PTE Academic, Duolingo English Test, TOEFL iBT, or Cambridge English in place of IELTS. Some also waive the English test entirely if your previous degree was taught in English. Read our <a href="study-abroad-without-ielts">complete guide to studying abroad without IELTS</a> for more options.</p>'
+      : '<p>Yes, it is possible to study abroad without IELTS in many countries and programmes. Alternatives include TOEFL iBT, PTE Academic, Duolingo English Test, and Cambridge English qualifications. Some universities waive the English test requirement if your previous degree was taught in English. Several fully funded scholarships also accept applicants without IELTS — read our <a href="study-abroad-without-ielts">complete guide to studying abroad without IELTS</a> for details.</p>'
+  });
+
+  faqItems.push({
+    q: 'What documents do I need to prepare in advance?',
+    a: '<p>Essential documents for most international scholarships include: ' +
+      (s.documentsRequired && s.documentsRequired.length > 0
+        ? s.documentsRequired.slice(0, 5).map(function (d) { return esc(d); }).join(', ').replace(/, ([^,]*)$/, ', and $1')
+        : 'academic transcripts, degree certificates, a valid passport, English proficiency test scores, a CV/resume, two to three recommendation letters, and a statement of purpose or motivation letter') +
+      '. Some countries require additional steps — for example, degree attestation from your university\'s issuing authority, HEC verification (Pakistan), or APS certification (Germany for certain nationalities). Start collecting documents at least 2–3 months before the deadline.</p>'
+  });
+
+  faqItems.push({
+    q: 'Do I need a supervisor before applying?',
+    a: isPhD
+      ? '<p>Yes — for PhD and doctoral scholarships, having a confirmed supervisor who agrees to supervise your research is usually required or strongly recommended. Many scholarships like the Australian RTP, DAAD, Swiss Excellence, and CAS-TWAS President\'s Fellowship require a supervisor endorsement letter. Start contacting potential supervisors 4–6 months before the deadline. Read our guide on <a href="how-to-get-strong-letters-of-recommendation">getting strong recommendation letters</a> for tips on approaching professors.</p>'
+      : '<p>For Masters and undergraduate scholarships, a supervisor is generally not required before applying. However, if the programme involves research or a thesis component, contacting a potential supervisor in advance can strengthen your application. For PhD-level scholarships, a confirmed supervisor is usually mandatory — start reaching out to potential supervisors 4–6 months before the deadline.</p>'
+  });
+
+  faqItems.push({
+    q: 'How do I apply for this scholarship from my country?',
+    a: '<p>You can apply directly through the scholarship\'s official application portal linked above. Most international scholarships are open to applicants worldwide — simply follow the instructions on the official website and submit your application online. Some government-funded scholarships (such as Chevening, Fulbright, Commonwealth, and Australia Awards) have country-specific application processes managed through British Council, USIEF, or similar bodies in your country. Always verify the specific application channel for your nationality on the official scholarship website.</p>'
+  });
+
+  var faqHtml = '<div class="info-section card">' +
+    '<h2>❓ Frequently asked questions</h2>' +
+    '<div class="faq-list">' +
+    faqItems.map(function (item) {
+      return '<div class="faq-item"><button class="faq-q">' + esc(item.q) + ' <span class="faq-toggle">+</span></button><div class="faq-a">' + item.a + '</div></div>';
+    }).join('') +
+    '</div></div>';
+
+  /* ---- Related scholarships (same country or region) ------------------ */
+  var related = SB.all.filter(function (o) {
+    return o.id !== s.id && (o.country === s.country || o.region === s.region);
+  }).slice(0, 4);
+  var relatedHtml = related.length > 0
+    ? '<div class="info-section card">' +
+      '<h2>🔗 Related scholarships</h2>' +
+      '<div class="related-grid">' +
+      related.map(function (r) {
+        var rd = SB.deadlineInfo(r);
+        return '<a href="scholarship?id=' + encodeURIComponent(r.id) + '" class="related-card card">' +
+          '<div class="flex gap-3 items-center">' + SB.flagImg(r.country, 24) +
+          '<div><strong>' + esc(r.name) + '</strong><br><span class="muted">' + esc(r.provider) + '</span></div></div>' +
+          '<div class="flex gap-2 mt-4" style="flex-wrap:wrap;">' +
+            '<span class="pill">' + esc(r.fundingType) + '</span>' +
+            '<span class="pill pill-blue">' + esc((r.levels || []).join(', ')) + '</span>' +
+          '</div>' +
+          '<p class="muted" style="margin-top:var(--space-2);font-size:var(--text-sm);">' + esc(SB.short(r.fundingSummary, 100)) + '</p>' +
+        '</a>';
+      }).join('') +
+      '</div></div>'
+    : '';
+
   var html = '' +
   '<header class="sc-hero section pb-0">' +
     '<div class="container">' +
@@ -233,30 +352,10 @@ document.addEventListener('DOMContentLoaded', function () {
           '<span class="ready-label" id="ready-label">0 of ' + beforeItems.length + ' ready</span>' +
         '</div>' +
 
-        '<div class="info-section card">' +
-          '<h2>💡 Application tips</h2>' +
-          '<ul class="req-list tip-list">' +
-            '<li>📌 <strong>Start early:</strong> Begin gathering documents at least 2-3 months before the deadline to avoid last-minute issues.</li>' +
-            '<li>📌 <strong>Read eligibility carefully:</strong> Every year, hundreds of applicants are rejected for not meeting basic criteria. Double-check every requirement.</li>' +
-            '<li>📌 <strong>Tailor your application:</strong> Generic essays and statements are easy to spot. Customise each application to the specific scholarship programme.</li>' +
-            '<li>📌 <strong>Get feedback on your essays:</strong> Ask a teacher, mentor, or friend to review your statement of purpose and motivation letter before submitting.</li>' +
-            '<li>📌 <strong>Prepare for interviews:</strong> Many scholarships have an interview stage. Practice common scholarship interview questions with a friend.</li>' +
-            '<li>📌 <strong>Apply to multiple scholarships:</strong> Don\'t put all your eggs in one basket. Apply to 3-5 scholarships to increase your chances of winning funding.</li>' +
-          '</ul>' +
-        '</div>' +
+        howToApplyHtml +
 
-        '<div class="info-section card">' +
-          '<h2>❓ Frequently asked questions</h2>' +
-          '<div class="faq-list">' +
-            '<div class="faq-item"><button class="faq-q">Can I apply if I haven\'t taken an English test yet? <span class="faq-toggle">+</span></button><div class="faq-a"><p>Most scholarships accept applications with pending English test scores, but you must submit them before the final deadline. Some scholarships like Chevening and Fulbright require scores by the application deadline. Check the specific requirements on the official website.</p></div></div>' +
-            '<div class="faq-item"><button class="faq-q">What GPA do I need for this scholarship? <span class="faq-toggle">+</span></button><div class="faq-a"><p>Competitive scholarships typically expect a CGPA of 3.0/4.0 or higher (or equivalent). For top scholarships like Chevening, Rhodes, and Gates Cambridge, you need a strong upper-second-class degree (2:1) or first-class equivalent. Check the eligibility section above for specific requirements.</p></div></div>' +
-            '<div class="faq-item"><button class="faq-q">Can I apply if I\'m still in my final year? <span class="faq-toggle">+</span></button><div class="faq-a"><p>Yes — most scholarships accept applications from final-year students who will complete their degree before the programme start date. You can apply with your current transcripts and submit the final certificate later. Many universities issue conditional offers pending degree completion.</p></div></div>' +
-            '<div class="faq-item"><button class="faq-q">How competitive is this scholarship? <span class="faq-toggle">+</span></button><div class="faq-a"><p>This scholarship has a <strong>' + esc(s.competition || 'competitive') + '</strong> selection rate. For very high competition scholarships like Chevening and Rhodes, acceptance rates can be below 1%. Focus on crafting a standout application with a clear narrative about your goals, leadership, and how you will contribute to your home country after your studies.</p></div></div>' +
-            '<div class="faq-item"><button class="faq-q">How do I apply for this scholarship from my country? <span class="faq-toggle">+</span></button><div class="faq-a"><p>Students apply directly through the scholarship\'s official application portal or the relevant government channel in their country. Some scholarships (like Chevening, Commonwealth, and Fulbright) have country-specific application processes. Always verify the official instructions for your country on the scholarship website.</p></div></div>' +
-            '<div class="faq-item"><button class="faq-q">What documents do I need to prepare in advance? <span class="faq-toggle">+</span></button><div class="faq-a"><p>Essential documents include: academic transcripts (attested by the relevant education authority in your country), degree certificates, valid passport, English proficiency test scores (IELTS or TOEFL), CV/resume, two to three recommendation letters, and a strong statement of purpose or motivation letter. Start collecting these at least 2-3 months before the deadline.</p></div></div>' +
-            '<div class="faq-item"><button class="faq-q">Do I need a supervisor before applying? <span class="faq-toggle">+</span></button><div class="faq-a"><p>For PhD and research-based scholarships, having a confirmed supervisor who agrees to supervise your research significantly strengthens your application. Many scholarships like the Australian RTP, DAAD, and Swiss Excellence require a supervisor support letter. Start contacting potential supervisors 4-6 months before the deadline.</p></div></div>' +
-          '</div>' +
-        '</div>' +
+        faqHtml +
+        relatedHtml +
       '</div>' +
 
       '<div class="detail-side">' +
@@ -361,6 +460,25 @@ document.addEventListener('DOMContentLoaded', function () {
     "url": "https://abroadready.org/pages/scholarship?id=" + encodeURIComponent(s.id)
   });
   document.head.appendChild(schemaScript);
+
+  // ---- FAQ structured data (for AI crawlers and Bing) ----
+  var faqSchema = document.createElement('script');
+  faqSchema.type = 'application/ld+json';
+  faqSchema.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map(function (item) {
+      return {
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": item.a.replace(/<[^>]+>/g, '')
+        }
+      };
+    })
+  });
+  document.head.appendChild(faqSchema);
 });
 </script>
 <script src="../js/components.js"></script>
