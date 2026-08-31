@@ -167,6 +167,7 @@
         footerCol("Company", [
           ["About", P + "about"], ["Contact", P + "contact"],
           ["Privacy Policy", P + "privacy"], ["Terms of Service", P + "terms"],
+          ["Disclaimer", P + "disclaimer"],
           ["Admission Guidance", P + "admission-guidance"]
         ]) +
       '</div>' +
@@ -244,6 +245,12 @@
       });
 
     wire();
+
+    // Cookie consent banner (site-wide).
+    var ccScript = document.createElement("script");
+    ccScript.src = (inPages ? "../" : "") + "js/cookie-consent.js";
+    ccScript.async = true;
+    document.body.appendChild(ccScript);
 
     // Sticky "Need to-the-point help?" AI advisor widget (site-wide).
     var widgetScript = document.createElement("script");
