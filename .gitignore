@@ -7,3 +7,4 @@ __pycache__/
 *.pyc
 updater/link_report.json
 updater/last_run.txt
+DONT UPLOAD/
