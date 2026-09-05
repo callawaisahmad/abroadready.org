@@ -51,6 +51,9 @@
 .article-body a { color: var(--primary-dark); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 .article-body blockquote { border-left: 4px solid var(--primary); background: var(--bg-blue); padding: var(--space-4) var(--space-5); border-radius: var(--radius-md); margin: 0 0 var(--space-5); font-style: italic; color: #000; }
 .article-body strong { color: var(--ink); }
+.article-body .article-inline-img { margin: var(--space-8) auto; text-align: center; }
+.article-body .article-inline-img img { display: block; margin: 0 auto; max-width: 100%; height: auto; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); }
+.article-body .article-inline-img figcaption { margin-top: var(--space-2); font-size: 0.9rem; color: #555; font-style: italic; }
 
 .article-cta { background: var(--gradient-primary); color: white; border-radius: var(--radius-xl); padding: var(--space-8); text-align: center; margin: var(--space-10) 0; }
 .article-cta h3 { color: white; margin-bottom: var(--space-2); }
