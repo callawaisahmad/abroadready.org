@@ -15,8 +15,9 @@
 .blog-cat:hover { border-color: #a78bfa; color: #7c3aed; background: var(--bg-purple-medium); }
 .blog-cat.active { background: var(--gradient-primary); color: white; border-color: transparent; }
 
-.blog-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); }
-@media (max-width: 680px) { .blog-grid { grid-template-columns: 1fr; } }
+.blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-6); align-items: stretch; }
+@media (max-width: 1080px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .blog-grid { grid-template-columns: 1fr; } }
 
 .post-card { display: flex; flex-direction: column; background: white; border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-sm); border: 2px solid #8b5cf6; transition: var(--transition-base); text-decoration: none; position: relative; }
 .post-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(135deg, #8b5cf6, #a78bfa); opacity: 1; z-index: 2; }
@@ -29,6 +30,15 @@
 .post-excerpt { font-size: var(--text-sm); color: #000; line-height: 1.55; flex: 1; }
 .post-meta { display: flex; gap: var(--space-3); font-size: var(--text-xs); color: #000; margin-top: var(--space-4); }
 .blog-empty { text-align: center; color: #000; padding: var(--space-16) 0; grid-column: 1 / -1; }
+
+/* ---- Compact 3-col grid on blog index (2 rows visible on screen) ---- */
+#blog-grid .post-card { min-height: 0; }
+#blog-grid .post-thumb-img { height: 150px; }
+#blog-grid .post-body { padding: var(--space-4); }
+#blog-grid .post-card h3 { font-size: var(--text-base); line-height: 1.3; margin-bottom: var(--space-2); }
+#blog-grid .post-excerpt { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+#blog-grid .post-meta { margin-top: var(--space-3); font-size: 0.68rem; }
+@media (max-width: 1080px) { #blog-grid .post-thumb-img { height: 190px; } }
 
 /* ---- Article page ---- */
 .article-wrap { max-width: 1200px; margin: 0 auto; padding: var(--space-10) var(--space-6) 0; }
