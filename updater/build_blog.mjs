@@ -236,25 +236,38 @@ document.addEventListener('DOMContentLoaded', function () {
   var cards = Array.prototype.slice.call(document.querySelectorAll('.post-card'));
   var search = document.getElementById('blog-search-input');
   var empty = document.getElementById('blog-empty');
+  var grid = document.getElementById('blog-grid');
   var cat = 'all';
+  var sortRecent = true;
   function apply() {
     var q = (search.value || '').toLowerCase().trim();
-    var shown = 0;
-    cards.forEach(function (c) {
+    var list = cards.filter(function (c) {
       var okCat = cat === 'all' || c.getAttribute('data-cat') === cat;
       var hay = (c.getAttribute('data-title') + ' ' + c.getAttribute('data-tags')).toLowerCase();
       var okQ = !q || hay.indexOf(q) !== -1;
-      var show = okCat && okQ; c.style.display = show ? '' : 'none'; if (show) shown++;
+      return okCat && okQ;
     });
+    if (sortRecent && !q) {
+      list = list.slice().sort(function (a, b) {
+        return (b.getAttribute('data-date') || '').localeCompare(a.getAttribute('data-date') || '');
+      });
+    }
+    var shown = list.length;
+    cards.forEach(function (c) { c.style.display = 'none'; });
+    list.forEach(function (c) { c.style.display = ''; grid.appendChild(c); });
     empty.style.display = shown ? 'none' : 'block';
   }
   document.querySelectorAll('.blog-cat').forEach(function (b) {
     b.addEventListener('click', function () {
       document.querySelectorAll('.blog-cat').forEach(function (x) { x.classList.remove('active'); });
-      b.classList.add('active'); cat = b.getAttribute('data-cat'); apply();
+      b.classList.add('active');
+      cat = b.getAttribute('data-cat');
+      sortRecent = (cat === 'all');
+      apply();
     });
   });
   search.addEventListener('input', apply);
+  apply();
 });
 </script>
 <script src="../js/components.js"></script>
@@ -268,7 +281,7 @@ function indexPage(posts, cats) {
   const cards = posts.map((p) => {
     const [, grad] = catStyle(p.category);
     return `<a class="post-card" href="${p.slug}" data-cat="${esc(p.category)}" ` +
-      `data-title="${esc(p.title)}" data-tags="${esc((p.tags || []).join(" "))}">` +
+      `data-title="${esc(p.title)}" data-tags="${esc((p.tags || []).join(" "))}" data-date="${isoDate(p.date)}">` +
       `<img class="post-thumb-img" src="../assets/blog/${p.slug}.jpg" alt="${esc(p.title)}" loading="lazy" width="1200" height="630">` +
       `<div class="post-body"><span class="post-cat">${esc(p.category)}</span>` +
       `<h3>${esc(p.title)}</h3><p class="post-excerpt">${esc(p.excerpt || "")}</p>` +
