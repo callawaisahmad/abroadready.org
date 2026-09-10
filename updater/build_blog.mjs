@@ -85,9 +85,13 @@ function head(post, canonical) {
   const ld_article = {
     "@context": "https://schema.org", "@type": "BlogPosting",
     headline: post.title, description: post.metaDescription,
+    image: ogImg,
     datePublished: isoDate(post.date), dateModified: isoDate(post.date),
-    author: { "@type": "Organization", name: "AbroadReady" },
-    publisher: { "@type": "Organization", name: "AbroadReady" },
+    author: { "@type": "Organization", name: "AbroadReady", url: DOMAIN + "/" },
+    publisher: {
+      "@type": "Organization", name: "AbroadReady", url: DOMAIN + "/",
+      logo: { "@type": "ImageObject", url: DOMAIN + "/assets/icons/apple-touch-icon.png" },
+    },
     mainEntityOfPage: canonical, articleSection: post.category,
     keywords: (post.tags || []).join(", "),
   };
@@ -119,6 +123,7 @@ ${SCRIPTS_TOP}  <title>${esc(post.title)} | AbroadReady</title>
   <meta property="og:url" content="${canonical}">
   <meta property="og:image" content="${ogImg}">
   <meta property="og:site_name" content="AbroadReady">
+  <link rel="preload" as="image" href="${ogImg}" fetchpriority="high">
   <meta name="twitter:image" content="${ogImg}">
   <meta property="article:section" content="${esc(post.category)}">
   <meta property="article:published_time" content="${isoDate(post.date)}">
@@ -217,7 +222,7 @@ function articlePage(post, i, posts) {
     '<div class="read-progress"></div>' +
     '<article class="article-wrap">' +
     `<nav class="breadcrumb"><a href="../">Home</a> \u203A <a href="blog">Blog</a> \u203A ${esc(post.title)}</nav>` +
-    `<img class="article-hero-img" src="${post.heroImage || "../assets/blog/" + post.slug + ".jpg"}" alt="${esc(post.title)}" loading="lazy" width="1200" height="630">` +
+    `<img class="article-hero-img" src="${post.heroImage || "../assets/blog/" + post.slug + ".jpg"}" alt="${esc(post.title)}" fetchpriority="high" decoding="async" width="1200" height="630">` +
     `<a class="article-cat" href="blog">${esc(post.category)}</a>` +
     `<h1 class="article-title">${esc(post.title)}</h1>` +
     `<div class="article-meta"><span>\u{1F5D3}\uFE0F ${esc(post.date)}</span><span>\u23F1\uFE0F ${post.readMins || 8} min read</span><span>\u270D\uFE0F AbroadReady Team</span></div>` +

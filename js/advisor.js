@@ -101,7 +101,7 @@
     return null;
   }
 
-  function link(s) { return '<a href="scholarship?id=' + s.id + '" style="color:var(--primary);font-weight:600;">' + esc(s.name) + ' →</a>'; }
+  function link(s) { return '<a href="scholarship-' + s.id + '" style="color:var(--primary);font-weight:600;">' + esc(s.name) + ' →</a>'; }
   function ul(items) { return '<ul>' + (items || []).map(function (i) { return '<li>' + esc(i) + '</li>'; }).join('') + '</ul>'; }
 
   // Collapse a list of facts into one concise sentence.
@@ -125,7 +125,7 @@
           '<button class="cc-heart' + (saved ? ' is-saved' : '') + '" data-save="' + s.id + '" title="Save">' + (saved ? '\u2665' : '\u2661') + '</button></div>' +
         '<div class="cc-name">' + esc(s.name) + '</div>' +
         '<div class="cc-meta">' + esc(s.country) + ' \u00b7 ' + esc(s.fundingType) + (d.hasDate ? ' \u00b7 ' + d.daysLeft + 'd left' : '') + '</div>' +
-        '<a class="cc-link" href="scholarship?id=' + encodeURIComponent(s.id) + '">View details \u2192</a>' +
+        '<a class="cc-link" href="scholarship-' + encodeURIComponent(s.id) + '">View details \u2192</a>' +
         '</div>';
     }).join('');
   }

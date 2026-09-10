@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('div');
             card.className = 'scholarship-card animate-fade-in-up';
             const tagsHTML = scholarship.tags.filter(Boolean).map(tag => `<span class="sc-tag">${tag}</span>`).join('');
-            const href = scholarship.id ? `pages/scholarship?id=${encodeURIComponent(scholarship.id)}` : 'pages/scholarships';
+            const href = scholarship.id ? `pages/scholarship-${encodeURIComponent(scholarship.id)}` : 'pages/scholarships';
             const urgentClass = scholarship.status === 'closing' ? ' sc-urgent' : '';
             const statusLabel = scholarship.status === 'closing' ? '🔥 Closing soon' : scholarship.status === 'upcoming' ? '📅 Opening soon' : '🎓 Open';
             const windowLine = scholarship.windowText
