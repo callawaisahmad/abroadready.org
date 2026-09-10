@@ -175,6 +175,7 @@
         '<p>© <span class="site-footer-year"></span> AbroadReady.org — a free scholarship board.</p>' +
         '<p class="site-footer-note">Always confirm deadlines and details on the official scholarship website before applying.</p>' +
         '<p class="site-footer-note" id="site-footer-version" style="margin-top:6px;opacity:0.6;">Loading version…</p>' +
+        '<div style="margin-top:14px;">' + googlePreferredSourceBadge() + '</div>' +
       '</div>' +
     '</footer>';
   }
@@ -187,6 +188,11 @@
     var icon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="' + path + '"/></svg>';
     if (!url) return '<span class="site-social-link" aria-label="' + label + '" title="' + label + '">' + icon + '</span>';
     return '<a class="site-social-link" href="' + url + '" target="_blank" rel="noopener" aria-label="' + label + '" title="' + label + '">' + icon + '</a>';
+  }
+  function googlePreferredSourceBadge() {
+    var g = '<svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09C3.26 21.3 7.31 24 12 24z"/><path fill="#FBBC05" d="M5.27 15.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V7.62H1.29C.47 9.24 0 11.05 0 12.99s.47 3.75 1.29 5.37l3.98-3.07z"/><path fill="#EA4335" d="M12 5.14c1.76 0 3.34.6 4.58 1.79l3.44-3.44C18.24 2.79 15.5 1.5 12 1.5 7.31 1.5 3.26 4.2 1.29 7.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z"/></svg>';
+    return '<a class="google-preferred-source-badge" href="https://news.google.com" target="_blank" rel="noopener" aria-label="Google Preferred Source" title="Verified by Google as a Preferred Source">' +
+      g + '<span class="gps-text"><span class="gps-google">Google</span><span class="gps-preferred">Preferred Source</span></span></a>';
   }
 
   // ---------- MOUNT ----------
