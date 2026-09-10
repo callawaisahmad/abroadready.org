@@ -377,8 +377,30 @@ function sitemap(posts) {
     "pages/study-in-ireland", "pages/immigrate-to-ireland",
     "pages/study-in-new-zealand", "pages/immigrate-to-new-zealand",
   ];
+  const legacy_pages = [
+    "pages/scholarship-application-fee-scam", "pages/scholarship-motivation-letter-with-examples",
+    "pages/study-abroad-application-process-steps", "pages/study-abroad-application-timeline-2027",
+    "pages/when-to-apply-for-scholarships-2027", "pages/study-abroad-without-ielts",
+    "pages/student-visa-complete-guide", "pages/student-visa-proof-of-funds-by-country",
+    "pages/post-study-work-visa-comparison-2026", "pages/post-study-work-visas-by-country",
+    "pages/how-long-does-a-student-visa-take", "pages/how-much-does-it-cost-to-study-in-uk",
+    "pages/low-cgpa-how-to-get-scholarship-abroad", "pages/how-to-choose-study-abroad-consultants",
+    "pages/how-to-spot-scholarship-scams", "pages/part-time-jobs-for-international-students",
+    "pages/ielts-complete-guide-2026", "pages/ielts-vs-pte-vs-toefl-vs-duolingo-which-test-2026",
+    "pages/pte-academic-complete-guide-2026", "pages/pte-vs-ielts-vs-duolingo-complete-comparison",
+    "pages/toefl-ibt-complete-guide-2026", "pages/duolingo-english-test-complete-guide-2026",
+    "pages/english-language-requirements-by-country-visa-type-2026",
+    "pages/germany-blocked-account-2026", "pages/fully-funded-scholarships-complete-guide",
+    "pages/canada-study-visa-requirements-from-pakistan", "pages/study-in-canada-from-pakistan-fee-structure",
+    "pages/study-in-uk-from-pakistan", "pages/study-in-uk-from-pakistan-without-ielts",
+    "pages/study-in-australia-complete-guide-2026", "pages/study-in-canada-complete-guide-2026",
+    "pages/study-in-france-complete-guide-2026", "pages/study-in-germany-complete-guide-2026",
+    "pages/study-in-italy-complete-guide-2026", "pages/study-in-turkey-complete-guide-2026",
+    "pages/study-in-uk-complete-guide-2026", "pages/disclaimer",
+  ];
   let urls = static_pages.map((u) => `  <url><loc>${DOMAIN}/${u}</loc><changefreq>weekly</changefreq></url>\n`).join("");
   urls += country_pages.map((u) => `  <url><loc>${DOMAIN}/${u}</loc><changefreq>monthly</changefreq></url>\n`).join("");
+  urls += legacy_pages.map((u) => `  <url><loc>${DOMAIN}/${u}</loc><changefreq>monthly</changefreq></url>\n`).join("");
   for (const p of posts) {
     const img = p.heroImage || `${DOMAIN}/assets/blog/${p.slug}.jpg`;
     urls += `  <url><loc>${DOMAIN}/pages/${p.slug}</loc><lastmod>${isoDate(p.date)}</lastmod><changefreq>monthly</changefreq>` +
