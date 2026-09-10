@@ -276,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function () {
 `;
 
 function indexPage(posts, cats) {
-  const chips = '<button class="blog-cat active" data-cat="all">All Topics</button>' +
+  const chips = '<button class="blog-cat active" data-cat="all">Recent</button>' +
     cats.map((c) => `<button class="blog-cat" data-cat="${esc(c)}">${esc(c)}</button>`).join("");
   const cards = posts.map((p) => {
     const [, grad] = catStyle(p.category);
