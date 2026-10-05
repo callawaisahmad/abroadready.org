@@ -126,16 +126,12 @@ const FOOTER = `<!-- ===== FOOTER ===== -->
 
 function head(post, canonical) {
   const ogImg = post.heroImage || DOMAIN + "/assets/blog/" + post.slug + ".jpg";
-  let version = { build: 0, date: null };
-  try {
-    version = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "version.json"), "utf8"));
-  } catch { /* keep defaults */ }
-  const todayIso = version.date ? String(version.date).slice(0, 10) : new Date().toISOString().slice(0, 10);
+  const modifiedIso = isoDate(post.dateModified || post.date);
   const ld_article = {
     "@context": "https://schema.org", "@type": "BlogPosting",
     headline: post.title, description: post.metaDescription,
     image: ogImg,
-    datePublished: isoDate(post.date), dateModified: todayIso,
+    datePublished: isoDate(post.date), dateModified: modifiedIso,
     author: {
       "@type": "Organization", name: "AbroadReady Editorial Team",
       url: DOMAIN + "/pages/editorial-policy",
@@ -283,9 +279,9 @@ function sourcesHtml(post) {
   const links = items
     .map(([host, label]) => `<a href="https://${host}" target="_blank" rel="noopener nofollow">${esc(label)}</a>`)
     .join(" · ");
-  return `<aside class="article-sources"><h2>Sources checked for this guide</h2>` +
+  return `<aside class="article-sources"><h2>Sources linked in this guide</h2>` +
     `<p>${links}</p>` +
-    `<p class="article-sources-note">Facts are verified against official sources and dated on the page. ` +
+    `<p class="article-sources-note">Figures and deadlines on this page are dated so you can see how current they are. ` +
     `Spotted an error or an outdated figure? <a href="contact">Tell us and we will correct it</a>.</p></aside>`;
 }
 
@@ -306,7 +302,7 @@ function articlePage(post, i, posts) {
     `<img class="article-hero-img" src="${post.heroImage || "../assets/blog/" + post.slug + ".jpg"}" alt="${esc(post.title)}" fetchpriority="high" decoding="async" width="1200" height="630">` +
     `<a class="article-cat" href="blog">${esc(post.category)}</a>` +
     `<h1 class="article-title">${esc(post.title)}</h1>` +
-    `<div class="article-meta"><span>\u{1F5D3}\uFE0F ${esc(post.date)}</span><span>\u23F1\uFE0F ${post.readMins || 8} min read</span><span>\u270D\uFE0F <a href="editorial-policy">AbroadReady Team</a></span><span>\u2705 Verified against official sources</span></div>` +
+    `<div class="article-meta"><span>\u{1F5D3}\uFE0F ${esc(post.date)}</span><span>\u23F1\uFE0F ${post.readMins || 8} min read</span><span>\u270D\uFE0F <a href="editorial-policy">AbroadReady Team</a></span>${post.dateModified ? `<span>\u{1F504} Updated ${esc(post.dateModified)}</span>` : ""}</div>` +
     `<div class="article-body">${post.bodyHtml}</div>` +
     sourcesHtml(post) +
     cta + share + faqHtml(post) +
