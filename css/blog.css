@@ -99,3 +99,12 @@
 
 /* reading progress bar */
 .read-progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--gradient-primary); z-index: 600; width: 0; }
+
+/* sources block */
+.article-sources { margin: var(--space-8) 0; padding: var(--space-4) var(--space-5); background: #f8fafc; border: 1px solid rgba(15,23,42,.08); border-left: 3px solid var(--primary); border-radius: 8px; }
+.article-sources h2 { font-size: var(--text-base); margin: 0 0 var(--space-2); color: var(--ink); }
+.article-sources p { font-size: var(--text-sm); color: #475569; margin: 0 0 var(--space-2); line-height: 1.7; }
+.article-sources p:last-child { margin-bottom: 0; }
+.article-sources a { color: var(--primary); text-decoration: underline; }
+.article-sources-note { color: #64748b !important; }
+.article-meta a { color: inherit; text-decoration: underline; }

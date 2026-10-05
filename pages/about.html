@@ -291,7 +291,7 @@
   </div>
   <div>
     <h4>Privacy First</h4>
-    <p>Your data stays in your browser. Quiz answers, saved scholarships, and SOP drafts are stored locally using your browser's localStorage — we never upload them to a server. We do not sell your data, share it with third parties, or use it for advertising. Our privacy policy is straightforward: what you type stays with you.</p>
+    <p>Your quiz answers, saved scholarships and SOP drafts stay in your browser using localStorage, and we never upload them to a server. We do not sell your personal data. The site does use Google Analytics for aggregate traffic measurement and Google AdSense for advertising, which involve cookies and third-party providers — exactly how that works is set out in our <a href="privacy.html" style="color:var(--primary);">privacy policy</a>. Messages you send us through the contact form are used only to reply to you.</p>
   </div>
   <div>
     <h4>Built for International Students</h4>
@@ -384,6 +384,12 @@
 
 </section>
 
+<section class="container section">
+  <h2>How we check what we publish</h2>
+  <p class="text-gray-600">Scholarship, admission and visa information changes constantly, so we verify facts against official sources rather than repeating what other sites claim. Fees, deadlines and visa conditions are written with the year they were confirmed, and guides link to the issuing body so you can confirm them yourself. If a page is wrong, we correct it on the page rather than quietly.</p>
+  <p class="text-gray-600">We are an independent information site. We are not a university, an embassy or an immigration adviser, and we never guarantee an admission, funding or visa outcome. Read the full <a href="editorial-policy.html" style="color:var(--primary);">editorial policy</a>, or <a href="contact.html" style="color:var(--primary);">tell us about an error</a>.</p>
+</section>
+
 <section class="ab-cta">
   <h2>Ready to find your fully funded scholarship?</h2>
   <p>Browse 63+ scholarships across 27 countries. Filter by degree level, field, funding type, and region. Every listing includes real deadlines, eligibility, benefits, and a direct official apply link.</p>
@@ -391,6 +397,33 @@
   <p style="margin-top:1rem;opacity:0.7;font-size:0.85rem;color:#ffffff;">Free. No signup. No hidden fees.</p>
 </section>
 
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="nav-logo">
+          <span class="logo-text">Abroad<span class="text-gradient">Ready</span></span>
+        </a>
+        <p class="footer-tagline">Helping students find their path abroad. 100% free, forever.</p>
+      </div>
+      <div class="footer-links">
+        <h5>Company</h5>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+        <a href="editorial-policy.html">Editorial Policy</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="disclaimer.html">Disclaimer</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span id="footerYear"></span> AbroadReady.org — Made with ❤️ For Students</p>
+      <p class="footer-note">Free forever. No hidden fees. No data selling.</p>
+    </div>
+  </div>
+</footer>
 <script src="../js/components.js"></script>
+<script>document.getElementById('footerYear').textContent=new Date().getFullYear();</script>
 </body>
 </html>

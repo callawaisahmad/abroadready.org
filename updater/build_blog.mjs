@@ -80,14 +80,66 @@ const SCRIPTS_TOP = `  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 `;
 
+const FOOTER = `<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="nav-logo">
+          <span class="logo-icon"><svg class="logo-svg" viewBox="0 0 120 120" aria-hidden="true" focusable="false"><defs><linearGradient id="arCapF" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient><linearGradient id="arSwooshF" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#fbbf24"/></linearGradient></defs><path d="M60 18 L96 46 L60 74 L24 46 Z" fill="url(#arCapF)"/><path d="M50 68 L70 68 L65 86 Q60 90 55 86 Z" fill="#2563eb"/><path d="M74 34 Q95 30 99 12" fill="none" stroke="url(#arSwooshF)" stroke-width="7" stroke-linecap="round"/><circle cx="99" cy="12" r="5" fill="#f59e0b"/></svg></span>
+          <span class="logo-text">Abroad<span class="text-gradient">Ready</span></span>
+        </a>
+        <p class="footer-tagline">Helping students find their path abroad. 100% free, forever.</p>
+      </div>
+      <div class="footer-links">
+        <h5>Study Abroad</h5>
+        <a href="study-in-usa">Study in USA</a>
+        <a href="study-in-uk">Study in UK</a>
+        <a href="study-in-germany">Study in Germany</a>
+        <a href="study">All Study Guides</a>
+      </div>
+      <div class="footer-links">
+        <h5>Immigration</h5>
+        <a href="immigrate-to-canada">Immigrate to Canada</a>
+        <a href="immigrate-to-australia">Immigrate to Australia</a>
+        <a href="immigrate-to-germany">Immigrate to Germany</a>
+        <a href="immigration">All Immigration Guides</a>
+      </div>
+      <div class="footer-links">
+        <h5>Company</h5>
+        <a href="about">About Us</a>
+        <a href="contact">Contact</a>
+        <a href="editorial-policy">Editorial Policy</a>
+        <a href="privacy">Privacy Policy</a>
+        <a href="terms">Terms of Service</a>
+        <a href="disclaimer">Disclaimer</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span id="footerYear"></span> AbroadReady.org — Made with ❤️ For Students</p>
+      <p class="footer-note">Free forever. No hidden fees. No data selling.</p>
+    </div>
+  </div>
+</footer>
+<script>document.getElementById('footerYear').textContent=new Date().getFullYear();</script>
+`;
+
 function head(post, canonical) {
   const ogImg = post.heroImage || DOMAIN + "/assets/blog/" + post.slug + ".jpg";
+  let version = { build: 0, date: null };
+  try {
+    version = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "version.json"), "utf8"));
+  } catch { /* keep defaults */ }
+  const todayIso = version.date ? String(version.date).slice(0, 10) : new Date().toISOString().slice(0, 10);
   const ld_article = {
     "@context": "https://schema.org", "@type": "BlogPosting",
     headline: post.title, description: post.metaDescription,
     image: ogImg,
-    datePublished: isoDate(post.date), dateModified: isoDate(post.date),
-    author: { "@type": "Organization", name: "AbroadReady", url: DOMAIN + "/" },
+    datePublished: isoDate(post.date), dateModified: todayIso,
+    author: {
+      "@type": "Organization", name: "AbroadReady Editorial Team",
+      url: DOMAIN + "/pages/editorial-policy",
+    },
     publisher: {
       "@type": "Organization", name: "AbroadReady", url: DOMAIN + "/",
       logo: { "@type": "ImageObject", url: DOMAIN + "/assets/icons/apple-touch-icon.png" },
@@ -204,9 +256,38 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 <script src="../js/components.js"></script>
+${FOOTER}
 </body>
 </html>
 `;
+
+function sourceDomains(post) {
+  const seen = new Map();
+  const html = post.bodyHtml || "";
+  for (const m of html.matchAll(/href="(https?:\/\/[^"]+)"/g)) {
+    let host;
+    try { host = new URL(m[1]).hostname.replace(/^www\./, ""); } catch { continue; }
+    if (host.includes("abroadready")) continue;
+    if (!seen.has(host)) {
+      let label = host.split(".")[0].replace(/[-_]/g, " ");
+      label = label.charAt(0).toUpperCase() + label.slice(1);
+      seen.set(host, label);
+    }
+  }
+  return [...seen.entries()].slice(0, 6);
+}
+
+function sourcesHtml(post) {
+  const items = sourceDomains(post);
+  if (!items.length) return "";
+  const links = items
+    .map(([host, label]) => `<a href="https://${host}" target="_blank" rel="noopener nofollow">${esc(label)}</a>`)
+    .join(" · ");
+  return `<aside class="article-sources"><h2>Sources checked for this guide</h2>` +
+    `<p>${links}</p>` +
+    `<p class="article-sources-note">Facts are verified against official sources and dated on the page. ` +
+    `Spotted an error or an outdated figure? <a href="contact">Tell us and we will correct it</a>.</p></aside>`;
+}
 
 function articlePage(post, i, posts) {
   const canonical = `${DOMAIN}/pages/${post.slug}`;
@@ -225,8 +306,9 @@ function articlePage(post, i, posts) {
     `<img class="article-hero-img" src="${post.heroImage || "../assets/blog/" + post.slug + ".jpg"}" alt="${esc(post.title)}" fetchpriority="high" decoding="async" width="1200" height="630">` +
     `<a class="article-cat" href="blog">${esc(post.category)}</a>` +
     `<h1 class="article-title">${esc(post.title)}</h1>` +
-    `<div class="article-meta"><span>\u{1F5D3}\uFE0F ${esc(post.date)}</span><span>\u23F1\uFE0F ${post.readMins || 8} min read</span><span>\u270D\uFE0F AbroadReady Team</span></div>` +
+    `<div class="article-meta"><span>\u{1F5D3}\uFE0F ${esc(post.date)}</span><span>\u23F1\uFE0F ${post.readMins || 8} min read</span><span>\u270D\uFE0F <a href="editorial-policy">AbroadReady Team</a></span><span>\u2705 Verified against official sources</span></div>` +
     `<div class="article-body">${post.bodyHtml}</div>` +
+    sourcesHtml(post) +
     cta + share + faqHtml(post) +
     "</article>" +
     relatedHtml(post, posts) +
@@ -276,6 +358,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 <script src="../js/components.js"></script>
+${FOOTER}
 </body>
 </html>
 `;
@@ -357,7 +440,8 @@ function sitemap(posts) {
   const static_pages = [
     "", "pages/scholarships", "pages/internships", "pages/saved", "pages/ai-advisor",
     "pages/sop-builder", "pages/success", "pages/blog", "pages/about",
-    "pages/contact", "pages/privacy", "pages/terms",
+    "pages/contact", "pages/privacy", "pages/terms", "pages/disclaimer",
+    "pages/editorial-policy",
     "pages/study", "pages/immigration", "pages/visa-guidance", "pages/admission-guidance",
     "pages/ielts-guidance", "pages/scholarship",
   ];

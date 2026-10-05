@@ -166,7 +166,7 @@
         ]) +
         footerCol("Company", [
           ["About", P + "about"], ["Contact", P + "contact"],
-          ["Privacy Policy", P + "privacy"], ["Terms of Service", P + "terms"],
+          ["Editorial Policy", P + "editorial-policy"], ["Privacy Policy", P + "privacy"], ["Terms of Service", P + "terms"],
           ["Disclaimer", P + "disclaimer"],
           ["Admission Guidance", P + "admission-guidance"]
         ]) +
