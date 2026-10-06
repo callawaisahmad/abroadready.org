@@ -2637,22 +2637,21 @@
       "fields": [
         "All fields"
       ],
-      "fundingType": "Fully Funded",
-      "fundingSummary": "Full tuition (free at public universities), living stipend (NOK 151,000-162,000/year), travel grant, and health insurance for students from developing countries.",
+      "fundingType": "Partial",
+      "fundingSummary": "University-level awards for non-EU students, now the main route because tuition has been chargeable since 2023/24. No single national fully funded scheme exists for degree students.",
       "benefits": [
-        "No tuition fees at Norwegian public universities",
-        "Living stipend NOK 151,000-162,000 per year",
-        "Travel grant (depending on country of origin)",
-        "Health insurance through Norwegian National Insurance Scheme",
-        "Access to world-class research facilities",
-        "No tuition fees even for international students"
+        "Partial tuition waivers granted by individual Norwegian universities",
+        "Some awards include a living stipend, set by the institution",
+        "Non-EU/EEA students have paid tuition since the 2023/24 academic year",
+        "Exemptions remain for exchange students, doctoral candidates, Erasmus Mundus and a few named programmes",
+        "Proof of funds for a study permit was NOK 15,488 per month, or NOK 170,368 a year, for 2026-2027"
       ],
       "eligibility": [
-        "Citizen of a developing country on the DAC list",
-        "Admitted to a full-degree Masters or PhD programme at a Norwegian public university",
+        "Citizen of a developing country on the DAC list, for the country-specific awards",
+        "Admitted to a full-degree Master or PhD programme at a Norwegian university",
         "English proficiency (TOEFL 80+ / IELTS 6.0+)",
         "Meet the specific admission requirements of the chosen university",
-        "Not already have a degree from a Norwegian institution"
+        "Non-EU applicants pay tuition and must document the required living funds"
       ],
       "documentsRequired": [
         "Online application through the Norwegian university portal",
@@ -2665,9 +2664,9 @@
       ],
       "applicationFee": "Free",
       "deadlineMonth": "December",
-      "deadlineNote": "University admissions portal opens October 1 and closes December 1. Some universities have separate deadlines for international applicants.",
+      "deadlineNote": "Varies by university and closes early for non-EU applicants. UiT closed on 15 November 2026 for autumn 2027; check each institution rather than relying on a single national date.",
       "intake": "August",
-      "competition": "Moderate",
+      "competition": "High",
       "durationNote": "Masters 2 years; PhD 3 years",
       "thingsToHaveBeforeApply": [
         "Bachelor's or Master's degree in relevant field",
@@ -2701,21 +2700,18 @@
         "All fields"
       ],
       "fundingType": "Partial",
-      "fundingSummary": "Merit-based awards covering partial to full tuition fees, with coverage and amounts varying by university and country programme.",
+      "fundingSummary": "Historic scheme. The Neso network that ran it was wound down between 2020 and 2024 and the central programme closed; Pakistan was never an eligible Neso country.",
       "benefits": [
-        "Tuition fee reduction ranging from partial up to full (100%) depending on the package",
-        "Wide choice of participating Dutch institutions and programmes",
-        "Scholarship packages tailored by each individual university",
-        "Open to Bachelor's and Master's applicants",
-        "Aimed at talented students from selected Neso countries",
-        "Administered by Nuffic through its Neso country offices"
+        "Historic partial to full tuition awards, set by each participating university",
+        "Packages were tailored by the individual institution rather than centrally",
+        "Only relevant now if a specific university still runs an award under this name",
+        "Not a live central programme for the 2026-2027 or 2027-2028 cycles"
       ],
       "eligibility": [
-        "National of an eligible Neso country (e.g. Brazil, China, India, Indonesia, Mexico, South Africa, South Korea, Vietnam)",
-        "Do not hold a degree from a Dutch educational institution",
-        "Meet the admission requirements of the chosen Dutch programme",
-        "Have applied or been admitted to a participating Dutch institution/OTS package",
-        "Demonstrate academic excellence and talent"
+        "Historically limited to nationals of Neso countries: Brazil, China, India, Indonesia, Mexico, Russia, South Africa, South Korea and Vietnam",
+        "Pakistan was never an eligible Neso country, so Pakistani applicants could not use the central scheme",
+        "The central programme is closed; check directly with a specific university if an award under this name is advertised",
+        "Any live listing should be confirmed in writing with that institution before you rely on it"
       ],
       "documentsRequired": [
         "Proof of admission or application to a participating Dutch programme",
@@ -2727,16 +2723,16 @@
       ],
       "applicationFee": "Free",
       "deadlineMonth": null,
-      "deadlineNote": "Deadlines vary by country programme and university, typically February–May.",
+      "deadlineNote": "No central deadline. The Neso network that administered Orange Tulip was phased out and its ministry subsidy ended on 1 January 2024. Any award still using the name is run by the individual university, so confirm it directly by email before applying.",
       "intake": "September",
-      "competition": "High",
-      "durationNote": "Varies by package",
+      "competition": "Historic",
+      "durationNote": "Historic scheme; no current central cycle",
       "thingsToHaveBeforeApply": [
-        "Admission to or application at a participating Dutch programme",
-        "Valid passport / proof of eligible nationality",
+        "Written confirmation from the university that the award is actually running",
+        "Admission to or application at that specific Dutch programme",
+        "Valid passport / proof of nationality",
         "Academic transcripts and diplomas",
-        "English proficiency test results (IELTS/TOEFL)",
-        "CV and motivation letter"
+        "English proficiency test results"
       ],
       "applyLink": "https://www.studyinnl.org/finances/scholarships",
       "infoLink": "https://www.studyinnl.org/finances/scholarships",
@@ -3269,7 +3265,7 @@
       "provider": "Swedish Institute (Svenska institutet)",
       "country": "Sweden",
       "countryFlag": "🇸🇪",
-      "region": "Global",
+      "region": "Selected countries",
       "hostUniversities": "Swedish universities offering eligible master's programmes",
       "levels": [
         "Masters"
@@ -3278,7 +3274,7 @@
         "All fields"
       ],
       "fundingType": "Fully Funded",
-      "fundingSummary": "Covers full tuition, a monthly living allowance, insurance and a travel grant.",
+      "fundingSummary": "Full tuition, SEK 12,000 a month and a SEK 15,000 travel grant, but only for the 34 countries on the SI list. Pakistan is not on that list.",
       "benefits": [
         "Full tuition fees paid directly to the university",
         "Monthly living allowance of SEK 12,000",
@@ -3289,12 +3285,12 @@
         "Leadership and professional development activities"
       ],
       "eligibility": [
-        "Citizen of one of the eligible countries on the SI list (approx. 40 countries)",
+        "Citizen of one of the 34 countries on the SI eligible-country list",
+        "Pakistan is not on that list, so Pakistani nationals cannot apply for this award",
         "Minimum 3,000 hours of demonstrated work experience",
-        "Demonstrated leadership experience and engagement in societal/sustainability issues",
-        "Must first apply to an eligible master's programme via universityadmissions.se",
-        "Must not have lived in Sweden for two years or more, nor hold a Swedish residence permit",
-        "May submit only one scholarship application and hold only one SI scholarship"
+        "Demonstrated leadership experience and engagement in societal or sustainability issues",
+        "Must first apply to an eligible master programme via universityadmissions.se",
+        "Must not have lived in Sweden for two years or more, nor hold a Swedish residence permit"
       ],
       "documentsRequired": [
         "CV",
@@ -3306,12 +3302,13 @@
       ],
       "applicationFee": "Free",
       "deadlineMonth": "February",
-      "deadlineNote": "Scholarship call opens in February, after the universityadmissions.se master's application (mid-January).",
+      "deadlineNote": "The call opens in February, after the universityadmissions.se master application closes on 15 January 2027. Results follow in the spring.",
       "intake": "Autumn / August",
       "competition": "Very High",
       "durationNote": "Length of the master's programme (up to 2 years)",
       "thingsToHaveBeforeApply": [
-        "A submitted application to an eligible master's programme via universityadmissions.se",
+        "A submitted application to an eligible master programme via universityadmissions.se",
+        "Confirmation that your nationality is on the SI eligible-country list",
         "At least 3,000 hours of documented work experience",
         "Evidence of leadership experience",
         "A strong CV and letter(s) of reference"

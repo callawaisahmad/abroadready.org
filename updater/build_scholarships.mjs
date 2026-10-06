@@ -443,12 +443,20 @@ function main() {
   const sm = path.join(ROOT, "sitemap.xml");
   if (fs.existsSync(sm)) {
     let xml = fs.readFileSync(sm, "utf8");
-    const urls = scholarships.map((s) =>
-      `  <url><loc>${DOMAIN}/pages/scholarship-${s.id}</loc><changefreq>daily</changefreq></url>`
-    );
-    xml = xml.replace("</urlset>", urls.join("\n") + "\n</urlset>");
-    fs.writeFileSync(sm, xml, "utf8");
-    console.log("Appended", scholarships.length, "scholarship URLs to sitemap.xml");
+    const urls = scholarships
+      .map((s) =>
+        `  <url><loc>${DOMAIN}/pages/scholarship-${s.id}</loc><changefreq>daily</changefreq></url>`
+      )
+      .filter((entry) => {
+        const loc = entry.match(/<loc>([^<]+)<\/loc>/)[1];
+        if (xml.includes(`<loc>${loc}</loc>`)) return false;
+        return true;
+      });
+    if (urls.length) {
+      xml = xml.replace("</urlset>", urls.join("\n") + "\n</urlset>");
+      fs.writeFileSync(sm, xml, "utf8");
+    }
+    console.log("Appended", urls.length, "new scholarship URLs to sitemap.xml");
   }
 
   console.log("Done.");
