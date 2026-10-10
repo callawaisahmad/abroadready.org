@@ -476,7 +476,7 @@ function sitemap(posts) {
     "pages/study-in-australia-complete-guide-2026", "pages/study-in-canada-complete-guide-2026",
     "pages/study-in-france-complete-guide-2026", "pages/study-in-germany-complete-guide-2026",
     "pages/study-in-italy-complete-guide-2026", "pages/study-in-turkey-complete-guide-2026",
-    "pages/study-in-uk-complete-guide-2026", "pages/disclaimer",
+    "pages/study-in-uk-complete-guide-2026",
   ];
   let urls = static_pages.map((u) => `  <url><loc>${DOMAIN}/${u}</loc><changefreq>weekly</changefreq></url>\n`).join("");
   urls += country_pages.map((u) => `  <url><loc>${DOMAIN}/${u}</loc><changefreq>monthly</changefreq></url>\n`).join("");
