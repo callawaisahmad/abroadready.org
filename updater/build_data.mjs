@@ -70,7 +70,10 @@ function main() {
     }
   }
 
-  scholarships.sort((a, b) => (a.name || '').toLowerCase().localeCompare((b.name || '').toLowerCase()));
+  scholarships.sort((a, b) => {
+    const x = (a.name || '').toLowerCase(), y = (b.name || '').toLowerCase();
+    return x < y ? -1 : x > y ? 1 : 0;
+  });
 
   const countries = [...new Set(scholarships.map(s => s.country))].sort();
   const regions = [...new Set(scholarships.map(s => s.region))].sort();

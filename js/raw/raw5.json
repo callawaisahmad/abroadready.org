@@ -242,22 +242,21 @@
       "fields": [
         "All fields"
       ],
-      "fundingType": "Fully Funded",
-      "fundingSummary": "Full tuition (free at public universities), living stipend (NOK 151,000-162,000/year), travel grant, and health insurance for students from developing countries.",
+      "fundingType": "Partial",
+      "fundingSummary": "University-level awards for non-EU students, now the main route because tuition has been chargeable since 2023/24. No single national fully funded scheme exists for degree students.",
       "benefits": [
-        "No tuition fees at Norwegian public universities",
-        "Living stipend NOK 151,000-162,000 per year",
-        "Travel grant (depending on country of origin)",
-        "Health insurance through Norwegian National Insurance Scheme",
-        "Access to world-class research facilities",
-        "No tuition fees even for international students"
+        "Partial tuition waivers granted by individual Norwegian universities",
+        "Some awards include a living stipend, set by the institution",
+        "Non-EU/EEA students have paid tuition since the 2023/24 academic year",
+        "Exemptions remain for exchange students, doctoral candidates, Erasmus Mundus and a few named programmes",
+        "Proof of funds for a study permit was NOK 15,488 per month, or NOK 170,368 a year, for 2026-2027"
       ],
       "eligibility": [
-        "Citizen of a developing country on the DAC list",
-        "Admitted to a full-degree Masters or PhD programme at a Norwegian public university",
+        "Citizen of a developing country on the DAC list, for the country-specific awards",
+        "Admitted to a full-degree Master or PhD programme at a Norwegian university",
         "English proficiency (TOEFL 80+ / IELTS 6.0+)",
         "Meet the specific admission requirements of the chosen university",
-        "Not already have a degree from a Norwegian institution"
+        "Non-EU applicants pay tuition and must document the required living funds"
       ],
       "documentsRequired": [
         "Online application through the Norwegian university portal",
@@ -270,9 +269,9 @@
       ],
       "applicationFee": "Free",
       "deadlineMonth": "December",
-      "deadlineNote": "University admissions portal opens October 1 and closes December 1. Some universities have separate deadlines for international applicants.",
+      "deadlineNote": "Varies by university and closes early for non-EU applicants. UiT closed on 15 November 2026 for autumn 2027; check each institution rather than relying on a single national date.",
       "intake": "August",
-      "competition": "Moderate",
+      "competition": "High",
       "durationNote": "Masters 2 years; PhD 3 years",
       "thingsToHaveBeforeApply": [
         "Bachelor's or Master's degree in relevant field",

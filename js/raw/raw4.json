@@ -73,21 +73,18 @@
         "All fields"
       ],
       "fundingType": "Partial",
-      "fundingSummary": "Merit-based awards covering partial to full tuition fees, with coverage and amounts varying by university and country programme.",
+      "fundingSummary": "Historic scheme. The Neso network that ran it was wound down between 2020 and 2024 and the central programme closed; Pakistan was never an eligible Neso country.",
       "benefits": [
-        "Tuition fee reduction ranging from partial up to full (100%) depending on the package",
-        "Wide choice of participating Dutch institutions and programmes",
-        "Scholarship packages tailored by each individual university",
-        "Open to Bachelor's and Master's applicants",
-        "Aimed at talented students from selected Neso countries",
-        "Administered by Nuffic through its Neso country offices"
+        "Historic partial to full tuition awards, set by each participating university",
+        "Packages were tailored by the individual institution rather than centrally",
+        "Only relevant now if a specific university still runs an award under this name",
+        "Not a live central programme for the 2026-2027 or 2027-2028 cycles"
       ],
       "eligibility": [
-        "National of an eligible Neso country (e.g. Brazil, China, India, Indonesia, Mexico, South Africa, South Korea, Vietnam)",
-        "Do not hold a degree from a Dutch educational institution",
-        "Meet the admission requirements of the chosen Dutch programme",
-        "Have applied or been admitted to a participating Dutch institution/OTS package",
-        "Demonstrate academic excellence and talent"
+        "Historically limited to nationals of Neso countries: Brazil, China, India, Indonesia, Mexico, Russia, South Africa, South Korea and Vietnam",
+        "Pakistan was never an eligible Neso country, so Pakistani applicants could not use the central scheme",
+        "The central programme is closed; check directly with a specific university if an award under this name is advertised",
+        "Any live listing should be confirmed in writing with that institution before you rely on it"
       ],
       "documentsRequired": [
         "Proof of admission or application to a participating Dutch programme",
@@ -99,10 +96,10 @@
       ],
       "applicationFee": "Free",
       "deadlineMonth": null,
-      "deadlineNote": "Deadlines vary by country programme and university, typically February–May.",
+      "deadlineNote": "No central deadline. The Neso network that administered Orange Tulip was phased out and its ministry subsidy ended on 1 January 2024. Any award still using the name is run by the individual university, so confirm it directly by email before applying.",
       "intake": "September",
-      "competition": "High",
-      "durationNote": "Varies by package",
+      "competition": "Historic",
+      "durationNote": "Historic scheme; no current central cycle",
       "thingsToHaveBeforeApply": [
         "Admission to or application at a participating Dutch programme",
         "Valid passport / proof of eligible nationality",

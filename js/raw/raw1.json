@@ -412,7 +412,7 @@
       "provider": "Swedish Institute (Svenska institutet)",
       "country": "Sweden",
       "countryFlag": "🇸🇪",
-      "region": "Global",
+      "region": "Selected countries",
       "hostUniversities": "Swedish universities offering eligible master's programmes",
       "levels": [
         "Masters"
@@ -421,7 +421,7 @@
         "All fields"
       ],
       "fundingType": "Fully Funded",
-      "fundingSummary": "Covers full tuition, a monthly living allowance, insurance and a travel grant.",
+      "fundingSummary": "Full tuition, SEK 12,000 a month and a SEK 15,000 travel grant, but only for the 34 countries on the SI list. Pakistan is not on that list.",
       "benefits": [
         "Full tuition fees paid directly to the university",
         "Monthly living allowance of SEK 12,000",
@@ -432,12 +432,12 @@
         "Leadership and professional development activities"
       ],
       "eligibility": [
-        "Citizen of one of the eligible countries on the SI list (approx. 40 countries)",
+        "Citizen of one of the 34 countries on the SI eligible-country list",
+        "Pakistan is not on that list, so Pakistani nationals cannot apply for this award",
         "Minimum 3,000 hours of demonstrated work experience",
-        "Demonstrated leadership experience and engagement in societal/sustainability issues",
-        "Must first apply to an eligible master's programme via universityadmissions.se",
-        "Must not have lived in Sweden for two years or more, nor hold a Swedish residence permit",
-        "May submit only one scholarship application and hold only one SI scholarship"
+        "Demonstrated leadership experience and engagement in societal or sustainability issues",
+        "Must first apply to an eligible master programme via universityadmissions.se",
+        "Must not have lived in Sweden for two years or more, nor hold a Swedish residence permit"
       ],
       "documentsRequired": [
         "CV",
@@ -449,7 +449,7 @@
       ],
       "applicationFee": "Free",
       "deadlineMonth": "February",
-      "deadlineNote": "Scholarship call opens in February, after the universityadmissions.se master's application (mid-January).",
+      "deadlineNote": "The call opens in February, after the universityadmissions.se master application closes on 15 January 2027. Results follow in the spring.",
       "intake": "Autumn / August",
       "competition": "Very High",
       "durationNote": "Length of the master's programme (up to 2 years)",
