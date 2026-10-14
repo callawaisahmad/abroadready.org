@@ -108,3 +108,9 @@
 .article-sources a { color: var(--primary); text-decoration: underline; }
 .article-sources-note { color: #64748b !important; }
 .article-meta a { color: inherit; text-decoration: underline; }
+.article-series { margin: var(--space-8) 0; padding: var(--space-4) var(--space-5); background: #fffbeb; border: 1px solid rgba(245,158,11,.28); border-left: 3px solid #f59e0b; border-radius: 8px; }
+.article-series h2 { font-size: var(--text-base); margin: 0 0 var(--space-3); color: var(--ink); }
+.article-series ol { margin: 0; padding-left: 1.25rem; }
+.article-series li { font-size: var(--text-sm); color: #475569; line-height: 1.7; margin-bottom: 3px; }
+.article-series li[aria-current="page"] { color: var(--ink); font-weight: 600; }
+.article-series a { color: var(--primary); text-decoration: underline; }

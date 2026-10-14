@@ -285,6 +285,21 @@ function sourcesHtml(post) {
     `Spotted an error or an outdated figure? <a href="contact">Tell us and we will correct it</a>.</p></aside>`;
 }
 
+function seriesHtml(post, posts) {
+  if (!post.series) return "";
+  const members = posts
+    .filter((p) => p.series === post.series)
+    .sort((a, b) => (a.seriesOrder || 0) - (b.seriesOrder || 0));
+  if (members.length < 3) return "";
+  const items = members.map((p) => {
+    const label = esc(p.seriesLabel || p.title);
+    const current = p.slug === post.slug;
+    return `<li${current ? ' aria-current="page"' : ""}>` +
+      (current ? label : `<a href="${p.slug}">${label}</a>`) + `</li>`;
+  }).join("");
+  return `<aside class="article-series"><h2>Part of this guide: ${esc(post.series)}</h2><ol>${items}</ol></aside>`;
+}
+
 function articlePage(post, i, posts) {
   const canonical = `${DOMAIN}/pages/${post.slug}`;
   const cta = '<div class="article-cta"><h3>Ready to find your scholarship?</h3>' +
@@ -304,6 +319,7 @@ function articlePage(post, i, posts) {
     `<h1 class="article-title">${esc(post.title)}</h1>` +
     `<div class="article-meta"><span>\u{1F5D3}\uFE0F ${esc(post.date)}</span><span>\u23F1\uFE0F ${post.readMins || 8} min read</span><span>\u270D\uFE0F <a href="editorial-policy">AbroadReady Team</a></span>${post.dateModified ? `<span>\u{1F504} Updated ${esc(post.dateModified)}</span>` : ""}</div>` +
     `<div class="article-body">${post.bodyHtml}</div>` +
+    seriesHtml(post, posts) +
     sourcesHtml(post) +
     cta + share + faqHtml(post) +
     "</article>" +
