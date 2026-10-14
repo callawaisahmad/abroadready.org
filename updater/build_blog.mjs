@@ -439,7 +439,7 @@ function sitemap(posts) {
     "pages/contact", "pages/privacy", "pages/terms", "pages/disclaimer",
     "pages/editorial-policy",
     "pages/study", "pages/immigration", "pages/visa-guidance", "pages/admission-guidance",
-    "pages/ielts-guidance", "pages/scholarship",
+    "pages/ielts-guidance",
   ];
   const country_pages = [
     "pages/study-in-usa", "pages/immigrate-to-usa",
@@ -483,7 +483,7 @@ function sitemap(posts) {
   urls += legacy_pages.map((u) => `  <url><loc>${DOMAIN}/${u}</loc><changefreq>monthly</changefreq></url>\n`).join("");
   for (const p of posts) {
     const img = p.heroImage || `${DOMAIN}/assets/blog/${p.slug}.jpg`;
-    urls += `  <url><loc>${DOMAIN}/pages/${p.slug}</loc><lastmod>${isoDate(p.date)}</lastmod><changefreq>monthly</changefreq>` +
+    urls += `  <url><loc>${DOMAIN}/pages/${p.slug}</loc><lastmod>${isoDate(p.dateModified || p.date)}</lastmod><changefreq>monthly</changefreq>` +
       `<image:image><image:loc>${esc(img)}</image:loc><image:title>${esc(p.title)}</image:title></image:image></url>\n`;
   }
   return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' + urls + "</urlset>\n";
