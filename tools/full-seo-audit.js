@@ -82,6 +82,9 @@ const urlToRel = (u) => (norm(u) === DOMAIN ? "" : norm(u).replace(DOMAIN + "/",
 const ALLOW_NONSELF_CANONICAL = {
   "pages/results.html": DOMAIN + "/pages/scholarships",
   "pages/scholarship.html": DOMAIN + "/pages/scholarships",
+  // Duplicate scholarship entries collapsed into one programme page each.
+  "pages/scholarship-new-zealand-scholarship-manaaki.html": DOMAIN + "/pages/scholarship-manaaki-new-zealand",
+  "pages/scholarship-mastercard-foundation-scholars.html": DOMAIN + "/pages/scholarship-mastercard-foundation-scholars-program",
 };
 
 function targetExists(rel) {

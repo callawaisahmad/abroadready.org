@@ -237,7 +237,7 @@
       "country": "Multiple",
       "countryFlag": "🌍",
       "region": "Global",
-      "hostUniversities": "University of Cape Town, Makerere University, Ashesi University, University of Pretoria, Arizona State University, McGill University, University of Toronto, University of Edinburgh, American University of Beirut (62 partner institutions)",
+      "hostUniversities": "University of Cape Town, Makerere University, Ashesi University, University of Pretoria, Arizona State University, McGill University, University of Toronto, University of Edinburgh, American University of Beirut (62 partner institutions); University of Toronto, McGill University, Arizona State University, University of Edinburgh, Sciences Po, University of Cape Town, and 60+ partner institutions",
       "levels": [
         "Bachelors",
         "Masters"
@@ -254,7 +254,10 @@
         "Living expenses/stipend",
         "Mentoring and counseling (psychosocial support)",
         "Leadership development and transition support",
-        "Return airfare where necessary"
+        "Return airfare where necessary",
+        "Mentoring and psychosocial support",
+        "Leadership development programme",
+        "Transition support post-graduation"
       ],
       "eligibility": [
         "Primarily African youth and those from underserved communities",
@@ -262,7 +265,11 @@
         "Academically talented and high-achieving",
         "Service-oriented with leadership potential and commitment to giving back",
         "Meets the admission requirements of the chosen partner institution",
-        "Specific criteria set by each individual partner institution"
+        "Specific criteria set by each individual partner institution",
+        "Primarily African youth from economically disadvantaged backgrounds",
+        "Financial need demonstrated",
+        "Meets partner institution admission requirements",
+        "Not already hold a degree from a partner institution"
       ],
       "documentsRequired": [
         "Academic transcripts/records",
@@ -270,7 +277,8 @@
         "Evidence of financial need",
         "Personal statement/essay",
         "Letters of recommendation",
-        "Proof of identity/nationality"
+        "Proof of identity/nationality",
+        "Proof of admission to partner institution"
       ],
       "applicationFee": "Free",
       "deadlineMonth": null,
@@ -282,7 +290,8 @@
         "Shortlist of Scholars Program partner institutions and their deadlines",
         "Academic transcripts and records",
         "Documentation of financial need",
-        "Personal statement and references"
+        "Personal statement and references",
+        "Research partner institutions and deadlines"
       ],
       "applyLink": "https://mastercardfdn.org/en/what-we-do/our-programs/mastercard-foundation-scholars-program/where-to-apply/",
       "infoLink": "https://mastercardfdn.org/en/what-we-do/our-programs/mastercard-foundation-scholars-program/"

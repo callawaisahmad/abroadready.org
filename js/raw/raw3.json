@@ -361,7 +361,7 @@
       "country": "New Zealand",
       "countryFlag": "🇳🇿",
       "region": "Oceania",
-      "hostUniversities": "New Zealand universities (e.g. Auckland, Massey, Victoria, Lincoln, Canterbury, AUT)",
+      "hostUniversities": "New Zealand universities (e.g. Auckland, Massey, Victoria, Lincoln, Canterbury, AUT); New Zealand universities (University of Auckland, Victoria University of Wellington, University of Otago, etc.)",
       "levels": [
         "Bachelors",
         "Masters",
@@ -380,7 +380,13 @@
         "Return airfares (plus one home visit for programs over 1.6 years)",
         "Travel insurance",
         "Reintegration allowance on return home",
-        "Research/thesis cost support and tutoring where needed"
+        "Research/thesis cost support and tutoring where needed",
+        "Living allowance NZD $400 per week",
+        "Establishment allowance NZD $3,000",
+        "Return economy airfare",
+        "Travel allowance within New Zealand",
+        "Health insurance",
+        "Research and thesis costs support"
       ],
       "eligibility": [
         "Citizen of an eligible developing country (current cycle: Pacific and Asia)",
@@ -389,7 +395,14 @@
         "Meet institution academic entry standards",
         "English proficiency (postgrad generally IELTS 6.5; undergrad IELTS 6.0)",
         "Resided in home country for 2 years before applying (some exceptions)",
-        "Commit to return and contribute to home country for at least 2 years"
+        "Commit to return and contribute to home country for at least 2 years",
+        "Citizen of an eligible developing country (including Pakistan)",
+        "Under 40 years of age",
+        "Bachelor's degree with good grades",
+        "Not already a NZ citizen/permanent resident",
+        "Meet university admission requirements",
+        "Not previously studied in NZ for 12+ months",
+        "IELTS 6.5+ or TOEFL 90+"
       ],
       "documentsRequired": [
         "Online application form",
@@ -397,7 +410,14 @@
         "Verified English-translated transcripts and completion certificates",
         "Evidence of English proficiency",
         "Proof of citizenship/eligibility",
-        "Work-experience evidence (postgraduate)"
+        "Work-experience evidence (postgraduate)",
+        "Academic transcripts and degree certificates",
+        "English proficiency certificate",
+        "Two recommendation letters",
+        "Statement of purpose",
+        "CV/Resume",
+        "Copy of passport",
+        "Medical certificate"
       ],
       "applicationFee": "Free",
       "deadlineMonth": "February",
@@ -410,10 +430,15 @@
         "English test results / proof of proficiency",
         "Work-experience evidence (postgraduate)",
         "A study subject aligned with your country's priority areas",
-        "Passport/citizenship documentation"
+        "Passport/citizenship documentation",
+        "Bachelor's degree with good grades",
+        "IELTS 6.5+ or TOEFL 90+",
+        "Two recommendation letters",
+        "Statement of purpose"
       ],
       "applyLink": "https://www.nzscholarships.govt.nz/how-to-apply-for-a-scholarship/",
-      "infoLink": "https://www.nzscholarships.govt.nz/"
+      "infoLink": "https://www.nzscholarships.govt.nz/",
+      "opensMonth": "february"
     },
     {
       "id": "stipendium-hungaricum",

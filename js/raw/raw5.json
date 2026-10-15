@@ -707,64 +707,6 @@
       "opensMonth": "august"
     },
     {
-      "id": "mastercard-foundation-scholars",
-      "name": "Mastercard Foundation Scholars Program",
-      "provider": "Mastercard Foundation",
-      "country": "Multiple",
-      "countryFlag": "🌍",
-      "region": "Global",
-      "hostUniversities": "University of Toronto, McGill University, Arizona State University, University of Edinburgh, Sciences Po, University of Cape Town, and 60+ partner institutions",
-      "levels": [
-        "Bachelors",
-        "Masters"
-      ],
-      "fields": [
-        "All fields"
-      ],
-      "fundingType": "Fully Funded",
-      "fundingSummary": "Full tuition, accommodation, books, living expenses, mentoring, leadership development, and transition support for young Africans and underserved communities.",
-      "benefits": [
-        "Full tuition fees",
-        "Accommodation",
-        "Books and academic materials",
-        "Living expenses/stipend",
-        "Mentoring and psychosocial support",
-        "Leadership development programme",
-        "Transition support post-graduation",
-        "Return airfare where necessary"
-      ],
-      "eligibility": [
-        "Primarily African youth from economically disadvantaged backgrounds",
-        "Academically talented and high-achieving",
-        "Service-oriented with leadership potential",
-        "Financial need demonstrated",
-        "Meets partner institution admission requirements",
-        "Not already hold a degree from a partner institution"
-      ],
-      "documentsRequired": [
-        "Academic transcripts",
-        "Proof of admission to partner institution",
-        "Evidence of financial need",
-        "Personal statement/essay",
-        "Letters of recommendation",
-        "Proof of identity/nationality"
-      ],
-      "applicationFee": "Free",
-      "deadlineMonth": null,
-      "deadlineNote": "Each partner institution sets its own deadlines. Apply directly through the chosen partner institution.",
-      "intake": "Fall",
-      "competition": "Very High",
-      "durationNote": "Full degree duration",
-      "thingsToHaveBeforeApply": [
-        "Research partner institutions and deadlines",
-        "Academic transcripts",
-        "Documentation of financial need",
-        "Personal statement and references"
-      ],
-      "applyLink": "https://mastercardfdn.org/all/scholars/",
-      "infoLink": "https://mastercardfdn.org/all/scholars/"
-    },
-    {
       "id": "erasmus-mundus-emld",
       "name": "Erasmus Mundus Joint Master - Leadership in Digital Transformation",
       "provider": "European Commission",
@@ -880,67 +822,6 @@
       "applyLink": "https://www.turkiyeburslari.gov.tr/en",
       "infoLink": "https://www.turkiyeburslari.gov.tr/en",
       "opensMonth": "january"
-    },
-    {
-      "id": "new-zealand-scholarship-manaaki",
-      "name": "New Zealand Scholarships (Manaaki New Zealand Scholarships)",
-      "provider": "New Zealand Ministry of Foreign Affairs and Trade (MFAT)",
-      "country": "New Zealand",
-      "countryFlag": "🇳🇿",
-      "region": "Oceania",
-      "hostUniversities": "New Zealand universities (University of Auckland, Victoria University of Wellington, University of Otago, etc.)",
-      "levels": [
-        "Masters",
-        "PhD"
-      ],
-      "fields": [
-        "All fields"
-      ],
-      "fundingType": "Fully Funded",
-      "fundingSummary": "Full tuition, living allowance (NZD $400/week), establishment allowance, travel costs, and health insurance for students from eligible developing countries.",
-      "benefits": [
-        "Full tuition fees",
-        "Living allowance NZD $400 per week",
-        "Establishment allowance NZD $3,000",
-        "Return economy airfare",
-        "Travel allowance within New Zealand",
-        "Health insurance",
-        "Research and thesis costs support"
-      ],
-      "eligibility": [
-        "Citizen of an eligible developing country (including Pakistan)",
-        "Under 40 years of age",
-        "Bachelor's degree with good grades",
-        "Not already a NZ citizen/permanent resident",
-        "Meet university admission requirements",
-        "Not previously studied in NZ for 12+ months",
-        "IELTS 6.5+ or TOEFL 90+"
-      ],
-      "documentsRequired": [
-        "Online application",
-        "Academic transcripts and degree certificates",
-        "English proficiency certificate",
-        "Two recommendation letters",
-        "Statement of purpose",
-        "CV/Resume",
-        "Copy of passport",
-        "Medical certificate"
-      ],
-      "applicationFee": "Free",
-      "deadlineMonth": "March",
-      "deadlineNote": "Applications typically open in February and close in March. Check scholarships.mfat.govt.nz.",
-      "intake": "February or July",
-      "competition": "High",
-      "durationNote": "Masters 1-2 years; PhD 3-4 years",
-      "thingsToHaveBeforeApply": [
-        "Bachelor's degree with good grades",
-        "IELTS 6.5+ or TOEFL 90+",
-        "Two recommendation letters",
-        "Statement of purpose"
-      ],
-      "applyLink": "https://scholarships.mfat.govt.nz/",
-      "infoLink": "https://scholarships.mfat.govt.nz/",
-      "opensMonth": "february"
     }
   ]
 }
