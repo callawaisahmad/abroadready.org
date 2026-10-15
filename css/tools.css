@@ -3,10 +3,67 @@
    ============================================ */
 
 .tool-layout {
-  height: 100vh;
+  /* The tool area is a full viewport tall (see .chat-container / .sop-wrap),
+   * but the page must be allowed to scroll past it: both tool pages carry
+   * supporting content below the tool, and overflow:hidden used to clip it
+   * out of existence for users and crawlers alike. */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-x: hidden;
+}
+
+/* Supporting content beneath the tool area. The tool pages are otherwise a
+ * bare app shell: this is the crawlable, human-readable half of the page. */
+.tool-content {
+  background: var(--surface, #fff);
+  border-top: 1px solid #e2e8f0;
+}
+.tool-content .container {
+  max-width: 880px;
+  padding: 0 var(--space-6, 1.5rem);
+}
+.tool-content h2 {
+  font-family: var(--font-heading, inherit);
+  font-size: var(--text-3xl, 1.875rem);
+  color: var(--ink, #0f172a);
+  margin: 0 0 var(--space-4, 1rem);
+}
+.tool-content h3 {
+  font-family: var(--font-heading, inherit);
+  font-size: var(--text-xl, 1.25rem);
+  color: var(--ink, #0f172a);
+  margin: var(--space-8, 2rem) 0 var(--space-3, 0.75rem);
+}
+.tool-content p {
+  color: var(--ink-light, #1e293b);
+  line-height: 1.75;
+  margin: 0 0 var(--space-4, 1rem);
+}
+.tool-q-list {
+  list-style: none;
+  margin: 0 0 var(--space-4, 1rem);
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+.tool-q-list li {
+  color: var(--ink-light, #1e293b);
+  padding-left: 1.15rem;
+  position: relative;
+}
+.tool-q-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--primary, #3b82f6);
+}
+.tool-q-list a {
+  color: var(--primary-dark, #2563eb);
+  text-decoration: none;
+}
+.tool-q-list a:hover {
+  text-decoration: underline;
 }
 
 /* Chat Layout */

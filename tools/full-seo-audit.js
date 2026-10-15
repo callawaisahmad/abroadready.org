@@ -63,9 +63,20 @@ const attr = (tag, name) => {
 };
 
 /* ----------------------------------------------------------- file listing */
+/* Walk the tree rather than listing root + pages/: the daily bot audits pages
+ * it has just written but not yet committed, so the gate must not depend on
+ * git, and a page in a subdirectory (brand/) must not escape the audit. */
 const files = [];
-for (const f of fs.readdirSync(ROOT)) if (f.endsWith(".html")) files.push(f);
-for (const f of fs.readdirSync(path.join(ROOT, "pages"))) if (f.endsWith(".html")) files.push("pages/" + f);
+const SKIP_DIRS = new Set(["node_modules", ".git", ".opencode", "DONT UPLOAD", "assets", "updater", "tools", "js", "css"]);
+(function walk(dir) {
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (e.isDirectory()) {
+      if (!SKIP_DIRS.has(e.name) && !e.name.startsWith(".")) walk(path.join(dir, e.name));
+    } else if (e.name.endsWith(".html")) {
+      files.push(path.relative(ROOT, path.join(dir, e.name)).replace(/\\/g, "/"));
+    }
+  }
+})(ROOT);
 files.sort();
 
 const norm = (u) => u.replace(/\/+$/, "");
@@ -142,9 +153,13 @@ for (const file of files) {
   }
 
   /* ---- meta description ---- */
+  /* Only indexable pages need one: a noindex page never appears in a SERP, so
+   * requiring SERP metadata from it is a false requirement (the canonical and
+   * <h1> checks below are guarded the same way). */
   const dm = raw.match(/<meta[^>]+name=["']description["'][^>]*>/i);
-  if (!dm) err(file, "missing meta description");
-  else {
+  if (!dm) {
+    if (!isNoindex) err(file, "missing meta description");
+  } else {
     const d = collapse(attr(dm[0], "content") || "");
     if (d.length < 100) err(file, `meta description too short (${d.length})`);
     else if (d.length > 165) err(file, `meta description too long (${d.length})`);
