@@ -1,0 +1,14 @@
+{
+  "$schema": "https://opencode.ai/config.json"
+
+  // Project skills live in .opencode/skills and are auto-discovered, so no
+  // entry is needed here. To pull in skills from extra locations, add a
+  // "skills" array. Relative paths resolve from the OpenCode working
+  // directory; ~/ from the home directory; https:// URLs must be an HTTP
+  // catalog (a base URL with an index.json). Example:
+  //
+  // "skills": [
+  //   "~/shared/opencode-skills",
+  //   "https://example.com/opencode/skills/"
+  // ]
+}
