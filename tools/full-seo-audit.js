@@ -108,6 +108,18 @@ const info = (f, m) => infos.push(`${f}: ${m}`);
 
 const stats = { pages: 0, noindex: 0 };
 const canonicalClaims = new Map(); // href -> [file]
+const titleClaims = new Map(); // title -> [file]
+
+/* Pages deliberately kept out of the index (redirect stubs and utilities). The
+ * blog builder regenerates pages and sitemap.xml from data/blog.json, and it
+ * only knows a URL is retired by looking at the page itself, so record every
+ * noindex page up front: the internal-link and sitemap checks below both need
+ * to know a target's status before the per-page pass reaches it. */
+const NOINDEX = new Set();
+for (const f of files) {
+  const raw = fs.readFileSync(path.join(ROOT, f), "utf8");
+  if (/<meta[^>]+name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(raw)) NOINDEX.add(f);
+}
 
 for (const file of files) {
   const raw = fs.readFileSync(path.join(ROOT, file), "utf8");
@@ -123,6 +135,10 @@ for (const file of files) {
     const t = collapse(tm[1]);
     if (t.length < 25) err(file, `title too short (${t.length}): "${t}"`);
     else if (t.length > 65) err(file, `title too long (${t.length}): "${t}"`);
+    if (!isNoindex && t) {
+      if (!titleClaims.has(t)) titleClaims.set(t, []);
+      titleClaims.get(t).push(file);
+    }
   }
 
   /* ---- meta description ---- */
@@ -185,8 +201,23 @@ for (const file of files) {
   if (!/<meta[^>]+name=["']viewport["']/i.test(raw)) err(file, "missing viewport meta");
 
   /* ---- images ---- */
+  let imgBytes = 0;
+  let altReported = false;
   for (const t of [...raw.matchAll(/<img\b[^>]*>/gi)].map((m) => m[0])) {
-    if (!/\balt\s*=/i.test(t)) { err(file, "img without alt: " + t.slice(0, 70)); break; }
+    if (!altReported && !/\balt\s*=/i.test(t)) { err(file, "img without alt: " + t.slice(0, 70)); altReported = true; }
+    const src = attr(t, "src") || "";
+    if (!src || /^(https?:|data:|\/\/)/i.test(src)) continue;
+    const abs = path.resolve(path.dirname(path.join(ROOT, file)), src.split("?")[0]);
+    if (!fs.existsSync(abs)) {
+      err(file, `broken image: "${src}"`);
+    } else {
+      imgBytes += fs.statSync(abs).size;
+    }
+  }
+  /* Cards once loaded full-size heroes: one index page referenced 22.7 MB. A
+   * budget keeps a regression from silently undoing the thumbnail work. */
+  if (imgBytes > 3 * 1024 * 1024) {
+    warn(file, `local images weigh ${(imgBytes / 1048576).toFixed(1)} MB (budget 3.0 MB)`);
   }
 
   /* ---- tag balance ---- */
@@ -214,6 +245,10 @@ for (const file of files) {
     const rel = u.startsWith("/") ? u.replace(/^\//, "") : path.posix.normalize(path.posix.join(dir, u));
     if (rel.startsWith("..")) continue;
     if (!targetExists(rel)) err(file, `broken internal link: "${u}"`);
+    const linkFile = /\.\w+$/.test(rel) ? rel : rel + ".html";
+    if (linkFile !== file && NOINDEX.has(linkFile)) {
+      err(file, `internal link points at a noindex page: "${u}"`);
+    }
   }
 }
 
@@ -222,6 +257,14 @@ for (const [href, claimants] of canonicalClaims) {
   if (claimants.length < 2) continue;
   const unexpected = claimants.filter((f) => norm(fileToUrl(f)) !== norm(href) && ALLOW_NONSELF_CANONICAL[f] !== href);
   for (const f of unexpected) err(f, `canonical "${href}" is also claimed by ${claimants.filter((x) => x !== f).join(", ")}`);
+}
+
+/* ---- duplicate titles ---- */
+for (const [t, owners] of titleClaims) {
+  if (owners.length < 2) continue;
+  for (const f of owners) {
+    err(f, `duplicate <title> also used by ${owners.filter((x) => x !== f).join(", ")}: "${t}"`);
+  }
 }
 
 /* ---- sitemap integrity ---- */
@@ -235,10 +278,61 @@ else {
     if (seen.has(l)) err("sitemap.xml", `duplicate <loc>: ${l}`);
     seen.add(l);
     if (!targetExists(urlToRel(l))) err("sitemap.xml", `loc does not exist: ${l}`);
+    const relLoc = urlToRel(l);
+    const locFile = /\.\w+$/.test(relLoc) ? relLoc : relLoc + ".html";
+    if (relLoc && NOINDEX.has(locFile)) err("sitemap.xml", `noindex page listed in sitemap: ${l}`);
   }
   for (const f of files) {
-    const noindex = /<meta[^>]+name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(fs.readFileSync(path.join(ROOT, f), "utf8"));
-    if (!noindex && !seen.has(fileToUrl(f))) info("sitemap.xml", `indexable page not in sitemap: ${f}`);
+    if (!NOINDEX.has(f) && !seen.has(fileToUrl(f))) info("sitemap.xml", `indexable page not in sitemap: ${f}`);
+  }
+}
+
+/* ---- unreferenced image assets (INFO) ---- */
+{
+  /* Reference corpus: the files that actually ship. Tracked files only, so an
+   * asset kept alive by a local scratch script or an untracked draft is still
+   * reported as an orphan. Not just pages either - the manifest, CSS, JS and the
+   * builders can all name an asset. */
+  const TEXT = /\.(html?|js|mjs|cjs|css|json|webmanifest|xml|txt|md|py|ya?ml|svg)$/i;
+  let corpus = "";
+  try {
+    const tracked = require("child_process")
+      .execSync("git ls-files", { cwd: ROOT, encoding: "utf8", maxBuffer: 1 << 28 })
+      .split(/\r?\n/)
+      .filter((f) => TEXT.test(f));
+    for (const f of tracked) {
+      try { corpus += fs.readFileSync(path.join(ROOT, f), "utf8"); } catch { /* unreadable */ }
+    }
+  } catch {
+    /* Not a git checkout - fall back to walking the tree. */
+    const SKIP = new Set(["node_modules", ".git", ".opencode", "DONT UPLOAD"]);
+    (function walkText(d) {
+      for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+        if (e.isDirectory()) {
+          if (!SKIP.has(e.name)) walkText(path.join(d, e.name));
+        } else if (TEXT.test(e.name)) {
+          try { corpus += fs.readFileSync(path.join(d, e.name), "utf8"); } catch { /* unreadable */ }
+        }
+      }
+    })(ROOT);
+  }
+  const IMGDIR = path.join(ROOT, "assets");
+  if (fs.existsSync(IMGDIR)) {
+    (function walk(d) {
+      for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+        const p = path.join(d, e.name);
+        if (e.isDirectory()) walk(p);
+        else if (/\.(jpe?g|png|webp|gif|avif|svg)$/i.test(e.name)) {
+          const rel = path.relative(ROOT, p).replace(/\\/g, "/");
+          /* Match on the path and on the bare file name: CSS is free to write
+           * url(logo.svg) rather than the full relative path, and treating that
+           * as an orphan would bury the real orphans in noise. */
+          if (!corpus.includes(rel) && !corpus.includes(e.name)) {
+            info(rel, "asset is never referenced by a page, the sitemap or blog.json");
+          }
+        }
+      }
+    })(IMGDIR);
   }
 }
 
