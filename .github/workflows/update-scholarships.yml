@@ -27,7 +27,7 @@ jobs:
       - name: Run the data refresher
         run: python3 updater/update_scholarships.py
 
-      - name: Commit refreshed data (if anything changed)
+      - name: Commit refreshed data (only when something substantive changed)
         id: commit
         run: |
           git config user.name  "abroadready-bot"
@@ -37,7 +37,22 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit."
             echo "changed=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          # `generatedAt` is rewritten on every run, so a timestamp-only diff is
+          # not a real update. Ignore it when deciding whether to publish (and
+          # therefore whether to ping IndexNow) - otherwise this job commits a
+          # no-op every day and re-submits the whole sitemap along with it.
+          # Only data/scholarships.json is inspected: js/scholarships-data.js is a
+          # minified one-liner derived from it, so any edit to it would always
+          # look substantive.
+          substantive=$(git diff --cached -U0 -- data/scholarships.json updater/link_report.json \
+            | grep '^[+-]' | grep -v '^[+-][+-][+-]' | grep -v 'generatedAt' | grep -c . || true)
+          if [ "${substantive:-0}" -eq 0 ]; then
+            echo "Only the generatedAt timestamp changed - nothing to publish."
+            echo "changed=false" >> $GITHUB_OUTPUT
           else
+            echo "Substantive changes: ${substantive} changed line(s)."
             git commit -m "chore: automated scholarship data refresh ($(date -u +%Y-%m-%d))"
             git push
             echo "changed=true" >> $GITHUB_OUTPUT
