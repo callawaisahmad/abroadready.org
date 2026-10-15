@@ -198,6 +198,18 @@ function faqHtml(post) {
   return `<section class="article-faq"><h2>Frequently asked questions</h2>${items}</section>`;
 }
 
+// Card thumbnail for the blog index and related-guide cards. Posts that have no
+// local image file fall back to their external heroImage so the page never ships
+// a broken <img>. Output is byte-identical to the previous markup for posts that
+// do have a local image.
+function thumbImg(p) {
+  const localSrc = `../assets/blog/${p.slug}.jpg`;
+  const hasLocal = fs.existsSync(path.join(ROOT, `assets/blog/${p.slug}.jpg`));
+  const src = hasLocal ? localSrc : p.heroImage || "";
+  if (!src) return "";
+  return `<img class="post-thumb-img" src="${src}" alt="${esc(p.title)}" loading="lazy" width="1200" height="630">`;
+}
+
 function relatedHtml(post, posts) {
   const same = posts.filter((p) => p.category === post.category && p.slug !== post.slug);
   const others = posts.filter((p) => p.slug !== post.slug && !same.includes(p));
@@ -205,7 +217,7 @@ function relatedHtml(post, posts) {
   const cards = picks.map((p) => {
     const [, grad] = catStyle(p.category);
     return `<a class="post-card" href="${p.slug}">` +
-      `<img class="post-thumb-img" src="../assets/blog/${p.slug}.jpg" alt="${esc(p.title)}" loading="lazy" width="1200" height="630">` +
+      thumbImg(p) +
       `<div class="post-body"><span class="post-cat">${esc(p.category)}</span>` +
       `<h3>${esc(p.title)}</h3><p class="post-excerpt">${esc(p.excerpt || "")}</p>` +
       `<div class="post-meta"><span>${esc(p.date)}</span><span>${p.readMins || 8} min read</span></div>` +
@@ -382,7 +394,7 @@ function indexPage(posts, cats) {
     const [, grad] = catStyle(p.category);
     return `<a class="post-card" href="${p.slug}" data-cat="${esc(p.category)}" ` +
       `data-title="${esc(p.title)}" data-tags="${esc((p.tags || []).join(" "))}" data-date="${isoDate(p.date)}">` +
-      `<img class="post-thumb-img" src="../assets/blog/${p.slug}.jpg" alt="${esc(p.title)}" loading="lazy" width="1200" height="630">` +
+      thumbImg(p) +
       `<div class="post-body"><span class="post-cat">${esc(p.category)}</span>` +
       `<h3>${esc(p.title)}</h3><p class="post-excerpt">${esc(p.excerpt || "")}</p>` +
       `<div class="post-meta"><span>${esc(p.date)}</span><span>${p.readMins || 8} min read</span></div>` +
@@ -505,6 +517,30 @@ function sitemap(posts) {
   return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' + urls + "</urlset>\n";
 }
 
+// build_scholarships.mjs appends its own <url> entries (the generated
+// scholarship-* pages) to sitemap.xml. Rewriting the file from scratch here would
+// silently drop those entries, so carry over any existing <url> that this build
+// does not itself produce - as long as its page file still exists.
+function sitemapWithExtras(posts) {
+  const xml = sitemap(posts);
+  const smPath = path.join(ROOT, "sitemap.xml");
+  if (!fs.existsSync(smPath)) return xml;
+  const seen = new Set([...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]));
+  const extra = fs
+    .readFileSync(smPath, "utf8")
+    .split(/\r?\n/)
+    .filter((line) => {
+      if (!line.includes("<url>")) return false;
+      const loc = (line.match(/<loc>([^<]+)<\/loc>/) || [])[1];
+      if (!loc || seen.has(loc)) return false;
+      const rel = loc.replace(DOMAIN + "/", "").replace(/\/$/, "");
+      const file = rel === "" ? "index.html" : path.join(ROOT, rel + ".html");
+      return fs.existsSync(file);
+    });
+  if (!extra.length) return xml;
+  return xml.replace("</urlset>", extra.join("\n") + "\n</urlset>");
+}
+
 function main() {
   const data = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "blog.json"), "utf8"));
   const posts = data.posts;
@@ -514,7 +550,7 @@ function main() {
     fs.writeFileSync(path.join(pagesDir, post.slug + ".html"), articlePage(post, i, posts));
   });
   fs.writeFileSync(path.join(pagesDir, "blog.html"), indexPage(posts, cats));
-  fs.writeFileSync(path.join(ROOT, "sitemap.xml"), sitemap(posts));
+  fs.writeFileSync(path.join(ROOT, "sitemap.xml"), sitemapWithExtras(posts));
   fs.writeFileSync(path.join(ROOT, "robots.txt"), robotsTxt());
   fs.writeFileSync(path.join(ROOT, "llms.txt"), llmsTxt(posts));
   console.log(`Generated ${posts.length} article pages + blog.html + sitemap.xml + robots.txt + llms.txt`);
