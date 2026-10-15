@@ -49,7 +49,17 @@ jobs:
           substantive=$(git diff --cached -U0 -- data/scholarships.json updater/link_report.json \
             | grep '^[+-]' | grep -v '^[+-][+-][+-]' | grep -v 'generatedAt' | grep -c . || true)
           if [ "${substantive:-0}" -eq 0 ]; then
-            echo "Only the generatedAt timestamp changed - nothing to publish."
+            # A timestamp-only diff is not worth a commit (or an IndexNow ping)
+            # every day, but pages/scholarships.html renders "data refreshed
+            # <generatedAt>", so publish the refreshed timestamp itself once a
+            # week to stop that label aging for months.
+            if [ "$(date -u +%u)" = "7" ]; then
+              echo "Weekly freshness stamp (label would otherwise go stale)."
+              git commit -m "chore: automated scholarship data refresh ($(date -u +%Y-%m-%d))"
+              git push
+            else
+              echo "Only the generatedAt timestamp changed - nothing to publish."
+            fi
             echo "changed=false" >> $GITHUB_OUTPUT
           else
             echo "Substantive changes: ${substantive} changed line(s)."
