@@ -85,6 +85,8 @@ const ALLOW_NONSELF_CANONICAL = {
   // Duplicate scholarship entries collapsed into one programme page each.
   "pages/scholarship-new-zealand-scholarship-manaaki.html": DOMAIN + "/pages/scholarship-manaaki-new-zealand",
   "pages/scholarship-mastercard-foundation-scholars.html": DOMAIN + "/pages/scholarship-mastercard-foundation-scholars-program",
+  // post-study-work cluster consolidated into the comparison page.
+  "pages/post-study-work-visas-by-country.html": DOMAIN + "/pages/post-study-work-visa-comparison-2026",
 };
 
 function targetExists(rel) {
