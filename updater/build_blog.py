@@ -113,6 +113,28 @@ def faq_html(post):
         f'<div class="faq-a"><p>{f["a"]}</p></div></div>' for f in post["faq"])
     return f'<section class="article-faq"><h2>Frequently asked questions</h2>{items}</section>'
 
+def thumb_img(p):
+    """Card thumbnail: prefer the small generated thumb (assets/blog/thumbs/<slug>.webp,
+    480x252 - same aspect as the 1200x630 hero, ~13 KB instead of ~165 KB), then a
+    local hero file, then the post's external heroImage."""
+    thumb = os.path.join(ROOT, "assets", "blog", "thumbs", f'{p["slug"]}.webp')
+    if os.path.exists(thumb):
+        return (f'<img class="post-thumb-img" src="../assets/blog/thumbs/{p["slug"]}.webp" '
+                f'alt="{esc(p["title"])}" loading="lazy" width="480" height="252">')
+    local = os.path.join(ROOT, "assets", "blog", f'{p["slug"]}.jpg')
+    src = f'../assets/blog/{p["slug"]}.jpg' if os.path.exists(local) else p.get("heroImage", "")
+    if not src:
+        return ""
+    # Posts with no local image fall back to their external Pexels hero. Pexels
+    # serves a resizable variant, so ask for card-sized pixels instead of 1600px.
+    if "images.pexels.com" in src:
+        small = re.sub(r"([?&])w=\d+", r"\1w=480&h=252&fit=crop", src)
+        return (f'<img class="post-thumb-img" src="{small}" alt="{esc(p["title"])}" '
+                f'loading="lazy" width="480" height="252">')
+    return (f'<img class="post-thumb-img" src="{src}" alt="{esc(p["title"])}" '
+            f'loading="lazy" width="1200" height="630">')
+
+
 def related_html(post, posts):
     same = [p for p in posts if p["category"] == post["category"] and p["slug"] != post["slug"]]
     others = [p for p in posts if p["slug"] != post["slug"] and p not in same]
@@ -120,9 +142,9 @@ def related_html(post, posts):
     cards = ""
     for p in picks:
         emoji, grad = cat_style(p["category"])
-    cards += (f'<a class="post-card" href="{p["slug"]}">'
-              f'<img class="post-thumb-img" src="../assets/blog/{p["slug"]}.jpg" alt="{esc(p["title"])}" loading="lazy" width="1200" height="630">'
-              f'<div class="post-body"><span class="post-cat">{esc(p["category"])}</span>'
+        cards += (f'<a class="post-card" href="{p["slug"]}">'
+                  f'{thumb_img(p)}'
+                  f'<div class="post-body"><span class="post-cat">{esc(p["category"])}</span>'
               f'<h3>{esc(p["title"])}</h3><p class="post-excerpt">{esc(p.get("excerpt",""))}</p>'
               f'<div class="post-meta"><span>{esc(p["date"])}</span><span>{p.get("readMins",8)} min read</span></div>'
               f'</div></a>')
@@ -237,7 +259,7 @@ def index_page(posts, cats):
         emoji, grad = cat_style(p["category"])
         cards += (f'<a class="post-card" href="{p["slug"]}" data-cat="{esc(p["category"])}" '
                   f'data-title="{esc(p["title"])}" data-tags="{esc(" ".join(p.get("tags",[])))}">'
-                  f'<img class="post-thumb-img" src="../assets/blog/{p["slug"]}.jpg" alt="{esc(p["title"])}" loading="lazy" width="1200" height="630">'
+                  f'{thumb_img(p)}'
                   f'<div class="post-body"><span class="post-cat">{esc(p["category"])}</span>'
                   f'<h3>{esc(p["title"])}</h3><p class="post-excerpt">{esc(p.get("excerpt",""))}</p>'
                   f'<div class="post-meta"><span>{esc(p["date"])}</span><span>{p.get("readMins",8)} min read</span></div>'
@@ -321,8 +343,21 @@ def index_page(posts, cats):
 </section>
 {INDEX_SCRIPTS}"""
 
+def _is_noindex_page(rel):
+    """A page carrying <meta name="robots" content="noindex"> must never appear in
+    the sitemap: it is a redirect stub or a utility the site deliberately keeps out
+    of the index. Checking the page itself means a retired duplicate cannot creep
+    back in on the next rebuild."""
+    file = os.path.join(ROOT, "index.html") if rel == "" else os.path.join(ROOT, rel + ".html")
+    if not os.path.exists(file):
+        return False
+    with open(file, encoding="utf-8") as fh:
+        head = fh.read(4000)
+    return bool(re.search(r'(name=["\']robots["\'][^>]*noindex)|(noindex[^>]*name=["\']robots["\'])', head, re.I))
+
+
 def sitemap(posts):
-    static_pages = ["", "pages/scholarships", "pages/internships", "pages/saved", "pages/ai-advisor",
+    static_pages = ["", "pages/scholarships", "pages/internships", "pages/ai-advisor",
         "pages/sop-builder", "pages/success", "pages/blog", "pages/about",
         "pages/contact", "pages/privacy", "pages/terms",
         "pages/study", "pages/immigration", "pages/visa-guidance", "pages/admission-guidance",
@@ -343,9 +378,11 @@ def sitemap(posts):
         "pages/study-in-ireland", "pages/immigrate-to-ireland",
         "pages/study-in-new-zealand", "pages/immigrate-to-new-zealand",
     ]
-    urls = "".join(f"  <url><loc>{DOMAIN}/{u}</loc><changefreq>weekly</changefreq></url>\n" for u in static_pages)
-    urls += "".join(f"  <url><loc>{DOMAIN}/{u}</loc><changefreq>monthly</changefreq></url>\n" for u in country_pages)
+    urls = "".join(f"  <url><loc>{DOMAIN}/{u}</loc><changefreq>weekly</changefreq></url>\n" for u in static_pages if not _is_noindex_page(u))
+    urls += "".join(f"  <url><loc>{DOMAIN}/{u}</loc><changefreq>monthly</changefreq></url>\n" for u in country_pages if not _is_noindex_page(u))
     for p in posts:
+        if _is_noindex_page("pages/%s" % p["slug"]):
+            continue
         img = p.get("heroImage") or "%s/assets/blog/%s.jpg" % (DOMAIN, p["slug"])
         urls += (f"  <url><loc>{DOMAIN}/pages/{p['slug']}</loc><lastmod>{iso_date(p['date'])}</lastmod>"
                  f"<changefreq>monthly</changefreq>"

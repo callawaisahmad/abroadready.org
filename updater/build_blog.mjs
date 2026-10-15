@@ -198,15 +198,27 @@ function faqHtml(post) {
   return `<section class="article-faq"><h2>Frequently asked questions</h2>${items}</section>`;
 }
 
-// Card thumbnail for the blog index and related-guide cards. Posts that have no
-// local image file fall back to their external heroImage so the page never ships
-// a broken <img>. Output is byte-identical to the previous markup for posts that
-// do have a local image.
+// Card thumbnail for the blog index and related-guide cards. Prefers the small
+// generated thumbnail (assets/blog/thumbs/<slug>.webp, 480x252 - same 1.905:1
+// aspect as the 1200x630 hero, but ~13 KB instead of ~165 KB), then a local hero
+// file, then the post's external heroImage so the page never ships a broken
+// <img>. Generate the thumbs with the sharp pipeline; cards for a post without
+// one simply keep the old full-size behaviour.
 function thumbImg(p) {
+  const thumbSrc = `../assets/blog/thumbs/${p.slug}.webp`;
+  if (fs.existsSync(path.join(ROOT, `assets/blog/thumbs/${p.slug}.webp`))) {
+    return `<img class="post-thumb-img" src="${thumbSrc}" alt="${esc(p.title)}" loading="lazy" width="480" height="252">`;
+  }
   const localSrc = `../assets/blog/${p.slug}.jpg`;
   const hasLocal = fs.existsSync(path.join(ROOT, `assets/blog/${p.slug}.jpg`));
   const src = hasLocal ? localSrc : p.heroImage || "";
   if (!src) return "";
+  // Posts with no local image fall back to their external Pexels hero. Pexels
+  // serves a resizable variant, so ask for card-sized pixels instead of 1600px.
+  if (src.includes("images.pexels.com")) {
+    const small = src.replace(/([?&])w=\d+/, "$1w=480&h=252&fit=crop");
+    return `<img class="post-thumb-img" src="${small}" alt="${esc(p.title)}" loading="lazy" width="480" height="252">`;
+  }
   return `<img class="post-thumb-img" src="${src}" alt="${esc(p.title)}" loading="lazy" width="1200" height="630">`;
 }
 
@@ -460,9 +472,20 @@ ${HEAD_EXTRA}
 ${INDEX_SCRIPTS}`;
 }
 
+// A page carrying <meta name="robots" content="noindex"> must never appear in the
+// sitemap: it is a redirect stub or a utility the site deliberately keeps out of
+// the index. Checking the page itself (rather than relying on a hand-maintained
+// blocklist) means a retired duplicate cannot creep back in on the next rebuild.
+function isNoindexPage(rel) {
+  const file = rel === "" ? path.join(ROOT, "index.html") : path.join(ROOT, rel + ".html");
+  if (!fs.existsSync(file)) return false;
+  const head = fs.readFileSync(file, "utf8").slice(0, 4000);
+  return /(name=["']robots["'][^>]*noindex)|(noindex[^>]*name=["']robots["'])/i.test(head);
+}
+
 function sitemap(posts) {
   const static_pages = [
-    "", "pages/scholarships", "pages/internships", "pages/saved", "pages/ai-advisor",
+    "", "pages/scholarships", "pages/internships", "pages/ai-advisor",
     "pages/sop-builder", "pages/success", "pages/blog", "pages/about",
     "pages/contact", "pages/privacy", "pages/terms", "pages/disclaimer",
     "pages/editorial-policy",
@@ -490,7 +513,7 @@ function sitemap(posts) {
     "pages/study-abroad-application-process-steps", "pages/study-abroad-application-timeline-2027",
     "pages/when-to-apply-for-scholarships-2027", "pages/study-abroad-without-ielts",
     "pages/student-visa-complete-guide", "pages/student-visa-proof-of-funds-by-country",
-    "pages/post-study-work-visa-comparison-2026", "pages/post-study-work-visas-by-country",
+    "pages/post-study-work-visa-comparison-2026",
     "pages/how-long-does-a-student-visa-take", "pages/how-much-does-it-cost-to-study-in-uk",
     "pages/low-cgpa-how-to-get-scholarship-abroad", "pages/how-to-choose-study-abroad-consultants",
     "pages/how-to-spot-scholarship-scams", "pages/part-time-jobs-for-international-students",
@@ -506,10 +529,12 @@ function sitemap(posts) {
     "pages/study-in-italy-complete-guide-2026", "pages/study-in-turkey-complete-guide-2026",
     "pages/study-in-uk-complete-guide-2026",
   ];
-  let urls = static_pages.map((u) => `  <url><loc>${DOMAIN}/${u}</loc><changefreq>weekly</changefreq></url>\n`).join("");
-  urls += country_pages.map((u) => `  <url><loc>${DOMAIN}/${u}</loc><changefreq>monthly</changefreq></url>\n`).join("");
-  urls += legacy_pages.map((u) => `  <url><loc>${DOMAIN}/${u}</loc><changefreq>monthly</changefreq></url>\n`).join("");
+  const keep = (list) => list.filter((u) => !isNoindexPage(u));
+  let urls = keep(static_pages).map((u) => `  <url><loc>${DOMAIN}/${u}</loc><changefreq>weekly</changefreq></url>\n`).join("");
+  urls += keep(country_pages).map((u) => `  <url><loc>${DOMAIN}/${u}</loc><changefreq>monthly</changefreq></url>\n`).join("");
+  urls += keep(legacy_pages).map((u) => `  <url><loc>${DOMAIN}/${u}</loc><changefreq>monthly</changefreq></url>\n`).join("");
   for (const p of posts) {
+    if (isNoindexPage(`pages/${p.slug}`)) continue;
     const img = p.heroImage || `${DOMAIN}/assets/blog/${p.slug}.jpg`;
     urls += `  <url><loc>${DOMAIN}/pages/${p.slug}</loc><lastmod>${isoDate(p.dateModified || p.date)}</lastmod><changefreq>monthly</changefreq>` +
       `<image:image><image:loc>${esc(img)}</image:loc><image:title>${esc(p.title)}</image:title></image:image></url>\n`;
@@ -520,7 +545,10 @@ function sitemap(posts) {
 // build_scholarships.mjs appends its own <url> entries (the generated
 // scholarship-* pages) to sitemap.xml. Rewriting the file from scratch here would
 // silently drop those entries, so carry over any existing <url> that this build
-// does not itself produce - as long as its page file still exists.
+// does not itself produce - as long as its page file still exists and is still
+// indexable. The noindex check matters because this carry-over reads the previous
+// sitemap: without it, a URL that was retired (turned into a noindex stub) would
+// be preserved by its own stale entry forever.
 function sitemapWithExtras(posts) {
   const xml = sitemap(posts);
   const smPath = path.join(ROOT, "sitemap.xml");
@@ -534,6 +562,7 @@ function sitemapWithExtras(posts) {
       const loc = (line.match(/<loc>([^<]+)<\/loc>/) || [])[1];
       if (!loc || seen.has(loc)) return false;
       const rel = loc.replace(DOMAIN + "/", "").replace(/\/$/, "");
+      if (isNoindexPage(rel)) return false;
       const file = rel === "" ? "index.html" : path.join(ROOT, rel + ".html");
       return fs.existsSync(file);
     });
