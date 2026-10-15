@@ -26,10 +26,22 @@ function esc(s) {
     .replace(/"/g, "&quot;");
 }
 
+// Word-boundary truncation with no ellipsis (used for meta descriptions).
+function trimTo(s, n) {
+  const t = String(s == null ? "" : s).replace(/\s+/g, " ").trim();
+  if (t.length <= n) return t;
+  const cut = t.slice(0, n);
+  const sp = cut.lastIndexOf(" ");
+  let out = (sp > 0 ? cut.slice(0, sp) : cut).replace(/[\s,;:.\u2013-]+$/, "").trim();
+  if ((out.match(/\(/g) || []).length > (out.match(/\)/g) || []).length) out = out.replace(/\s*\([^)]*$/, "").trim();
+  out = out.replace(/\s+(for|of|and|the|in|to|with|on|a|an)$/i, "").trim();
+  return out || cut.trim();
+}
+
 function cap(s, n) {
   const t = String(s == null ? "" : s).replace(/\s+/g, " ").trim();
   if (t.length <= n) return t;
-  return t.slice(0, n - 1).trim().replace(/[,;\s]+$/, "") + "…";
+  return trimTo(t, n - 1) + "\u2026";
 }
 
 function asArray(v) {
@@ -80,15 +92,50 @@ function countryToSlug(c) {
 function metaDescription(s) {
   const levels = asArray(s.levels).join("/");
   const funding = (s.fundingType || "").toLowerCase();
-  const head = cap(s.fundingSummary || `${s.name} — ${funding} ${(levels || "scholarship funding")} in ${s.country || "international"} scholarship.`, 105);
-  const tail = (s.deadlineMonth ? ` Deadline: ${s.deadlineMonth}.` : "") + " See eligibility, required documents, and how to apply.";
-  return cap((head + tail).replace(/\s+/g, " "), 158);
+  const base = s.fundingSummary || `${s.name} \u2014 ${funding} ${levels || "scholarship funding"} in ${s.country || "international"} scholarship.`;
+  const mid = s.deadlineMonth ? ` Deadline: ${s.deadlineMonth}.` : "";
+  const cta = " Eligibility, documents and how to apply.";
+  const join = (...parts) => parts.join("").replace(/\s+/g, " ").trim();
+  // Prefer the complete funding summary; drop the boilerplate CTA before
+  // ever cutting the text, and only then truncate at a word boundary.
+  if (join(base, mid, cta).length <= 158) return join(base, mid, cta);
+  if (join(base, mid).length <= 158) return join(base, mid);
+  if (join(base).length <= 158) return join(base);
+  const head = trimTo(base, 158 - mid.length - 1).replace(/[\s,;:.!?\u2013]+$/, "") + "\u2026";
+  return join(head, mid);
 }
 
+// Shorten a scholarship name to a word boundary, dropping a trailing
+// parenthetical or "for ..." clause before falling back to a clean cut.
+function shortenName(name, max) {
+  const t = String(name || "").replace(/\s+/g, " ").trim();
+  if (t.length <= max) return t;
+  const paren = t.replace(/\s*\([^)]*\)\s*$/, "").replace(/[\s,;:\u2013-]+$/, "").trim();
+  if (paren && paren.length <= max) return paren;
+  const clause = t.match(/^(.*?)\s+(for|of|in|at|to|with|by)\s+(.*)$/i);
+  if (clause && clause[1].length >= 12 && clause[1].length <= max) return clause[1].trim();
+  let out = t.slice(0, max);
+  const sp = out.lastIndexOf(" ");
+  if (sp > 10) out = out.slice(0, sp);
+  out = out.replace(/[\s,;:\u2013-]+$/, "").trim();
+  if ((out.match(/\(/g) || []).length > (out.match(/\)/g) || []).length) out = out.replace(/\s*\([^)]*$/, "").trim();
+  out = out.replace(/\s+(for|of|and|the|in|to|with|on)$/i, "").trim();
+  return out || t.slice(0, max);
+}
+
+// Curated short titles where an automatic word-boundary cut reads badly.
+const SHORT_NAME = {
+  "auckland-international-student-scholarship": "Auckland International Student Scholarship",
+  "university-calgary-international-entrance": "Calgary International Entrance Scholarship",
+  "goi-ies": "Government of Ireland Scholarship (GOI-IES)",
+  "taiwan-icdf-scholarship": "Taiwan ICDF Higher Education Scholarship",
+  "erasmus-mundus-emld": "Erasmus Mundus Master in Digital Transformation",
+  "si-sisgp": "Swedish Institute Scholarships (SISGP)",
+  "new-zealand-scholarship-manaaki": "Manaaki New Zealand Scholarships",
+};
+
 function titleFor(s) {
-  let t = s.name;
-  if (t.length > 46) t = t.slice(0, 46).trim().replace(/[,;-]+$/, "");
-  return `${t} | AbroadReady`;
+  return `${SHORT_NAME[s.id] || shortenName(s.name, 50)} | AbroadReady`;
 }
 
 function factRow(label, value) {
