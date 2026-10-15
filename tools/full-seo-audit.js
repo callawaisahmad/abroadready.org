@@ -289,16 +289,22 @@ else {
   const sm = fs.readFileSync(SM, "utf8");
   const locs = [...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
   const seen = new Set();
+  /* Normalise trailing slashes on both sides: the homepage is listed as
+   * "https://abroadready.org/" but fileToUrl("index.html") yields the bare
+   * origin, which made the comparison below report the homepage as missing. */
   for (const l of locs) {
-    if (seen.has(l)) err("sitemap.xml", `duplicate <loc>: ${l}`);
-    seen.add(l);
+    const key = norm(l);
+    if (seen.has(key)) err("sitemap.xml", `duplicate <loc>: ${l}`);
+    seen.add(key);
     if (!targetExists(urlToRel(l))) err("sitemap.xml", `loc does not exist: ${l}`);
     const relLoc = urlToRel(l);
     const locFile = /\.\w+$/.test(relLoc) ? relLoc : relLoc + ".html";
     if (relLoc && NOINDEX.has(locFile)) err("sitemap.xml", `noindex page listed in sitemap: ${l}`);
   }
   for (const f of files) {
-    if (!NOINDEX.has(f) && !seen.has(fileToUrl(f))) info("sitemap.xml", `indexable page not in sitemap: ${f}`);
+    if (!NOINDEX.has(f) && !seen.has(norm(fileToUrl(f)))) {
+      info("sitemap.xml", `indexable page not in sitemap: ${f}`);
+    }
   }
 }
 
