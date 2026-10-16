@@ -402,10 +402,10 @@ document.addEventListener('DOMContentLoaded', function () {
       'body{font-family:Georgia,serif;max-width:720px;margin:40px auto;padding:0 24px;color:#1e293b;line-height:1.7;}' +
       'h1{font-size:22px;} h2{font-size:16px;margin-top:28px;border-bottom:1px solid #e2e8f0;padding-bottom:6px;}' +
       'p{white-space:pre-wrap;} .muted{color:#94a3b8;font-size:12px;}</style></head><body>';
-    html += '<h1>Statement of Purpose — ' + target + '</h1>';
+    html += '<h3 class="text-lg font-bold mt-4 mb-2">Statement of Purpose — ' + target + '</h3>';
     html += '<p class="muted">Drafted with AbroadReady SOP Builder</p>';
     SECTIONS.forEach(function (sec, i) {
-      html += '<h2>' + (i + 1) + '. ' + sec.title + '</h2><p>' + (state[i] ? state[i].replace(/</g, '&lt;') : '<span class="muted">[not written yet]</span>') + '</p>';
+      html += '<h3>' + (i + 1) + '. ' + sec.title + '</h3><p>' + (state[i] ? state[i].replace(/</g, '&lt;') : '<span class="muted">[not written yet]</span>') + '</p>';
     });
     html += '<\/body><\/html>';
     win.document.write(html);
