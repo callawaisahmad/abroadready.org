@@ -222,6 +222,25 @@ function thumbImg(p) {
   return `<img class="post-thumb-img" src="${src}" alt="${esc(p.title)}" loading="lazy" width="1200" height="630">`;
 }
 
+// Every blog image ships a .webp twin beside its .jpg (see the sharp pipeline;
+// thumbs are webp from the start). Swap a local jpg reference for its webp twin
+// when the file exists, and fall back to the original otherwise so a missing
+// conversion can never ship a broken <img>. External URLs are left untouched.
+function webpIfAvailable(src) {
+  if (!src || /^(https?:|\/\/|data:)/i.test(src)) return src;
+  const rel = src.replace(/^(?:\.\.\/)+/, "").split("?")[0];
+  if (!/\.jpe?g$/i.test(rel)) return src;
+  const twin = path.join(ROOT, rel.replace(/\.jpe?g$/i, ".webp"));
+  return fs.existsSync(twin) ? src.replace(/\.jpe?g$/i, ".webp") : src;
+}
+
+// Rewrites every local `<img src="../assets/....jpg">` (article body / inline
+// figures) to its webp twin. og:image, twitter:image and JSON-LD stay on jpg.
+function webpify(html) {
+  return (html || "").replace(/\bsrc="((?:\.\.\/)+assets\/[^"]+?\.jpe?g)"/gi,
+    (m, p) => 'src="' + webpIfAvailable(p) + '"');
+}
+
 function relatedHtml(post, posts) {
   const same = posts.filter((p) => p.category === post.category && p.slug !== post.slug);
   const others = posts.filter((p) => p.slug !== post.slug && !same.includes(p));
@@ -338,11 +357,11 @@ function articlePage(post, i, posts) {
     '<div class="read-progress"></div>' +
     '<article class="article-wrap">' +
     `<nav class="breadcrumb"><a href="../">Home</a> \u203A <a href="blog">Blog</a> \u203A ${esc(post.title)}</nav>` +
-    `<img class="article-hero-img" src="${post.heroImage || "../assets/blog/" + post.slug + ".jpg"}" alt="${esc(post.title)}" fetchpriority="high" decoding="async" width="1200" height="630">` +
+    `<img class="article-hero-img" src="${webpIfAvailable(post.heroImage || "../assets/blog/" + post.slug + ".jpg")}" alt="${esc(post.title)}" fetchpriority="high" decoding="async" width="1200" height="630">` +
     `<a class="article-cat" href="blog">${esc(post.category)}</a>` +
     `<h1 class="article-title">${esc(post.title)}</h1>` +
     `<div class="article-meta"><span>\u{1F5D3}\uFE0F ${esc(post.date)}</span><span>\u23F1\uFE0F ${post.readMins || 8} min read</span><span>\u270D\uFE0F <a href="editorial-policy">AbroadReady Team</a></span>${post.dateModified ? `<span>\u{1F504} Updated ${esc(post.dateModified)}</span>` : ""}</div>` +
-    `<div class="article-body">${post.bodyHtml}</div>` +
+    `<div class="article-body">${webpify(post.bodyHtml)}</div>` +
     seriesHtml(post, posts) +
     sourcesHtml(post) +
     cta + share + faqHtml(post) +
