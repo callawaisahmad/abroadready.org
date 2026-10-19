@@ -85,7 +85,7 @@ const FOOTER = `<!-- ===== FOOTER ===== -->
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="../index.html" class="nav-logo">
+        <a href="../" class="nav-logo">
           <span class="logo-icon"><svg class="logo-svg" viewBox="0 0 120 120" aria-hidden="true" focusable="false"><defs><linearGradient id="arCapF" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient><linearGradient id="arSwooshF" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#fbbf24"/></linearGradient></defs><path d="M60 18 L96 46 L60 74 L24 46 Z" fill="url(#arCapF)"/><path d="M50 68 L70 68 L65 86 Q60 90 55 86 Z" fill="#2563eb"/><path d="M74 34 Q95 30 99 12" fill="none" stroke="url(#arSwooshF)" stroke-width="7" stroke-linecap="round"/><circle cx="99" cy="12" r="5" fill="#f59e0b"/></svg></span>
           <span class="logo-text">Abroad<span class="text-gradient">Ready</span></span>
         </a>
@@ -433,6 +433,8 @@ ${SCRIPTS_TOP}  <title>Scholarship Blog & Study Abroad Guides | AbroadReady</tit
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Scholarship Blog & Study Abroad Guides">
   <meta name="twitter:description" content="Expert guides on winning fully funded scholarships, SOPs, IELTS, interviews, internships and studying abroad.">
+  <meta name="twitter:image" content="${DOMAIN}/assets/og-image.png">
+  <meta name="twitter:image:alt" content="AbroadReady - Find fully funded international scholarships">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
