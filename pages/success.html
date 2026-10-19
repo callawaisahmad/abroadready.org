@@ -111,15 +111,15 @@
 
 <header class="section text-center pb-8">
   <div class="container-sm mx-auto">
-    <span class="badge badge-gold mb-4">Application Journeys</span>
-    <h1>The Wall of <span class="text-gradient">Success</span></h1>
-    <p class="text-xl text-gray-500 mt-4">Worked examples of the application journeys behind Chevening, Fulbright, DAAD and Erasmus scholarships &mdash; filter by scheme to see the essay, timeline and profile behind each one.</p>
+    <span class="badge badge-gold mb-4">Illustrative · Not Verified Case Studies</span>
+    <h1>Worked Application <span class="text-gradient">Examples</span></h1>
+    <p class="text-xl text-gray-500 mt-4">Illustrative worked examples of the application journeys behind Chevening, Fulbright, DAAD and Erasmus scholarships &mdash; filter by scheme to see the profile, essay angle and tips behind each one. They are teaching examples, not real applicants or verified placements.</p>
   </div>
 </header>
 
 <div class="stats-bar">
   <div class="container grid grid-3 gap-6">
-    <div class="stat-item"><h3 id="stat-placed">—</h3><p>Stories Shared</p></div>
+    <div class="stat-item"><h3 id="stat-placed">—</h3><p>Worked Examples</p></div>
     <div class="stat-item"><h3 id="stat-countries">—</h3><p>Countries</p></div>
     <div class="stat-item"><h3>100%</h3><p>Free Platform</p></div>
   </div>
@@ -129,7 +129,7 @@
 
   <!-- Filters -->
   <div class="flex flex-wrap justify-center gap-4 mb-12" id="story-filters">
-    <button class="btn btn-primary" data-filter="all">All Stories</button>
+    <button class="btn btn-primary" data-filter="all">All Examples</button>
     <button class="btn btn-outline" data-filter="Chevening">Chevening</button>
     <button class="btn btn-outline" data-filter="Fulbright">Fulbright</button>
     <button class="btn btn-outline" data-filter="DAAD">DAAD</button>
@@ -143,6 +143,8 @@
   <div class="text-center mt-12">
     <button class="btn btn-outline" id="load-more">Load More Stories</button>
   </div>
+
+  <p class="text-sm text-gray-500 text-center" style="max-width:44rem;margin:1.5rem auto 0;">These are illustrative worked examples, not verified case studies. No names, universities or placements are claimed and none should be assumed. Confirm every deadline and eligibility rule with the official scholarship page.</p>
 
 </section>
 
@@ -202,7 +204,7 @@
     </div>
     <div class="footer-bottom">
       <p>© 2026 AbroadReady.org — Made with ❤️ for students worldwide</p>
-      <p class="footer-note">Stories are illustrative examples of the application journeys the platform supports.</p>
+      <p class="footer-note">All examples on this page are illustrative: they describe the shape of a strong application, not real individuals. Always confirm eligibility with the scholarship provider.</p>
     </div>
   </div>
 </footer>
@@ -210,24 +212,36 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   var STORIES = [
-    { name: 'Ayesha Farooq', tag: 'Chevening', badge: 'Chevening 2025', where: 'MSc Data Science @ UCL, UK', emoji: '👩🏽‍🎓', grad: 'var(--gradient-primary)', country: 'UK',
-      quote: 'I got matched with Chevening on my first try. The journey map showed me exactly what to do.', tips: ['Focus heavily on the leadership essay.', "Don't wait for IELTS to start applying.", 'Use the SOP tool to structure your thoughts.'] },
-    { name: 'Usman Khan', tag: 'DAAD', badge: 'DAAD EPOS', where: 'MSc Engineering @ TU Munich, Germany', emoji: '👨🏻‍🎓', grad: 'var(--gradient-forest)', country: 'Germany',
-      quote: 'The SOP builder changed everything. My essay scored 92/100 and I got accepted to 3 programs.', tips: ['German public universities are low-cost — target living-cost scholarships.', 'Learn basic German (A1) to stand out.'] },
-    { name: 'Sara Malik', tag: 'Fulbright', badge: 'Fulbright 2025', where: 'LLM @ Columbia University, USA', emoji: '👩🏻‍🎓', grad: 'var(--gradient-gold)', country: 'USA',
-      quote: "I tried for Fulbright twice and failed. The gap analyzer showed me what I was missing. Third time was the charm!", tips: ['GRE is critical — prepare 4-6 months ahead.', 'Your statement must tell a story, not list achievements.'] },
-    { name: 'Bilal Ahmed', tag: 'Erasmus', badge: 'Erasmus Mundus', where: 'Joint MSc @ 3 EU universities', emoji: '🧑🏽‍🎓', grad: 'var(--gradient-primary)', country: 'Europe',
-      quote: 'Studying in three countries in two years was life-changing. The board helped me shortlist consortia fast.', tips: ['Apply to 3-4 consortia to raise your odds.', 'A medium-of-instruction letter can replace IELTS.'] },
-    { name: 'Hina Raza', tag: 'MEXT', badge: 'MEXT Japan', where: 'PhD Robotics @ Tokyo Tech, Japan', emoji: '👩🏻‍🔬', grad: 'var(--gradient-forest)', country: 'Japan',
-      quote: 'MEXT covered everything and even a year of Japanese classes. Emailing a supervisor early was the key.', tips: ['Contact a professor before applying.', 'Prepare a focused research plan.'] },
-    { name: 'Daniyal Sheikh', tag: 'Chevening', badge: 'Chevening 2024', where: 'MSc Public Policy @ LSE, UK', emoji: '🧑🏻‍🎓', grad: 'var(--gradient-gold)', country: 'UK',
-      quote: 'The networking essay tripped me up until I used the STAR examples. Ended up at my dream school.', tips: ['Quantify your leadership impact.', 'Pick one "safe" university among your three choices.'] },
-    { name: 'Maria Yousuf', tag: 'DAAD', badge: 'DAAD Masters', where: 'MSc Public Health @ Heidelberg', emoji: '👩🏽‍⚕️', grad: 'var(--gradient-primary)', country: 'Germany',
-      quote: 'Two years of work experience made my EPOS application competitive. The document checklist saved me.', tips: ['Get a strong employer reference.', 'Keep your CV in Europass format.'] },
-    { name: 'Ali Hassan', tag: 'Fulbright', badge: 'Fulbright 2024', where: 'MS CS @ Georgia Tech, USA', emoji: '👨🏽‍💻', grad: 'var(--gradient-forest)', country: 'USA',
-      quote: 'I thought my CGPA was too low. The advisor showed me Fulbright weighs the whole profile.', tips: ['Start the essays early — they take iterations.', 'Line up recommenders months ahead.'] },
-    { name: 'Zara Iqbal', tag: 'Erasmus', badge: 'Erasmus Mundus', where: 'Joint MA @ Sweden & Netherlands', emoji: '👩🏻‍🏫', grad: 'var(--gradient-gold)', country: 'Europe',
-      quote: 'Full funding plus a monthly stipend meant I could focus entirely on my studies.', tips: ['Tailor each motivation letter to the consortium.', 'Mind each programme\'s different deadline.'] }
+    // Illustrative worked examples. These are profile archetypes and teaching
+    // notes, NOT real individuals: no names, universities or verified
+    // placements are claimed anywhere on this page.
+    { label: 'Chevening — mid-career applicant', tag: 'Chevening', badge: 'Chevening', profile: 'Roughly four years’ work experience with a community-leadership record', emoji: '🏛️', grad: 'var(--gradient-primary)', country: 'UK',
+      insight: 'The leadership essay did the real work — and starting months before the deadline mattered more than waiting for an IELTS score.',
+      tips: ['Focus heavily on the leadership essay.', 'Do not wait for IELTS before you start applying.', 'Use the SOP tool to structure your thinking.'] },
+    { label: 'DAAD EPOS — engineer', tag: 'DAAD', badge: 'DAAD EPOS', profile: 'Engineer with two or more years of experience targeting a taught master’s in Germany', emoji: '⚙️', grad: 'var(--gradient-forest)', country: 'Germany',
+      insight: 'A clearly structured statement of purpose that quantified project work carried the strongest applications.',
+      tips: ['German public universities are low-cost — target living-cost funding.', 'Learn basic German (A1) to stand out.'] },
+    { label: 'Fulbright — third attempt', tag: 'Fulbright', badge: 'Fulbright', profile: 'Applicant returning after two earlier rejections', emoji: '⚖️', grad: 'var(--gradient-gold)', country: 'USA',
+      insight: 'The difference between attempts is usually specific, evidence-backed improvement rather than a better-worded version of the same essay.',
+      tips: ['The GRE matters — prepare four to six months ahead.', 'Your statement should tell a story, not list achievements.'] },
+    { label: 'Erasmus Mundus — joint master’s', tag: 'Erasmus', badge: 'Erasmus Mundus', profile: 'Applicant open to a multi-country joint master’s', emoji: '🧭', grad: 'var(--gradient-primary)', country: 'Europe',
+      insight: 'Shortlisting three or four consortia early widened the options and made each motivation letter easier to tailor.',
+      tips: ['Apply to three or four consortia to raise your odds.', 'A medium-of-instruction letter can sometimes replace IELTS.'] },
+    { label: 'MEXT — research track', tag: 'MEXT', badge: 'MEXT', profile: 'Research-track applicant aiming at a funded PhD', emoji: '🔬', grad: 'var(--gradient-forest)', country: 'Japan',
+      insight: 'Emailing a prospective supervisor before applying shaped the research plan and the whole application.',
+      tips: ['Contact a professor before you apply.', 'Prepare a focused research plan.'] },
+    { label: 'Chevening — networking essay', tag: 'Chevening', badge: 'Chevening', profile: 'Applicant who found the networking essay the hardest part', emoji: '📘', grad: 'var(--gradient-gold)', country: 'UK',
+      insight: 'Structured STAR examples turn a vague networking essay into something specific and readable.',
+      tips: ['Quantify your leadership impact.', 'Pick one “safe” university among your three choices.'] },
+    { label: 'DAAD — with work experience', tag: 'DAAD', badge: 'DAAD Masters', profile: 'Applicant with two years of relevant work experience', emoji: '🩺', grad: 'var(--gradient-primary)', country: 'Germany',
+      insight: 'A strong employer reference and a complete, tidy document set moved the application forward.',
+      tips: ['Get a strong employer reference.', 'Keep your CV in Europass format.'] },
+    { label: 'Fulbright — low CGPA', tag: 'Fulbright', badge: 'Fulbright', profile: 'Applicant worried that a low CGPA ruled them out', emoji: '💻', grad: 'var(--gradient-forest)', country: 'USA',
+      insight: 'Fulbright weighs the whole profile — essays, references and fit — not the CGPA on its own.',
+      tips: ['Start the essays early — they take several iterations.', 'Line up your recommenders months ahead.'] },
+    { label: 'Erasmus Mundus — full funding', tag: 'Erasmus', badge: 'Erasmus Mundus', profile: 'Applicant targeting fully funded joint programmes', emoji: '📚', grad: 'var(--gradient-gold)', country: 'Europe',
+      insight: 'Tailoring each motivation letter to the specific consortium mattered more than simply applying to more programmes.',
+      tips: ['Tailor each motivation letter to the consortium.', 'Mind each programme’s different deadline.'] }
   ];
 
   var grid = document.getElementById('story-grid');
@@ -239,10 +253,10 @@ document.addEventListener('DOMContentLoaded', function () {
       '<div class="story-img-container" style="background:' + s.grad + ';">' + s.emoji +
         '<div class="story-badge">' + s.badge + '</div></div>' +
       '<div class="story-content">' +
-        '<h3 class="mb-1">' + s.name + '</h3>' +
-        '<p class="text-sm text-gray-500 mb-4">' + s.where + '</p>' +
-        '<div class="story-quote">"' + s.quote + '"</div>' +
-        '<div class="story-tips"><h5>' + s.name.split(' ')[0] + "'s Top Tips</h5><ul>" +
+        '<h3 class="mb-1">' + s.label + '</h3>' +
+        '<p class="text-sm text-gray-500 mb-4">' + s.profile + '</p>' +
+        '<div class="story-quote">' + s.insight + '</div>' +
+        '<div class="story-tips"><h5>Top tips</h5><ul>' +
           s.tips.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul></div>' +
       '</div></div>';
   }
@@ -250,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function render() {
     var filtered = STORIES.filter(function (s) { return currentFilter === 'all' || s.tag === currentFilter; });
     grid.innerHTML = filtered.slice(0, visible).map(cardHtml).join('') ||
-      '<p class="text-center text-gray-500" style="grid-column:1/-1;">No stories for that scholarship yet.</p>';
+      '<p class="text-center text-gray-500" style="grid-column:1/-1;">No examples for that scheme yet.</p>';
     var loadBtn = document.getElementById('load-more');
     loadBtn.style.display = filtered.length > visible ? 'inline-flex' : 'none';
   }
