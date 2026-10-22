@@ -9,3 +9,9 @@ updater/link_report.json
 updater/last_run.txt
 tools/full-seo-audit.txt
 DONT UPLOAD/
+
+# Local scratch files - never meant to be committed
+.vscode/
+add-home-content.js
+generate-favicons2.js
+backlink-opportunities-2026.xlsx
