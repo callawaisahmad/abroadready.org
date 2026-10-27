@@ -247,7 +247,7 @@
       })
       .catch(function() {
         var el = document.getElementById("site-footer-version");
-        if (el) el.textContent = "Last updated: 3 August 2026, 15:32 PKT";
+        if (el) { var now = new Date(); var pkt = new Date(now.getTime() + 5*60*60*1000); var months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; var pad=function(n){return n<10?"0"+n:n;}; el.textContent = "Build ? · Last updated: " + pkt.getUTCDate()+" "+months[pkt.getUTCMonth()]+" "+pkt.getUTCFullYear()+", "+pad(pkt.getUTCHours())+":"+pad(pkt.getUTCMinutes())+" PKT"; }
       });
 
     wire();
