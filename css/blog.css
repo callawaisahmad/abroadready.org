@@ -114,3 +114,8 @@
 .article-series li { font-size: var(--text-sm); color: #475569; line-height: 1.7; margin-bottom: 3px; }
 .article-series li[aria-current="page"] { color: var(--ink); font-weight: 600; }
 .article-series a { color: var(--primary); text-decoration: underline; }
+/* author block */
+.article-author { margin: var(--space-8) 0; padding: var(--space-4) var(--space-5); background: #f0fdf4; border: 1px solid rgba(16,185,129,.25); border-left: 3px solid #10b981; border-radius: 8px; }
+.article-author h2 { font-size: var(--text-base); margin: 0 0 var(--space-2); color: var(--ink); }
+.article-author p { font-size: var(--text-sm); color: #475569; margin: 0; line-height: 1.7; }
+.article-author a { color: var(--primary); text-decoration: underline; }

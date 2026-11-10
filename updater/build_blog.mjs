@@ -133,8 +133,11 @@ function head(post, canonical) {
     image: ogImg,
     datePublished: isoDate(post.date), dateModified: modifiedIso,
     author: {
-      "@type": "Organization", name: "AbroadReady Editorial Team",
-      url: DOMAIN + "/pages/editorial-policy",
+      "@type": "Person", name: "Awais Ahmad",
+      url: DOMAIN + "/pages/author-awais-ahmad",
+      jobTitle: "Founder and Editor",
+      description: "Researches scholarship, admission and visa information from the issuing body's own published documents.",
+      worksFor: { "@type": "Organization", name: "AbroadReady", url: DOMAIN + "/" },
     },
     publisher: {
       "@type": "Organization", name: "AbroadReady", url: DOMAIN + "/",
@@ -353,6 +356,12 @@ function articlePage(post, i, posts) {
     '<button class="share-btn" data-share="linkedin" aria-label="Share on LinkedIn">in</button>' +
     '<button class="share-btn" data-share="facebook" aria-label="Share on Facebook">f</button>' +
     '<button class="share-btn" data-share="copy" aria-label="Copy link">\u{1F517}</button></div>';
+  const byline = '<aside class="article-author"><h2>About the author</h2>' +
+    '<p><strong><a href="author-awais-ahmad" rel="author">Awais Ahmad</a></strong> is the founder and editor of AbroadReady. ' +
+    'He is not a former admissions officer, a visa consultant or a scholarship winner: the guides are researched from the issuing ' +
+    'body\u2019s own documents, linked to the source, and every changing figure is dated. ' +
+    '<a href="author-awais-ahmad">Full author profile and research method</a> \u00B7 ' +
+    '<a href="editorial-policy">Editorial policy</a>.</p></aside>';
   return head(post, canonical) +
     '<div class="read-progress"></div>' +
     '<article class="article-wrap">' +
@@ -360,10 +369,11 @@ function articlePage(post, i, posts) {
     `<img class="article-hero-img" src="${webpIfAvailable(post.heroImage || "../assets/blog/" + post.slug + ".jpg")}" alt="${esc(post.title)}" fetchpriority="high" decoding="async" width="1200" height="630">` +
     `<a class="article-cat" href="blog">${esc(post.category)}</a>` +
     `<h1 class="article-title">${esc(post.title)}</h1>` +
-    `<div class="article-meta"><span>\u{1F5D3}\uFE0F ${esc(post.date)}</span><span>\u23F1\uFE0F ${post.readMins || 8} min read</span><span>\u270D\uFE0F <a href="editorial-policy">AbroadReady Team</a></span>${post.dateModified ? `<span>\u{1F504} Updated ${esc(post.dateModified)}</span>` : ""}</div>` +
+    `<div class="article-meta"><span>\u{1F5D3}\uFE0F ${esc(post.date)}</span><span>\u23F1\uFE0F ${post.readMins || 8} min read</span><span>\u270D\uFE0F <a href="author-awais-ahmad" rel="author">Awais Ahmad</a></span>${post.dateModified ? `<span>\u{1F504} Updated ${esc(post.dateModified)}</span>` : ""}</div>` +
     `<div class="article-body">${webpify(post.bodyHtml)}</div>` +
     seriesHtml(post, posts) +
     sourcesHtml(post) +
+    byline +
     cta + share + faqHtml(post) +
     "</article>" +
     relatedHtml(post, posts) +
@@ -509,7 +519,7 @@ function sitemap(posts) {
     "", "pages/scholarships", "pages/internships", "pages/ai-advisor",
     "pages/sop-builder", "pages/success", "pages/blog", "pages/about",
     "pages/contact", "pages/privacy", "pages/terms", "pages/disclaimer",
-    "pages/editorial-policy",
+    "pages/editorial-policy", "pages/author-awais-ahmad",
     "pages/study", "pages/immigration", "pages/visa-guidance", "pages/admission-guidance",
     "pages/ielts-guidance",
   ];
