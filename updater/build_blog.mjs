@@ -10,6 +10,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { execSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -514,6 +515,33 @@ function isNoindexPage(rel) {
   return /(name=["']robots["'][^>]*noindex)|(noindex[^>]*name=["']robots["'])/i.test(head);
 }
 
+/* lastmod for hand-written pages. Google discounts lastmod it can tell is
+ * fabricated, so use the file's real last commit date; only pages that have never
+ * been committed fall back to their own modification time. */
+const lastmodCache = new Map();
+function fileLastmod(rel) {
+  if (lastmodCache.has(rel)) return lastmodCache.get(rel);
+  const file = rel === "" ? "index.html" : rel + ".html";
+  const abs = path.join(ROOT, file);
+  let out = "";
+  if (fs.existsSync(abs)) {
+    try {
+      const git = execSync(`git log -1 --format=%cs -- "${file}"`, {
+        cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"],
+      }).trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(git)) out = git;
+    } catch {
+      /* not a git checkout - fall through to mtime */
+    }
+    if (!out) {
+      const t = fs.statSync(abs).mtime;
+      out = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, "0")}-${String(t.getDate()).padStart(2, "0")}`;
+    }
+  }
+  lastmodCache.set(rel, out);
+  return out;
+}
+
 function sitemap(posts) {
   const static_pages = [
     "", "pages/scholarships", "pages/internships", "pages/ai-advisor",
@@ -561,9 +589,13 @@ function sitemap(posts) {
     "pages/study-in-uk-complete-guide-2026",
   ];
   const keep = (list) => list.filter((u) => !isNoindexPage(u));
-  let urls = keep(static_pages).map((u) => `  <url><loc>${DOMAIN}/${u}</loc><changefreq>weekly</changefreq></url>\n`).join("");
-  urls += keep(country_pages).map((u) => `  <url><loc>${DOMAIN}/${u}</loc><changefreq>monthly</changefreq></url>\n`).join("");
-  urls += keep(legacy_pages).map((u) => `  <url><loc>${DOMAIN}/${u}</loc><changefreq>monthly</changefreq></url>\n`).join("");
+  const lm = (u) => {
+    const d = fileLastmod(u);
+    return d ? `<lastmod>${d}</lastmod>` : "";
+  };
+  let urls = keep(static_pages).map((u) => `  <url><loc>${DOMAIN}/${u}</loc>${lm(u)}<changefreq>weekly</changefreq></url>\n`).join("");
+  urls += keep(country_pages).map((u) => `  <url><loc>${DOMAIN}/${u}</loc>${lm(u)}<changefreq>monthly</changefreq></url>\n`).join("");
+  urls += keep(legacy_pages).map((u) => `  <url><loc>${DOMAIN}/${u}</loc>${lm(u)}<changefreq>monthly</changefreq></url>\n`).join("");
   for (const p of posts) {
     if (isNoindexPage(`pages/${p.slug}`)) continue;
     const img = p.heroImage || `${DOMAIN}/assets/blog/${p.slug}.jpg`;
@@ -588,15 +620,21 @@ function sitemapWithExtras(posts) {
   const extra = fs
     .readFileSync(smPath, "utf8")
     .split(/\r?\n/)
-    .filter((line) => {
-      if (!line.includes("<url>")) return false;
+    .map((line) => {
+      if (!line.includes("<url>")) return null;
       const loc = (line.match(/<loc>([^<]+)<\/loc>/) || [])[1];
-      if (!loc || seen.has(loc)) return false;
+      if (!loc || seen.has(loc)) return null;
       const rel = loc.replace(DOMAIN + "/", "").replace(/\/$/, "");
-      if (isNoindexPage(rel)) return false;
+      if (isNoindexPage(rel)) return null;
       const file = rel === "" ? "index.html" : path.join(ROOT, rel + ".html");
-      return fs.existsSync(file);
-    });
+      if (!fs.existsSync(file)) return null;
+      if (line.includes("<lastmod>")) return line;
+      /* Entries written by an older build have no lastmod; fill it in from the
+       * page's real commit date rather than leaving the URL undated. */
+      const d = fileLastmod(rel);
+      return d ? line.replace("</loc>", `</loc><lastmod>${d}</lastmod>`) : line;
+    })
+    .filter(Boolean);
   if (!extra.length) return xml;
   return xml.replace("</urlset>", extra.join("\n") + "\n</urlset>");
 }
