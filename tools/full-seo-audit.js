@@ -98,6 +98,26 @@ const ALLOW_NONSELF_CANONICAL = {
   "pages/scholarship-mastercard-foundation-scholars.html": DOMAIN + "/pages/scholarship-mastercard-foundation-scholars-program",
   // post-study-work cluster consolidated into the comparison page.
   "pages/post-study-work-visas-by-country.html": DOMAIN + "/pages/post-study-work-visa-comparison-2026",
+  // "How to Apply for a Masters in Germany" series (12 near-duplicate step pages)
+  // and the MPhil/MS series (6 step pages) consolidated into one guide each.
+  "pages/how-to-apply-for-masters-in-germany-complete-roadmap-and-timeline.html": DOMAIN + "/pages/how-to-apply-for-masters-in-germany",
+  "pages/how-to-apply-for-masters-in-germany-step-1-intake-and-program-shortlisting.html": DOMAIN + "/pages/how-to-apply-for-masters-in-germany",
+  "pages/how-to-apply-for-masters-in-germany-step-2-eligibility-and-degree-recognition.html": DOMAIN + "/pages/how-to-apply-for-masters-in-germany",
+  "pages/how-to-apply-for-masters-in-germany-step-3-language-requirements-ielts-or-testdaf.html": DOMAIN + "/pages/how-to-apply-for-masters-in-germany",
+  "pages/how-to-apply-for-masters-in-germany-step-4-aps-certificate-pakistan.html": DOMAIN + "/pages/how-to-apply-for-masters-in-germany",
+  "pages/how-to-apply-for-masters-in-germany-step-5-documents-and-motivation-letter.html": DOMAIN + "/pages/how-to-apply-for-masters-in-germany",
+  "pages/how-to-apply-for-masters-in-germany-step-6-uni-assist-and-application-portals.html": DOMAIN + "/pages/how-to-apply-for-masters-in-germany",
+  "pages/how-to-apply-for-masters-in-germany-step-7-admission-offers-and-acceptance.html": DOMAIN + "/pages/how-to-apply-for-masters-in-germany",
+  "pages/how-to-apply-for-masters-in-germany-step-8-costs-blocked-account-and-funding.html": DOMAIN + "/pages/how-to-apply-for-masters-in-germany",
+  "pages/how-to-apply-for-masters-in-germany-step-9-student-visa-application.html": DOMAIN + "/pages/how-to-apply-for-masters-in-germany",
+  "pages/how-to-apply-for-masters-in-germany-step-10-pre-departure-housing-flight-insurance.html": DOMAIN + "/pages/how-to-apply-for-masters-in-germany",
+  "pages/how-to-apply-for-masters-in-germany-step-11-arrival-registration-and-enrollment.html": DOMAIN + "/pages/how-to-apply-for-masters-in-germany",
+  "pages/mphil-ms-application-step-1-shortlisting.html": DOMAIN + "/pages/mphil-ms-application-guide",
+  "pages/mphil-ms-step-2-finding-supervisor.html": DOMAIN + "/pages/mphil-ms-application-guide",
+  "pages/mphil-ms-step-3-research-proposal.html": DOMAIN + "/pages/mphil-ms-application-guide",
+  "pages/mphil-ms-step-4-application-documents.html": DOMAIN + "/pages/mphil-ms-application-guide",
+  "pages/mphil-ms-step-5-funding.html": DOMAIN + "/pages/mphil-ms-application-guide",
+  "pages/mphil-ms-step-6-student-visa.html": DOMAIN + "/pages/mphil-ms-application-guide",
 };
 
 function targetExists(rel) {
